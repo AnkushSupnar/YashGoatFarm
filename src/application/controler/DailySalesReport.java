@@ -1,0 +1,128 @@
+package application.controler;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
+import application.ViewUtil;
+import hibernate.entities.Bill;
+import hibernate.service.service.BillService;
+import hibernate.service.serviceImpl.BillServiceImpl;
+import hibernate.util.CommonData;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+public class DailySalesReport implements Initializable {
+
+	  @FXML private AnchorPane mainFrame;
+	  @FXML private DatePicker date;
+	  @FXML private TableView<Bill> table;
+	  @FXML private TableColumn<Bill,Double> colSrNo;//otherchargs
+	  @FXML private TableColumn<Bill,Long> colBillNo;
+	  @FXML private TableColumn<Bill,Double> colBillAmount;//netTotal
+	  @FXML private TableColumn<Bill,Double> colPaidAmount;
+	  @FXML private TableColumn<Bill,String> colBankName;//Recieved By
+	  @FXML private TableColumn<Bill,String> colSalesmanName;//recievedReff
+	  @FXML private Button btnLoad;
+	  @FXML private TextField txtBillAmount;
+	  @FXML private TextField txtTotalPaid;
+	  @FXML private TextField txtUnpaid;
+	  @FXML private Button btnPreview;
+	  @FXML private Button btnReset;
+	  @FXML private Button btnExit;
+	  
+	  private ObservableList<Bill>billList =FXCollections.observableArrayList(); 
+	  private BillService billService;
+	  @Override
+		public void initialize(URL location, ResourceBundle resources) {
+			date.setValue(LocalDate.now());
+			billService = new BillServiceImpl();
+			colSrNo.setCellValueFactory(new PropertyValueFactory<Bill,Double>("otherchargs"));
+			colBillNo.setCellValueFactory(new PropertyValueFactory<Bill,Long>("billno"));
+			colBillAmount.setCellValueFactory(new PropertyValueFactory<Bill,Double>("nettotal"));
+			colPaidAmount.setCellValueFactory(new PropertyValueFactory<Bill,Double>("recivedamount"));
+			colBankName.setCellValueFactory(new PropertyValueFactory<Bill,String>("recievedby"));
+			colSalesmanName.setCellValueFactory(new PropertyValueFactory<Bill,String>("recievedreff"));
+			table.setItems(billList);
+			loadData();
+		}
+	  @FXML void btnExitAction(ActionEvent event) {
+
+		  mainFrame.setVisible(false);
+	    }
+
+	    @FXML
+	    void btnLoadAction(ActionEvent event) {
+	    	loadData();
+	    	
+	    }
+
+	    @FXML
+	    void btnPreviewAction(ActionEvent event) {
+
+	    	if(table.getSelectionModel().getSelectedItem()==null)
+	    	{return;}
+	    	Bill bill = billService.getBillByBillno(table.getSelectionModel().getSelectedItem().getBillno());
+	    	if(bill==null)
+	    	{
+	    		new Alert(AlertType.ERROR,"Select Bill from Above List To Preview!!!").showAndWait();
+	    		return;
+	    	}
+	    	CommonData.previewBillNo = bill.getBillno();
+	    	new  ViewUtil().showBillPreview(event);
+	    }
+
+	    @FXML
+	    void btnResetAction(ActionEvent event) {
+
+	    	txtBillAmount.setText("");
+	    	txtTotalPaid.setText("");
+	    	txtUnpaid.setText("");
+	    	billList.clear();
+	    	date.setValue(LocalDate.now());
+	    }
+
+	    private void loadData()
+	    {
+	    	if(date.getValue()==null)
+	    	{
+	    		new Alert(AlertType.ERROR,"Enter Date").showAndWait();
+	    		date.requestFocus();
+	    		return;
+	    	}
+	    	billList.addAll(billService.getDateWiseBill(date.getValue()));
+	    	int sr=0;
+	    	double totalBill=0,totalPaid=0,totalUnpaid=0;
+	    	for(int i=0;i<billList.size();i++)
+	    	{
+	    		billList.get(i).setNettotal(billList.get(i).getNettotal()+
+	    				billList.get(i).getTransportingchrges()+
+	    				billList.get(i).getOtherchargs());
+	    		totalBill = totalBill+billList.get(i).getNettotal();
+	    		totalPaid = totalPaid+billList.get(i).getRecivedamount();
+	    		totalUnpaid = totalUnpaid+(billList.get(i).getNettotal()-billList.get(i).getRecivedamount());
+	    		
+	    		billList.get(i).setOtherchargs(++sr);
+	    		billList.get(i).setRecievedby(billList.get(i).getBank().getBankname());
+	    		billList.get(i).setRecievedreff(billList.get(i).getEmployee().getFname()+" "+
+	    				billList.get(i).getEmployee().getMname()+" "+
+	    				billList.get(i).getEmployee().getLname());
+	    	}
+	    	txtBillAmount.setText(""+totalBill);
+	    	txtTotalPaid.setText(""+totalPaid);
+	    	txtUnpaid.setText(""+totalUnpaid);
+	    }
+		
+
+	
+}

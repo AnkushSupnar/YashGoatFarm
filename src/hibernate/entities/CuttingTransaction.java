@@ -1,0 +1,83 @@
+package hibernate.entities;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
+public class CuttingTransaction {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	long id;
+	
+	@ManyToOne
+	Item item;
+	
+	double quantity;
+	
+	@ManyToOne
+	@JoinColumn(name="cuttingOrderId")
+	CuttingOrder cuttingOrder;
+	
+	@OneToMany(mappedBy = "transaction",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	List<CuttingLabour> labourList;
+	public CuttingTransaction() {
+		super();
+	}
+	public CuttingTransaction(Item item,
+			double quantity,
+			CuttingOrder cuttingOrder, 
+			List<CuttingLabour> labourList) {
+		super();
+		this.item = item;
+		this.quantity = quantity;
+		this.cuttingOrder = cuttingOrder;
+		this.labourList = labourList;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public Item getItem() {
+		return item;
+	}
+	public void setItem(Item item) {
+		this.item = item;
+	}
+	public double getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(double quantity) {
+		this.quantity = quantity;
+	}
+	public CuttingOrder getCuttingOrder() {
+		return cuttingOrder;
+	}
+	public void setCuttingOrder(CuttingOrder cuttingOrder) {
+		this.cuttingOrder = cuttingOrder;
+	}
+	public List<CuttingLabour> getLabourList() {
+		return labourList;
+	}
+	public void setLabourList(List<CuttingLabour> labourList) {
+		this.labourList = labourList;
+	}
+	@Override
+	public String toString() {
+		return "CuttingTransaction [id=" + id + ", item=" + item + ", quantity=" + quantity + ", cuttingOrder="
+				+ cuttingOrder + ", labourList=" + labourList + "]";
+	}
+
+	
+	
+}

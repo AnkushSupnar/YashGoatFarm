@@ -1,0 +1,70 @@
+package application.controler.chart;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import hibernate.reportEntity.DailyItemSales;
+import hibernate.util.CommonData;
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
+
+public class DailyItemSalesChart implements Initializable {
+
+	 @FXML private BarChart<String,Double> barChart;
+	 @FXML private CategoryAxis x;
+	 @FXML private NumberAxis y;
+	 
+	 @FXML private BarChart<String,Double> stickBarChart;
+	 
+	 @FXML private PieChart pieChart;
+	 @FXML private PieChart stickPieChart;
+	 
+
+	 private XYChart.Series<String, Double> series,series2;
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+		//for Items
+		series = new XYChart.Series<String, Double>();		
+		for(DailyItemSales tr:CommonData.dailyItemSaleList)
+		{			
+			series.getData().add(new XYChart.Data<String, Double>(tr.getItemName(),tr.getQty()));	
+		}
+		barChart.getData().add(series);
+		//for Stick Items
+		series2 = new XYChart.Series<String, Double>();
+		for(DailyItemSales tr:CommonData.dailyItemSaleStickList)
+		{
+			
+			series2.getData().add(new XYChart.Data<String, Double>(tr.getItemName(),tr.getQty()));
+					
+		}
+		stickBarChart.getData().add(series2);
+		//for Items Pie Chart
+		ObservableList<PieChart.Data>pieChartData = FXCollections.observableArrayList();
+		for(DailyItemSales tr:CommonData.dailyItemSaleList)
+		{			
+			pieChartData.add(new PieChart.Data(tr.getItemName()+" Quantity:"+tr.getQty()+" "+tr.getUnit(),tr.getQty()));
+		}
+		pieChart.setData(pieChartData);
+		//pieChartData.forEach(data->data.nameProperty().bind(Bindings.concat(data.getName()," Quantity: ",data.getPieValue()," KG/NOS")));
+		//for stick pie Chart
+		ObservableList<PieChart.Data>stickPieChartData = FXCollections.observableArrayList();
+		for(DailyItemSales tr:CommonData.dailyItemSaleStickList)
+		{			
+			stickPieChartData.add(new PieChart.Data(tr.getItemName()+" Quantity:"+tr.getQty()+" "+tr.getUnit(),tr.getQty()));
+		}
+		stickPieChart.setData(stickPieChartData);
+		//stickPieChartData.forEach(data->data.nameProperty().bind(Bindings.concat(data.getName()," Quantity: ",data.getPieValue()," Nos")));
+	}
+
+}
