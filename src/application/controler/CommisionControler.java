@@ -517,8 +517,16 @@ public class CommisionControler implements Initializable {
 	    		
 	    		bill=bill+gtotal;
 	    		paid = paid+billList.get(i).getRecivedamount();
+	    		
+	    		billList.get(i).setNettotal(
+	    				billList.get(i).getNettotal()+
+	    				billList.get(i).getOtherchargs()+
+	    				billList.get(i).getTransportingchrges()
+	    				);
+	    		
 	    		billList.get(i).setOtherchargs(getBillCommision(billList.get(i)));
 	    		commisoin = commisoin+billList.get(i).getOtherchargs();
+	    		
 	    		
 	    	}
 	    	

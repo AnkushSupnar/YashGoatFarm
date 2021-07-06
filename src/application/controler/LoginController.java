@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
+import com.sun.nio.sctp.Notification;
 
 import application.ViewUtil;
+import application.guiUtil.AlertNotification;
 import hibernate.service.service.LoginService;
 import hibernate.service.serviceImpl.LoginServiceImpl;
 import javafx.application.Platform;
@@ -46,12 +47,14 @@ public class LoginController implements Initializable {
 	private LoginService service;
 	private ObservableList<String> userNameList;
 	private ViewUtil viewUtil;
+	private AlertNotification notification;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		service = new LoginServiceImpl();
-
+		notification = new AlertNotification();
 		userNameList = FXCollections.observableArrayList(service.getAllUserNames());
+		
 		System.out.println("List Size= " + userNameList.size());
 		if (userNameList.size() == 0) {
 			new Alert(AlertType.ERROR, "No User Found Click on Add User !!!").showAndWait();
@@ -92,14 +95,16 @@ public class LoginController implements Initializable {
 						loding.progressProperty();
 					}
 				});
-				new Alert(Alert.AlertType.INFORMATION, "Login Success").show();
+				//new Alert(Alert.AlertType.INFORMATION, "Login Success").show();
+				notification.showSuccessMessage("Login Success");
 				ViewUtil.login = service.getLoginByName(cmbUserName.getValue());
 				viewUtil.changeWindow(event, "home/Dashboard");
 				
 				
 
 			} else {
-				new Alert(Alert.AlertType.ERROR, "Login Faild!").showAndWait();
+				notification.showErrorMessage("Login Faild!");
+				//new Alert(Alert.AlertType.ERROR, "Login Faild!").showAndWait();
 			}
 		} catch (Exception e) {
 			new Alert(Alert.AlertType.ERROR, "HomePage Not found").showAndWait();

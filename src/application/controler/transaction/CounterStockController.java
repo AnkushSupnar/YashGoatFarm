@@ -32,7 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 public class CounterStockController implements Initializable {
 
-	 @FXML private DatePicker date;
+	 	@FXML private DatePicker date;
 	    @FXML private TextField txtItemName;
 	    @FXML private TextField txtNewQty;
 	    @FXML private Label lblAvailableQty;
@@ -60,6 +60,7 @@ public class CounterStockController implements Initializable {
 	    private CounterStockService counterStockService;
 	    private AlertNotification notification;
 	    long id;
+	    
 	    ObservableList<CounterStockTransaction>trList = FXCollections.observableArrayList();
 		@Override
 		public void initialize(URL location, ResourceBundle resources) {
@@ -68,6 +69,7 @@ public class CounterStockController implements Initializable {
 	    	counterStockDataService = new CounterStockDataServiceImpl();
 	    	counterStockService = new CounterStockServiceImpl();
 	    	notification = new AlertNotification();
+	    	date.setValue(LocalDate.now());
 	    	id=0;
 	    	colSrNo.setCellValueFactory(new PropertyValueFactory<>("id"));
 	    	colItemName.setCellValueFactory(new PropertyValueFactory<>("itemname"));
@@ -262,13 +264,22 @@ public class CounterStockController implements Initializable {
 			}
 			CounterStock counterStock = new CounterStock();
 			counterStock.setDate(date.getValue());
-			counterStock.setId(id);
-			trList.forEach(f->f.setCounterstock(counterStock));
+			//counterStock.setId(id);
+			for(int i=0;i<trList.size();i++)
+			{
+				trList.get(i).setCounterstock(counterStock);
+				trList.get(i).setId(0);
+			}
 			counterStock.setTransaction(trList);
 			int flag = counterStockService.saveCounterStock(counterStock);
-			if(flag!=0)
+			if(flag==1)
 			{
 				notification.showSuccessMessage("Data Save Success");
+				//reduce from godown stock
+				for(CounterStockTransaction tr:counterStock.getTransaction())
+				{
+					itemStockService.reduceItemStock(tr.getItemname(), tr.getNewqty());
+				}
 				cancel();
 			}
 			

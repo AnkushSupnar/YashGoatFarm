@@ -101,6 +101,22 @@ public class ItemStockDaoImpl implements ItemStockDao {
 			return null;
 		}
 	}
+
+	@Override
+	public int reduceItemStock(String itemname, double qty) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+			ItemStock stock = getItemStockByItemName(itemname);
+			stock.setQuantity(stock.getQuantity()-qty);
+			session.update(stock);
+			session.getTransaction().commit();
+			return 1;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 	
 
 }

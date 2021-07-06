@@ -11,4 +11,5 @@ public interface ItemStockDao {
 	public List<ItemStock> getAllItemStock();
 	public double getItemStock(String name);
 	public List<String>getItemNames();
+	public int reduceItemStock(String itemname,double qty);
 }

@@ -197,10 +197,19 @@ public class CuttingOrderdaoImpl implements CuttingOrderDao {
 	}
 
 	@Override
-	public List<CuttingOrder> getSalesmanPeriodCuttingOrders(int p0, LocalDate p1, LocalDate p2) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CuttingOrder> getSalesmanPeriodCuttingOrders(int empid, LocalDate p1, LocalDate p2) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+			String hql = "from CuttingOrder where employeeId=:e and date>=:d1 and date<=:d2";
+			return session.createQuery(hql,CuttingOrder.class).
+					setParameter("e", empid).
+					setParameter("d1", p1).
+					setParameter("d2", p2).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
-
+ 
 	
 }

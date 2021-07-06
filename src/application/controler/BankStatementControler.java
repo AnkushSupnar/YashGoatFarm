@@ -77,8 +77,8 @@ public class BankStatementControler implements Initializable {
 		colSrNo.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colDescription.setCellValueFactory(new PropertyValueFactory<>("particulars"));
 		colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-		colDebit.setCellValueFactory(new PropertyValueFactory<>("debit"));
-		colCredit.setCellValueFactory(new PropertyValueFactory<>("credit"));
+		colDebit.setCellValueFactory(new PropertyValueFactory<>("credit"));
+		colCredit.setCellValueFactory(new PropertyValueFactory<>("debit"));
 		table.setItems(list);
 		cmbBankName.getItems().addAll(bankService.getAllBankNames());
 	}

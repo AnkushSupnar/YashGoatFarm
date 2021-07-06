@@ -55,7 +55,8 @@ public class HibernateUtil {
 				configuration.addAnnotatedClass(CounterStock.class);
 				configuration.addAnnotatedClass(CounterStockTransaction.class);
 				configuration.addAnnotatedClass(CounterStockData.class);
-				
+				configuration.addAnnotatedClass(SalesmanCuttingCharges.class);
+				configuration.addAnnotatedClass(SalesmanCuttingTransaction.class);
 
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 						.applySettings(configuration.getProperties()).build();

@@ -75,16 +75,19 @@ public class CounterStockDaoImpl implements CounterStockDao {
 			session.beginTransaction();
 			if(stock.getId()==0)
 			{
-				System.out.println("Saving");
+				//System.out.println("Saving"+stock.getTransaction().size());
+				//stock.getTransaction().stream().forEach(e->System.out.println(e));
 				session.save(stock);
+				
 				session.getTransaction().commit();
 				return 1;
 			}
 			else
 			{
-				deleteTransaction(stock.getId());
-				session.update(stock);
-				session.getTransaction().commit();
+				System.out.println("Updating");
+//				deleteTransaction(stock.getId());
+//				session.update(stock);
+//				session.getTransaction().commit();
 				return 2;
 			}
 		} catch (Exception e) {

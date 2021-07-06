@@ -41,5 +41,9 @@ public class ItemStockServiceImpl implements ItemStockService {
 	public List<String> getItemNames() {
 		return dao.getItemNames();
 	}
+	@Override
+	public int reduceItemStock(String itemname, double qty) {
+		return dao.reduceItemStock(itemname, qty);
+	}
 
 }

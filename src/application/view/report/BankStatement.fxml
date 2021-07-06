@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainFrame" prefHeight="565.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.BankStatementControler">
+<AnchorPane fx:id="mainFrame" prefHeight="565.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.BankStatementControler">
    <children>
       <Pane layoutX="144.0" layoutY="14.0" prefHeight="36.0" prefWidth="500.0" style="-fx-background-color: #007bff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -54,17 +54,17 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <TableView fx:id="table" layoutX="14.0" layoutY="158.0" prefHeight="334.0" prefWidth="545.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="158.0">
+      <TableView fx:id="table" layoutX="-32.0" layoutY="148.0" prefHeight="334.0" prefWidth="545.0" AnchorPane.bottomAnchor="83.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="148.0">
         <columns>
           <TableColumn fx:id="colSrNo" prefWidth="58.0" text="Sr.No" />
           <TableColumn fx:id="colDescription" prefWidth="256.0" text="Description" />
             <TableColumn fx:id="colDate" prefWidth="103.0" text="Date" />
-            <TableColumn fx:id="colDebit" prefWidth="104.0" text="Debit" />
-            <TableColumn fx:id="colCredit" prefWidth="129.0" text="Credit" />
+            <TableColumn fx:id="colCredit" prefWidth="117.0" text="Credit" />
+            <TableColumn fx:id="colDebit" prefWidth="116.0" text="Debit" />
         </columns>
       </TableView>
-      <Label layoutX="14.0" layoutY="506.0" text="Total Debit" AnchorPane.bottomAnchor="42.0" />
-      <Label layoutX="154.0" layoutY="506.0" text="Total Credit" AnchorPane.bottomAnchor="42.0" />
+      <Label layoutX="14.0" layoutY="506.0" text="Total Credit" AnchorPane.bottomAnchor="42.0" />
+      <Label layoutX="154.0" layoutY="506.0" text="Total Debit" AnchorPane.bottomAnchor="42.0" />
       <Label layoutX="296.0" layoutY="506.0" text="Total Balance" AnchorPane.bottomAnchor="42.0" />
       <TextField fx:id="txtDebit" editable="false" layoutX="14.0" layoutY="523.0" prefHeight="30.0" prefWidth="120.0" text="0.0" AnchorPane.bottomAnchor="12.0">
          <font>
