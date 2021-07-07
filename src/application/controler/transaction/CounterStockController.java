@@ -7,7 +7,9 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.textfield.TextFields;
 import application.guiUtil.AlertNotification;
 import hibernate.entities.CounterStock;
+import hibernate.entities.CounterStockData;
 import hibernate.entities.CounterStockTransaction;
+import hibernate.entities.ItemStock;
 import hibernate.service.service.CounterStockDataService;
 import hibernate.service.service.CounterStockService;
 import hibernate.service.service.ItemService;
@@ -60,8 +62,10 @@ public class CounterStockController implements Initializable {
 	    private CounterStockService counterStockService;
 	    private AlertNotification notification;
 	    long id;
+	    private CounterStock oldCounterStock;
 	    
 	    ObservableList<CounterStockTransaction>trList = FXCollections.observableArrayList();
+	    private ObservableList<CounterStock> oldCounterStockList = FXCollections.observableArrayList();
 		@Override
 		public void initialize(URL location, ResourceBundle resources) {
 	    	itemService = new ItemServiceImpl();
@@ -69,6 +73,7 @@ public class CounterStockController implements Initializable {
 	    	counterStockDataService = new CounterStockDataServiceImpl();
 	    	counterStockService = new CounterStockServiceImpl();
 	    	notification = new AlertNotification();
+	    	oldCounterStock = null;
 	    	date.setValue(LocalDate.now());
 	    	id=0;
 	    	colSrNo.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -78,6 +83,10 @@ public class CounterStockController implements Initializable {
 	    	colTotalQty.setCellValueFactory(new PropertyValueFactory<>("totalqty"));
 	    	table.setItems(trList);
 	    	
+	    	colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+	    	colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+	    	oldCounterStockList.addAll(counterStockService.getAllCounterStock());
+	    	tblOld.setItems(oldCounterStockList);
 	    	
 	    	TextFields.bindAutoCompletion(txtItemName, itemService.getStockableItemNames());
 	    	txtItemName.setOnAction(e->{
@@ -86,9 +95,29 @@ public class CounterStockController implements Initializable {
 	    			
 	    			if(itemStockService.getItemStock(txtItemName.getText())>=0)
 	    			{
+	    				if(id==0) {
 	    				lblAvailableQty.setText(""+itemStockService.getItemStock(txtItemName.getText()));
 	    				txtOldQty.setText(""+counterStockDataService.getCounterItemStock(txtItemName.getText()));
 	    				txtNewQty.requestFocus();
+	    				}
+	    				else {
+	    					if(oldCounterStock!=null)
+	    					{
+	    						double oldstock=0,oldqty=0;
+	    						for(CounterStockTransaction tr:oldCounterStock.getTransaction())
+	    						{
+	    							if(tr.getItemname().equals(txtItemName.getText().trim()))
+	    							{
+	    								oldqty=tr.getNewqty();	
+	    								
+	    								break;
+	    							}
+	    						}
+	    						lblAvailableQty.setText(""+(itemStockService.getItemStock(txtItemName.getText())+oldqty));
+	    						txtOldQty.setText(""+(counterStockDataService.getCounterItemStock(txtItemName.getText())-oldqty));
+	    					}
+	    					
+	    				}
 	    			}
 	    		}
 	    	});
@@ -151,7 +180,7 @@ public class CounterStockController implements Initializable {
 	    				if(trList.get(i).getItemname().equals(txtItemName.getText()))
 	    				{
 	    					flag=i;
-	    					System.out.println("Found");
+	    					
 	    					break;
 	    				}
 	    			}
@@ -199,10 +228,13 @@ public class CounterStockController implements Initializable {
 		}
 		@FXML
 	    void btnEditAction(ActionEvent event) {
-
+			edit();
 	    }
 
-	    @FXML
+	    
+
+
+		@FXML
 	    void btnHomeAction(ActionEvent event) {
 	    	
 	    }
@@ -234,6 +266,7 @@ public class CounterStockController implements Initializable {
 	    	clear();
 	    	date.setValue(LocalDate.now());
 	    	id=0;
+	    	oldCounterStock=null;
 			
 		}
 	    private void remove() {
@@ -262,8 +295,22 @@ public class CounterStockController implements Initializable {
 				date.requestFocus();
 				return;
 			}
+			CounterStock oldStock = null;
 			CounterStock counterStock = new CounterStock();
 			counterStock.setDate(date.getValue());
+			if(id!=0) {
+				counterStock.setId(id);
+				oldStock = counterStockService.getCounterStockById(id);
+				for(CounterStockTransaction oldTr:oldStock.getTransaction())
+				{
+					//add in stock
+					ItemStock godown= itemStockService.getItemStockByItemName(oldTr.getItemname());
+					godown.setQuantity(oldTr.getNewqty());
+					itemStockService.saveItemStock(godown);					
+					godown=null;
+					//
+				}
+			}
 			//counterStock.setId(id);
 			for(int i=0;i<trList.size();i++)
 			{
@@ -274,18 +321,75 @@ public class CounterStockController implements Initializable {
 			int flag = counterStockService.saveCounterStock(counterStock);
 			if(flag==1)
 			{
-				notification.showSuccessMessage("Data Save Success");
+				
 				//reduce from godown stock
 				for(CounterStockTransaction tr:counterStock.getTransaction())
 				{
 					itemStockService.reduceItemStock(tr.getItemname(), tr.getNewqty());
+					CounterStockData counterStockData = new CounterStockData(
+							tr.getItemname(),
+							tr.getNewqty(),
+							itemService.getItemByName(tr.getItemname()).getUnit());
+					counterStockDataService.saveCounterStockdata(counterStockData);
+					
+					
 				}
+				notification.showSuccessMessage("Data Save Success");	
 				cancel();
+			}
+			else if(flag==2)
+			{
+				//reduce from godown stock
+				for(CounterStockTransaction tr:counterStock.getTransaction())
+				{
+					itemStockService.reduceItemStock(tr.getItemname(), tr.getNewqty());
+					CounterStockData counterStockData = new CounterStockData(
+							tr.getItemname(),
+							tr.getNewqty(),
+							itemService.getItemByName(tr.getItemname()).getUnit());
+					counterStockDataService.saveCounterStockdata(counterStockData);									
+				}
+				// reduce old Stock from CounterStockData
+				for(CounterStockTransaction oldTr:oldStock.getTransaction())
+				{
+					double nqty = oldTr.getNewqty();
+					counterStockDataService.updateQuantity(oldTr.getItemname(),(nqty*=-1));
+				}
+				notification.showSuccessMessage("Data update Success");
+				
+				
+				
+			}
+			else
+			{
+				notification.showErrorMessage("Error in Saving Record");
 			}
 			
 		} catch (Exception e) {
 			notification.showErrorMessage("Error in Saving Data");
 		}
+			
+		}
+	    private void edit() {
+	    	try {
+				if(tblOld.getSelectionModel().getSelectedItem()==null)
+				{
+					return;
+				}
+				CounterStock stock = tblOld.getSelectionModel().getSelectedItem();
+				if(stock==null)
+				{
+					return;
+				}
+				date.setValue(stock.getDate());
+				trList.clear();
+				trList.addAll(stock.getTransaction());
+				validateTrList();
+				id=stock.getId();
+				oldCounterStock = counterStockService.getCounterStockById(id);
+			} catch (Exception e) {
+				notification.showErrorMessage("Error In Editing Counter Stock "+e.getMessage());
+			}
 			
 		}
 }

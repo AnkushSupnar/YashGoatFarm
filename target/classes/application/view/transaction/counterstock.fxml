@@ -62,7 +62,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                            <graphic>
-                              <FontAwesomeIcon fill="WHITE" glyphName="CART_PLUS" size="20" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="CART_PLUS" size="20" text="" />
                            </graphic>
                         </Button>
                         <Button fx:id="btnClear" mnemonicParsing="false" onAction="#btnClearAction" stylesheets="@button.css" text="CLEAR" textFill="WHITE">
@@ -173,5 +173,6 @@
             </AnchorPane>
         </items>
       </SplitPane>
+      
    </children>
 </AnchorPane>

@@ -45,7 +45,8 @@ public class CounterStockDataDaoImpl implements CounterStockDataDao {
 	public int saveCounterStockdata(CounterStockData counterStockData) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			session.beginTransaction();
-			if(counterStockData.getId()==0)
+			CounterStockData data =getItemNameWiseCounterStockData(counterStockData.getItemname());
+			if(data==null)
 			{
 				session.save(counterStockData);
 				session.getTransaction().commit();
@@ -53,8 +54,9 @@ public class CounterStockDataDaoImpl implements CounterStockDataDao {
 			}
 			else
 			{
-//				session.update(counterStockData);
-//				session.getTransaction().commit();
+				data.setQty(data.getQty()+counterStockData.getQty());
+				session.update(data);
+				session.getTransaction().commit();
 				return 2;
 			}
 			

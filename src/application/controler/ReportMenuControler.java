@@ -25,6 +25,10 @@ public class ReportMenuControler implements Initializable {
 	    @FXML private Button brnYearSalesReport;
 	    @FXML private Button btnLabourCharges;
 	    
+
+	    @FXML private Button btnCounterStock;
+
+	    
 	    @FXML private Button btnCustomerBills;
 	    @FXML private Button btnUnpaidBills;
 	    @FXML private Button btnViewAllStock;
@@ -38,11 +42,12 @@ public class ReportMenuControler implements Initializable {
 		monthlySaleReport,periodSaleReport,weeklySaleReport,yearSaleReport,
 		employeeSalesReport,customerSaleReport,unpaidBills,viewAllStock,bankStatement,
 		allUnpaidBills,labourCharges,salsmanLabourCharges,stickReport,dailyItemSalesReport,
-		weeklyItemSaleReport;
+		weeklyItemSaleReport,centerPane;
 	    @Override
 		public void initialize(URL location, ResourceBundle resources) {
 	    	viewUtil = new ViewUtil();
 	    	//pane = (BorderPane) reportMenuPanel.getParent();
+	    	
 		}
 	    @FXML
 	    void btnCommisionReportAction(ActionEvent event) {
@@ -212,5 +217,16 @@ public class ReportMenuControler implements Initializable {
 	    	pane.setCenter(weeklyItemSaleReport);
 	    }
 
+	    @FXML
+	    void btnCounterStockAction(ActionEvent event) {
+	    	if(ViewUtil.login.getId()!=1)
+	    	{
+	    		new Alert(AlertType.ERROR,"You are not authorised to view this report!!!").showAndWait();
+	    		return;
+	    	}
+	    	centerPane = viewUtil.getPage("report/viewcounterstock");
+	    	pane =(BorderPane) reportMenuPanel.getParent();
+	    	pane.setCenter(centerPane);
+	    }
 
 }
