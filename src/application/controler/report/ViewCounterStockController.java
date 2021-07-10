@@ -2,6 +2,8 @@ package application.controler.report;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.print.PrintFile;
+import application.print.ViewAllCounterStock;
 import hibernate.entities.CounterStockData;
 import hibernate.service.service.CounterStockDataService;
 import hibernate.service.serviceImpl.CounterStockDataServiceImpl;
@@ -35,6 +37,9 @@ public class ViewCounterStockController implements Initializable {
 			colUnit.setCellValueFactory(new PropertyValueFactory<>("unit"));
 			stockList.addAll(service.getAllCounterStockData());
 			table.setItems(stockList);
-			
+			btnPrint.setOnAction(e->{
+				new ViewAllCounterStock();
+				new PrintFile().openFile("D:\\Software\\Prints\\ViewAllCounterStock.pdf");
+			});
 		}
 }

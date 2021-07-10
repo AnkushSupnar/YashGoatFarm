@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.AddBankControler">
+<AnchorPane fx:id="mainPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.AddBankControler">
    <children>
       <Pane layoutX="38.0" layoutY="29.0" prefHeight="609.0" prefWidth="769.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="100.0">
          <children>
@@ -78,7 +78,7 @@
                   <FontAwesomeIcon fill="WHITE" glyphName="SAVE" size="20" />
                </graphic>
             </Button>
-            <TableView fx:id="table" layoutX="8.0" layoutY="230.0" prefHeight="362.0" prefWidth="756.0">
+            <TableView fx:id="table" layoutX="8.0" layoutY="230.0" prefHeight="362.0" prefWidth="756.0" stylesheets="@../css/table.css">
               <columns>
                 <TableColumn fx:id="colSrno" prefWidth="55.0" text="Sr.No" />
                 <TableColumn fx:id="colBankname" prefWidth="185.0" text="Bank Name" />

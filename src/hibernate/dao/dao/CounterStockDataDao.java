@@ -11,4 +11,5 @@ public interface CounterStockDataDao {
 	int saveCounterStockdata(CounterStockData counterStockData);
 	int updateQuantity(String itemname,double newqty);
 	CounterStockData getItemNameWiseCounterStockData(String itemname);
+	List<String>getAllCounterItemNames();
 }

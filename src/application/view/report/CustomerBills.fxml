@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainFrame" prefHeight="536.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.CustomerBillControler">
+<AnchorPane fx:id="mainFrame" prefHeight="536.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.CustomerBillControler">
    <children>
       <Label layoutX="13.0" layoutY="30.0" text="Enter Customer Name" />
       <TextField fx:id="txtCustomerName" layoutX="14.0" layoutY="55.0" prefHeight="25.0" prefWidth="232.0" promptText="Enter Customer Name" />
@@ -50,7 +50,7 @@
             <FontAwesomeIcon fill="WHITE" glyphName="CLOSE" />
          </graphic>
       </Button>
-      <TableView fx:id="table" layoutX="37.0" layoutY="141.0" prefHeight="322.0" prefWidth="686.0" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="140.0">
+      <TableView fx:id="table" layoutX="37.0" layoutY="141.0" prefHeight="322.0" prefWidth="686.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="140.0">
         <columns>
           <TableColumn fx:id="colSrNo" prefWidth="55.0" text="Sr.No" />
             <TableColumn fx:id="colDate" prefWidth="96.0" text="Date" />

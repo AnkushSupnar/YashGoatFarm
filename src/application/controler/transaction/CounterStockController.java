@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.textfield.TextFields;
 import application.guiUtil.AlertNotification;
+import application.print.CounterStockEntry;
+import application.print.PrintFile;
 import hibernate.entities.CounterStock;
 import hibernate.entities.CounterStockData;
 import hibernate.entities.CounterStockTransaction;
@@ -155,6 +157,20 @@ public class CounterStockController implements Initializable {
 	    			txtItemName.requestFocus();
 	    			return;
 	    		}
+	    		if(lblAvailableQty.getText().isEmpty())
+	    		{
+	    			txtItemName.fireEvent(event);
+	    		}
+	    		if(txtNewQty.getText().isEmpty())
+	    		{
+	    			notification.showErrorMessage("Enter New Quantity");
+	    			txtNewQty.requestFocus();
+	    			return;
+	    		}
+	    		if(txtTotalQty.getText().isEmpty())
+	    		{
+	    			txtNewQty.fireEvent(event);
+	    		}
 	    		if(Double.parseDouble(txtTotalQty.getText())<=0)
 	    		{
 	    			notification.showErrorMessage("Unable to add Given Quantity");
@@ -241,6 +257,10 @@ public class CounterStockController implements Initializable {
 
 	    @FXML
 	    void btnPrintAction(ActionEvent event) {
+	    	if(tblOld.getSelectionModel().getSelectedItem()!=null) {
+	    	new CounterStockEntry(tblOld.getSelectionModel().getSelectedItem().getId());
+	    	new PrintFile().openFile("D:\\Software\\Prints\\CounterStock.pdf");
+	    	}
 
 	    }
 
@@ -267,6 +287,7 @@ public class CounterStockController implements Initializable {
 	    	date.setValue(LocalDate.now());
 	    	id=0;
 	    	oldCounterStock=null;
+	    	tblOld.getSelectionModel().clearSelection();
 			
 		}
 	    private void remove() {
@@ -334,6 +355,7 @@ public class CounterStockController implements Initializable {
 					
 					
 				}
+				oldCounterStockList.add(counterStock);
 				notification.showSuccessMessage("Data Save Success");	
 				cancel();
 			}
@@ -355,6 +377,11 @@ public class CounterStockController implements Initializable {
 					double nqty = oldTr.getNewqty();
 					counterStockDataService.updateQuantity(oldTr.getItemname(),(nqty*=-1));
 				}
+				//update ui table
+				int index = tblOld.getSelectionModel().getSelectedIndex();
+				oldCounterStockList.remove(index);
+				oldCounterStockList.add(index, counterStock);
+				
 				notification.showSuccessMessage("Data update Success");
 				
 				
@@ -379,14 +406,25 @@ public class CounterStockController implements Initializable {
 				CounterStock stock = tblOld.getSelectionModel().getSelectedItem();
 				if(stock==null)
 				{
+					System.out.println("nullllllll");
 					return;
 				}
-				date.setValue(stock.getDate());
-				trList.clear();
-				trList.addAll(stock.getTransaction());
-				validateTrList();
 				id=stock.getId();
 				oldCounterStock = counterStockService.getCounterStockById(id);
+				
+				date.setValue(oldCounterStock.getDate());
+				trList.clear();
+				for(CounterStockTransaction s:oldCounterStock.getTransaction())
+				{
+					System.out.println("Adding items");
+					//trList.add(s);
+				}
+				trList.addAll(oldCounterStock.getTransaction());
+				validateTrList();
+				
+				
+				
+				System.out.println(oldCounterStock.getId());
 			} catch (Exception e) {
 				notification.showErrorMessage("Error In Editing Counter Stock "+e.getMessage());
 			}

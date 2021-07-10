@@ -7,44 +7,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.apache.pdfbox.contentstream.operator.graphics.CurveToReplicateInitialPoint;
 import org.controlsfx.control.textfield.TextFields;
 
 import application.Main;
-import application.ViewUtil;
+import application.guiUtil.AlertNotification;
+import hibernate.entities.CounterStockData;
 import hibernate.entities.CuttingLabour;
 import hibernate.entities.CuttingOrder;
 import hibernate.entities.CuttingTransaction;
-import hibernate.entities.ItemStock;
-import hibernate.entities.Login;
 import hibernate.reportEntity.CuttingLabourPojo;
 import hibernate.reportEntity.CuttingOrderPojo;
 import hibernate.reportEntity.CuttingTransactionPojo;
+import hibernate.service.service.CounterStockDataService;
 import hibernate.service.service.CustomerService;
 import hibernate.service.service.CuttingOrderService;
 import hibernate.service.service.EmployeeService;
 import hibernate.service.service.ItemService;
-import hibernate.service.service.ItemStockService;
+import hibernate.service.serviceImpl.CounterStockDataServiceImpl;
 import hibernate.service.serviceImpl.CustomerServiceImpl;
 import hibernate.service.serviceImpl.CuttingOrderServiceImpl;
 import hibernate.service.serviceImpl.EmployeeServiceImpl;
 import hibernate.service.serviceImpl.ItemServiceImpl;
-import hibernate.service.serviceImpl.ItemStockServiceImpl;
 import hibernate.util.CommonData;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
-import javafx.fxml.Initializable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -108,12 +104,14 @@ public class CuttingOrderControler implements Initializable {
     private ObservableList<CuttingTransactionPojo> cuttingTransactionList = FXCollections.observableArrayList();
     private CustomerService customerService;
     private SuggestionProvider<String> customerNameProvider;
-    private Login login;
+    //private Login login;
     private EmployeeService employeeService;
     private ItemService itemService;
     private CuttingOrderService cuttingService;
-    private ItemStockService stockService;
+    //private ItemStockService stockService;
+    private CounterStockDataService counterStockDataService;
     private ObservableList<CuttingOrderPojo>oldCutingOrderList = FXCollections.observableArrayList();
+    private AlertNotification notification;
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
     	customerService = new CustomerServiceImpl();
@@ -122,7 +120,9 @@ public class CuttingOrderControler implements Initializable {
 		customerNameList.addAll(customerService.getAllCustomerNames());
 		//login = ViewUtil.login;
 		employeeService = new EmployeeServiceImpl();
-		stockService = new ItemStockServiceImpl();
+		//stockService = new ItemStockServiceImpl();
+		counterStockDataService = new CounterStockDataServiceImpl();
+		notification = new AlertNotification();
 		customerNameProvider = SuggestionProvider.create(customerService.getAllCustomerNames());
 		new AutoCompletionTextFieldBinding<>(txtCustomerName, customerNameProvider);
 		cmbSalemanName.getItems().addAll(employeeService.getAllSalesmanNames());
@@ -195,7 +195,7 @@ public class CuttingOrderControler implements Initializable {
 			else
 			{
 				//update 
-				System.out.println("Flag="+flag);
+				//System.out.println("Flag="+flag);
 				cuttingTransactionList.remove(flag);
 				//ctp.setId(++flag);
 				cuttingTransactionList.add(flag, ctp);
@@ -207,7 +207,7 @@ public class CuttingOrderControler implements Initializable {
 			
 			clear();
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,"Error123 "+e.getMessage()).showAndWait();
+			notification.showErrorMessage("Error123 "+e.getMessage());
 		}
     }
 
@@ -237,13 +237,13 @@ public class CuttingOrderControler implements Initializable {
     	try {
 			if(cmbLabourName.getValue()==null||cmbLabourName.getValue().equals(""))
 			{
-				new Alert(AlertType.ERROR,"Select Labour Name!!!").showAndWait();
+				notification.showErrorMessage("Select Labour Name!!!");
 				cmbLabourName.requestFocus();
 				return;
 			}
 			if(txtCuttingQuantity.getText().equals("") ||!isNumber(txtCuttingQuantity.getText()))
 			{
-				new Alert(AlertType.ERROR,"Enter Valied Cutting Quantity!!!").showAndWait();
+				notification.showErrorMessage("Enter Valied Cutting Quantity!!!");
 				txtCuttingQuantity.requestFocus();
 				return;
 			}
@@ -258,13 +258,13 @@ public class CuttingOrderControler implements Initializable {
 			}
 			if(flag==1)
 			{
-				new Alert(AlertType.ERROR,"Labour Already Exist!!!").showAndWait();
+				notification.showErrorMessage("Labour Already Exist!!!");
 				cmbLabourName.requestFocus();
 				return;
 			}
 			if((Double.parseDouble(txtQuantity.getText())- getLabourAllQty())<Double.parseDouble(txtCuttingQuantity.getText()))
 			{
-				new Alert(AlertType.ERROR,"Quantity must be less than or equal Remaining Cutting Quantity !!!").showAndWait();
+				notification.showErrorMessage("Quantity must be less than or equal Remaining Cutting Quantity !!!");
 				txtCuttingQuantity.requestFocus();
 				return;
 			}
@@ -279,7 +279,7 @@ public class CuttingOrderControler implements Initializable {
 				txtCuttingQuantity.setText(""+0);
 		} catch (Exception e) {
 			e.printStackTrace();
-			new Alert(AlertType.ERROR,"Error in Adding Labour "+e.getMessage()).showAndWait();
+			notification.showErrorMessage("Error in Adding Labour "+e.getMessage());
 		}
     }
     @FXML
@@ -298,7 +298,7 @@ public class CuttingOrderControler implements Initializable {
 				labourNameList.get(i).setId(++sr);
 			}
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,"Error in Removing Labour!!!").showAndWait();
+			notification.showErrorMessage("Error in Removing Labour!!!");
 			
 		}
     }
@@ -335,7 +335,7 @@ public class CuttingOrderControler implements Initializable {
 			}
 			table.getSelectionModel().clearSelection();
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,"Error in Removing Item").showAndWait();
+			notification.showErrorMessage("Error in Removing Item");
 		}
     }
 
@@ -397,7 +397,7 @@ public class CuttingOrderControler implements Initializable {
 				//save
 				//Add Item Stock
 				addStock(co.getTransaction()); 
-				new Alert(AlertType.INFORMATION,"Record Save Success!!!").showAndWait();
+				notification.showSuccessMessage("Record Save Success!!!");
 				txtOrderId.setText(""+cuttingService.getNewCuttingOrderId());
 				
 				btnClear2.fire();
@@ -409,13 +409,13 @@ public class CuttingOrderControler implements Initializable {
 				reduceStock(oldOrder.getTransaction());
 				//add new Stock
 				addStock(co.getTransaction());
-				new Alert(AlertType.INFORMATION,"Record Update Success!!!").showAndWait();
+				notification.showSuccessMessage("Record Update Success!!!");
 				txtOrderId.setText(""+cuttingService.getNewCuttingOrderId());
 				btnClear2.fire();
 			}
 			loadOldCuttingOrder(cuttingService.getDateWiseCuttingOrder(LocalDate.now()));
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,"Error"+e.getMessage()).showAndWait();
+			notification.showErrorMessage("Error"+e.getMessage());
 			e.printStackTrace();
 		}
     }
@@ -438,7 +438,7 @@ public class CuttingOrderControler implements Initializable {
     		}
     		
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,"Error in Update "+e.getMessage()).showAndWait();
+			notification.showErrorMessage("Error in Update "+e.getMessage());
 		}
     }
 
@@ -482,7 +482,7 @@ public class CuttingOrderControler implements Initializable {
 			
 			
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,"Error in Update!!!"+e.getMessage()).showAndWait();
+			notification.showErrorMessage("Error in Update!!!"+e.getMessage());
 		}
     }
   
@@ -569,55 +569,55 @@ public class CuttingOrderControler implements Initializable {
     	try {
 			if(date.getValue()==null)
 			{
-				new Alert(AlertType.ERROR,"Enter Date!!!").showAndWait();
+				notification.showErrorMessage("Enter Date!!!");
 				date.requestFocus();
 				return false;
 			}
 			if(txtCustomerName.getText().equals(""))
 			{
-				new Alert(AlertType.ERROR,"Enter Customer Name!!!").showAndWait();
+				notification.showErrorMessage("Enter Customer Name!!!");
 				txtCustomerName.requestFocus();
 				return false;
 			}
 			if(customerService.getCustomerByName(txtCustomerName.getText())==null)
 			{
-				new Alert(AlertType.ERROR,"Enter Corrext Customer Name!!!").showAndWait();
+				notification.showErrorMessage("Enter Corrext Customer Name!!!");
 				txtCustomerName.requestFocus();
 				return false;
 			}
 			if(cmbSalemanName.getValue()==null)
 			{
-				new Alert(AlertType.ERROR,"Select Salesman Name!!!").showAndWait();
+				notification.showErrorMessage("Select Salesman Name!!!");
 				cmbSalemanName.requestFocus();
 				return false;
 			}
 			if(txtItemName.getText().equals(""))
 			{
-				new Alert(AlertType.ERROR,"Enter Item Name!!!").showAndWait();
+				notification.showErrorMessage("Enter Item Name!!!");
 				txtItemName.requestFocus();
 				return false;
 			}
 			if(itemService.getItemByName(txtItemName.getText())==null)
 			{
-				new Alert(AlertType.ERROR,"Enter Correct Item Name!!!").showAndWait();
+				notification.showErrorMessage("Enter Correct Item Name!!!");
 				txtItemName.requestFocus();
 				return false;
 			}
 			if(txtQuantity.getText().equals("")||!isNumber(txtQuantity.getText()))
 			{
-				new Alert(AlertType.ERROR,"Enter Correct Quantity in Digits !!!").showAndWait();
+				notification.showErrorMessage("Enter Correct Quantity in Digits !!!");
 				txtQuantity.requestFocus();
 				return false;
 			}
 			if(labourNameList.size()==0)
 			{
-				new Alert(AlertType.ERROR,"Select At Least one labour!!!").showAndWait();
+				notification.showErrorMessage("Select At Least one labour!!!");
 				cmbLabourName.requestFocus();
 				return false;
 			}
 			return true;
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,"Erorr "+e.getMessage()).showAndWait();
+			notification.showErrorMessage("Erorr "+e.getMessage());
 			return false;
 		}
     }
@@ -626,32 +626,38 @@ public class CuttingOrderControler implements Initializable {
     	try {
 			if(cuttingTransactionList.size()==0)
 			{
-				new Alert(AlertType.ERROR,"No Order Data to Save!!!").showAndWait();
+				notification.showErrorMessage("No Order Data to Save!!!");
 				txtCustomerName.requestFocus();
 				return false;
 			}
 			
 			return true;
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,"Error in Saving Order").showAndWait();
+			notification.showErrorMessage("Error in Saving Order");
 			return false;
 		}
     }
     private void addStock(List<CuttingTransaction> list)
     {
     	try {
-    		ItemStock stock=null;
-			for(CuttingTransaction ts:list)
+    		
+    		//add stock in conter
+    		for(CuttingTransaction ts:list)
 			{
-				stock = stockService.getItemStockByItemName(ts.getItem().getItemname());
-				if(stock!=null)
-					stock.setQuantity(ts.getQuantity());
-				else
-					stock = new ItemStock(ts.getItem().getItemname(),ts.getItem().getUnit(),ts.getQuantity());
-					
-				stockService.saveItemStock(stock);
-				
+    			counterStockDataService.saveCounterStockdata(new CounterStockData(ts.getItem().getItemname(), ts.getQuantity(), ts.getItem().getUnit()));
 			}
+//    		ItemStock stock=null;
+//			for(CuttingTransaction ts:list)
+//			{
+//				stock = stockService.getItemStockByItemName(ts.getItem().getItemname());
+//				if(stock!=null)
+//					stock.setQuantity(ts.getQuantity());
+//				else
+//					stock = new ItemStock(ts.getItem().getItemname(),ts.getItem().getUnit(),ts.getQuantity());
+//					
+//				stockService.saveItemStock(stock);
+//				
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -692,7 +698,7 @@ public class CuttingOrderControler implements Initializable {
 						labourName));
 			}
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,"Error in Loading Old Cutting Orders !!!"+e.getMessage()).showAndWait();
+			notification.showErrorMessage("Error in Loading Old Cutting Orders !!!"+e.getMessage());
 		}
     }
 }

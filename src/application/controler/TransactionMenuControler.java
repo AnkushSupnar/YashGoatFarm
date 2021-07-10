@@ -123,6 +123,29 @@ public class TransactionMenuControler implements Initializable {
 		pane.setCenter(cuttingOrder);
 		cuttingOrder.setVisible(true);
 	}
+	 @FXML
+	    void btnViewCounterStock(ActionEvent event) {
+		 pane = (BorderPane) transactionMenuPanel.getParent();
 
-	 
+			if (billing != null)
+				billing.setVisible(false);
+
+			cuttingOrder = viewUtil.getPage("report/viewcounterstock");
+			pane.setCenter(cuttingOrder);
+			cuttingOrder.setVisible(true);
+
+	    }
+	 @FXML
+	    void btnAddCounterStock(ActionEvent event) {
+		 pane = (BorderPane) transactionMenuPanel.getParent();
+
+			if (billing != null)
+				billing.setVisible(false);
+
+			cuttingOrder = viewUtil.getPage("transaction/counterstock");
+			pane.setCenter(cuttingOrder);
+			cuttingOrder.setVisible(true);
+
+
+	    }
 }

@@ -5,8 +5,10 @@ import java.util.List;
 
 import hibernate.reportEntity.DailyItemSales;
 import hibernate.reportEntity.WeeklyItemSales;
+import hibernate.service.service.CounterStockDataService;
 import hibernate.service.service.ItemService;
 import hibernate.service.service.ItemStockService;
+import hibernate.service.serviceImpl.CounterStockDataServiceImpl;
 import hibernate.service.serviceImpl.ItemServiceImpl;
 import hibernate.service.serviceImpl.ItemStockServiceImpl;
 import javafx.collections.FXCollections;
@@ -23,10 +25,12 @@ public class CommonData {
 	public static List<DailyItemSales> dailyItemSaleList = new ArrayList<>();
 	public static List<WeeklyItemSales> weeklyItemSaleStickList = new ArrayList<>();
 	 public static List<WeeklyItemSales> weeklyItemSaleList = new ArrayList<>();;
+	 private static CounterStockDataService counterStockDataService = new CounterStockDataServiceImpl();
 	public static void setStockItemNames()
 	{
 		stockItemNames.clear();
-		stockItemNames.addAll(stockService.getItemNames());
+		//stockItemNames.addAll(stockService.getItemNames());
+		stockItemNames.addAll(counterStockDataService.getAllCounterItemNames());
 	}
 	public static void setItemNames()
 	{

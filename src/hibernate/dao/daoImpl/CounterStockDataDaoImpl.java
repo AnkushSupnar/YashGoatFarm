@@ -109,4 +109,16 @@ public class CounterStockDataDaoImpl implements CounterStockDataDao {
 		}
 	}
 
+	@Override
+	public List<String> getAllCounterItemNames() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+			String hql="select itemname from CounterStockData";
+			return session.createQuery(hql,String.class).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

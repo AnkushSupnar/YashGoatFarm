@@ -20,7 +20,7 @@
             </Text>
          </children>
       </Pane>
-      <TableView fx:id="table" layoutY="100.0" prefHeight="221.0" prefWidth="507.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+      <TableView fx:id="table" layoutY="100.0" prefHeight="221.0" prefWidth="507.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
         <columns>
           <TableColumn fx:id="colSrNo" prefWidth="75.0" text="Sr No" />
           <TableColumn fx:id="colItemName" prefWidth="235.0" text="Item Name" />

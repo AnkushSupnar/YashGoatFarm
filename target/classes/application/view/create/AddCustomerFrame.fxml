@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPanel" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.AddCustomerControler">
+<AnchorPane fx:id="mainPanel" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.AddCustomerControler">
    <children>
       <Pane layoutX="24.0" layoutY="14.0" prefHeight="657.0" prefWidth="672.0" style="-fx-border-color: BLACK;" AnchorPane.leftAnchor="150.0">
          <children>
@@ -117,7 +117,7 @@
                <graphic>
                   <FontAwesomeIcon fill="WHITE" glyphName="SAVE" size="20" />
                </graphic></Button>
-            <TableView fx:id="table" layoutX="16.0" layoutY="308.0" prefHeight="337.0" prefWidth="649.0">
+            <TableView fx:id="table" layoutX="16.0" layoutY="308.0" prefHeight="337.0" prefWidth="649.0" stylesheets="@../css/table.css">
               <columns>
                 <TableColumn fx:id="colId" prefWidth="75.0" text="Sr.No" />
                 <TableColumn fx:id="colName" prefWidth="169.0" text="Customer Name" />

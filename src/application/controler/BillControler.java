@@ -10,12 +10,14 @@ import org.controlsfx.control.textfield.TextFields;
 
 import application.Main;
 import application.ViewUtil;
+import application.guiUtil.AlertNotification;
 import application.print.CouriorReceipt;
 import application.print.GenerateBill;
 import application.print.PrintFile;
 import hibernate.GetBackup;
 import hibernate.entities.BankTransaction;
 import hibernate.entities.Bill;
+import hibernate.entities.CounterStockData;
 import hibernate.entities.Customer;
 import hibernate.entities.Item;
 import hibernate.entities.ItemStock;
@@ -24,6 +26,7 @@ import hibernate.entities.Transaction;
 import hibernate.service.service.BankService;
 import hibernate.service.service.BankTransactionService;
 import hibernate.service.service.BillService;
+import hibernate.service.service.CounterStockDataService;
 import hibernate.service.service.CustomerService;
 import hibernate.service.service.EmployeeService;
 import hibernate.service.service.ItemService;
@@ -31,6 +34,7 @@ import hibernate.service.service.ItemStockService;
 import hibernate.service.serviceImpl.BankServiceImpl;
 import hibernate.service.serviceImpl.BankTransactionServiceImpl;
 import hibernate.service.serviceImpl.BillServiceImpl;
+import hibernate.service.serviceImpl.CounterStockDataServiceImpl;
 import hibernate.service.serviceImpl.CustomerServiceImpl;
 import hibernate.service.serviceImpl.EmployeeServiceImpl;
 import hibernate.service.serviceImpl.ItemServiceImpl;
@@ -133,7 +137,8 @@ public class BillControler implements Initializable{
     //private ObservableList<String>itemNameList = FXCollections.observableArrayList();
     private SuggestionProvider<String> customerNameProvider;
     private ObservableList<String> customerNameList = FXCollections.observableArrayList();
-    
+    private CounterStockDataService counterStockDataService;
+    private AlertNotification notification;
 	private Login login;
 	// private long billNo;
 
@@ -146,6 +151,8 @@ public class BillControler implements Initializable{
 		bankService = new BankServiceImpl();
 		bankTrService = new BankTransactionServiceImpl();
 		itemStockService = new ItemStockServiceImpl();
+		counterStockDataService = new CounterStockDataServiceImpl();
+		notification = new AlertNotification();
 		// billNo = 0;
 		date.setValue(LocalDate.now());
 		txtBillNo.setText("" + billService.getNewBNillNo());
@@ -219,14 +226,14 @@ public class BillControler implements Initializable{
 			}
 			else
 			{
-				new Alert(AlertType.ERROR,"No Customer Found Select Again !!!").showAndWait();
+				notification.showErrorMessage("No Customer Found Select Again !!!");
 				txtCustomerName.requestFocus();
 				txtCustomerInfo.setText("");
 				return;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			new Alert(AlertType.ERROR, e.getMessage()).showAndWait();
+			notification.showErrorMessage( e.getMessage());
 		}
 	}
 
@@ -255,17 +262,17 @@ public class BillControler implements Initializable{
 				return;
 			}
 			if (txtItemName.getText().equals("") || txtUnit.getText().equals("")) {
-				new Alert(AlertType.ERROR, "Select Item Again!!!").showAndWait();
+				notification.showErrorMessage("Select Item Again!!!");
 				txtItemName.requestFocus();
 				return;
 			}
 			if (!isNumber(txtRate.getText())) {
-				new Alert(AlertType.ERROR, "Enter Rate in Digit!!!").showAndWait();
+				notification.showErrorMessage("Enter Rate in Digit!!!");
 				txtRate.requestFocus();
 				return;
 			}
 			if (!isNumber(txtQty.getText())) {
-				new Alert(AlertType.ERROR, "Enter Quantity in Digit!!!").showAndWait();
+				notification.showErrorMessage("Enter Quantity in Digit!!!");
 				txtQty.requestFocus();
 				txtQty.selectAll();
 				return;
@@ -273,7 +280,7 @@ public class BillControler implements Initializable{
 			txtAmount.setText("" + (Float.parseFloat(txtRate.getText()) * Float.parseFloat(txtQty.getText())));
 			btnAdd.requestFocus();
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR, "Enter Quantity in Digits!!!").showAndWait();
+			notification.showErrorMessage("Enter Quantity in Digits!!!");
 			txtQty.setText("");
 			txtQty.requestFocus();
 			return;
@@ -296,7 +303,7 @@ public class BillControler implements Initializable{
 			txtNetTotal.setText("" + 0.0);
 		}
 		if (txtAmount.getText().equals("") || txtItemName.getText().equals("") || txtUnit.getText().equals("")) {
-			new Alert(AlertType.ERROR, "Select Item Again").showAndWait();
+			notification.showErrorMessage("Select Item Again");
 			txtItemName.requestFocus();
 			return;
 		}
@@ -340,9 +347,15 @@ public class BillControler implements Initializable{
 		}
 		if (index == -1) {
 			// check Stock
-			if (transaction.getQuantity() > itemStockService.getItemStock(transaction.getItemname())) {
-				new Alert(AlertType.ERROR, "Quantity Not Available In Stock\n Please Check Stock\nAvailable Quantity="
-						+ itemStockService.getItemStock(transaction.getItemname())).showAndWait();
+//			if (transaction.getQuantity() > itemStockService.getItemStock(transaction.getItemname())) {
+//				new Alert(AlertType.ERROR, "Quantity Not Available In Stock\n Please Check Stock\nAvailable Quantity="
+//						+ itemStockService.getItemStock(transaction.getItemname())).showAndWait();
+//				return;
+//			}
+			if(transaction.getQuantity()>counterStockDataService.getCounterItemStock(transaction.getItemname()))
+			{
+				notification.showErrorMessage("Quantity Not Available In Stock\n Please Check Stock\nAvailable Quantity="
+						+ counterStockDataService.getCounterItemStock(transaction.getItemname()));
 				return;
 			}
 			transaction.setId(trList.size() + 1);
@@ -351,10 +364,12 @@ public class BillControler implements Initializable{
 			calculateGrandTotal();
 
 		} else {
-			if (transaction.getQuantity() + trList.get(index).getQuantity() > itemStockService
-					.getItemStock(transaction.getItemname())) {
-				new Alert(AlertType.ERROR, "Quantity Not Available In Stock\n Please Check Stock\nAvailable Quantity="
-						+ itemStockService.getItemStock(transaction.getItemname())).showAndWait();
+			if (transaction.getQuantity() + trList.get(index).getQuantity() >
+			counterStockDataService.getCounterItemStock(transaction.getItemname())) {
+//				new Alert(AlertType.ERROR, "Quantity Not Available In Stock\n Please Check Stock\nAvailable Quantity="
+//						+ itemStockService.getItemStock(transaction.getItemname())).showAndWait();
+				notification.showErrorMessage("Quantity Not Available In Stock\n Please Check Stock\nAvailable Quantity="+ 
+						counterStockDataService.getCounterItemStock(transaction.getItemname()));
 				return;
 			}
 			txtNetTotal.setText("" + (Double.parseDouble(txtNetTotal.getText()) + transaction.getAmount()));
@@ -433,15 +448,24 @@ public class BillControler implements Initializable{
 		Bill oldBill = billService.getBillByBillno(bill.getBillno());
 		// Edit Bill Add Stock In StockMaster
 		if (oldBill != null) {
-			ItemStock stock;
+			//add Stock in counter
+			
 			for (Transaction tr : oldBill.getTransaction()) {
-				stock = itemStockService.getItemStockByItemName(tr.getItemname());
-				System.out.println("//////");
-				stock.setQuantity(tr.getQuantity());
-				itemStockService.saveItemStock(stock);
-				System.out.println("Stock Added" + stock.getQuantity());
-				stock = null;
+				counterStockDataService.saveCounterStockdata(new CounterStockData(tr.getItemname(),tr.getQuantity(),tr.getUnit()));
 			}
+			
+			
+//			ItemStock stock;
+//			for (Transaction tr : oldBill.getTransaction()) {
+//				stock = itemStockService.getItemStockByItemName(tr.getItemname());
+//				
+//				stock.setQuantity(tr.getQuantity());
+//				itemStockService.saveItemStock(stock);
+//				System.out.println("Stock Added" + stock.getQuantity());
+//				stock = null;
+//			}
+//			
+			
 		}
 		BankTransaction banktr = new BankTransaction("Add Bill Amount BillNo " + bill.getBillno(), bill.getBillno(),
 				bill.getRecivedamount(), 0.0f, bill.getBank().getId(), date.getValue());
@@ -452,7 +476,7 @@ public class BillControler implements Initializable{
 				bankService.addBankBalance(bill.getBank().getId(), bill.getRecivedamount());
 			}
 			reduceStock(bill.getTransaction());
-			new Alert(AlertType.INFORMATION, "Bill saved Success").showAndWait();
+			notification.showSuccessMessage( "Bill saved Success");
 			showPrintBillConfirmation(bill.getBillno());
 			showPrintCouriorConfirmation(bill);
 			// new BillPrint(bill.getBillno());
@@ -504,7 +528,7 @@ public class BillControler implements Initializable{
 				oldBillList.remove(index);
 				oldBillList.add(index, bill);
 			}
-			new Alert(AlertType.INFORMATION, "Bill Update Success").showAndWait();
+			notification.showSuccessMessage("Bill Update Success");
 
 			clearBill();
 
@@ -515,13 +539,19 @@ public class BillControler implements Initializable{
 
 	private void reduceStock(List<Transaction> list) {
 		try {
-			ItemStock stock;
-			for (Transaction tr : list) {
-				stock = itemStockService.getItemStockByItemName(tr.getItemname());
-				stock.setQuantity(tr.getQuantity() - (tr.getQuantity() * 2));
-				itemStockService.saveItemStock(stock);
-
+			for(Transaction tr:list)
+			{
+				double qty=tr.getQuantity();
+				qty*=-1;
+				counterStockDataService.saveCounterStockdata(new CounterStockData(tr.getItemname(),qty,tr.getUnit()));
 			}
+//			ItemStock stock;
+//			for (Transaction tr : list) {
+//				stock = itemStockService.getItemStockByItemName(tr.getItemname());
+//				stock.setQuantity(tr.getQuantity() - (tr.getQuantity() * 2));
+//				itemStockService.saveItemStock(stock);
+
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -534,7 +564,7 @@ public class BillControler implements Initializable{
 
 	@FXML
 	void btnExitAction(ActionEvent event) {
-		System.out.println(mainPanel.getParent());
+		//System.out.println(mainPanel.getParent());
 		mainPanel.setVisible(false);
 	}
 
@@ -577,7 +607,7 @@ public class BillControler implements Initializable{
 		{
 			if(bill.getEmployee().getId()!=login.getEmployee().getId())
 			{
-				new Alert(AlertType.ERROR,"YOu are not Authorized to Edit This Bill !!!").show();
+				notification.showErrorMessage("You are not Authorized to Edit This Bill !!!");
 				return;
 			}
 		}
@@ -683,7 +713,7 @@ public class BillControler implements Initializable{
 			txtGrandTotal.setText("" + (Double.parseDouble(txtNetTotal.getText())
 					+ Double.parseDouble(txtTransoChrgs.getText()) + Double.parseDouble(txtOtherChargs.getText())));
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR, "Error" + e.getMessage()).showAndWait();
+			notification.showErrorMessage("Error" + e.getMessage());
 		}
 	}
 
@@ -720,59 +750,58 @@ public class BillControler implements Initializable{
 	private int validateData() {
 		try {
 			if (date.getValue() == null) {
-				new Alert(AlertType.ERROR, "Select Billing Date!!!").showAndWait();
+				notification.showErrorMessage("Select Billing Date!!!");
 				date.requestFocus();
 				return 0;
 			}
 			if(customerService.getCustomerByName(txtCustomerName.getText())==null)
 			{
-				new Alert(AlertType.ERROR, "Select Customer!!!").showAndWait();
+				notification.showErrorMessage("Select Customer!!!");
 				txtCustomerName.requestFocus();
 				return 0;
 			}
 			if (txtCustomerInfo.getText().equals("")) {
-				new Alert(AlertType.ERROR, "Select Customer!!!").showAndWait();
+				notification.showErrorMessage("Select Customer!!!");
 				txtCustomerName.requestFocus();
 				return 0;
 			}
 			if (cmbSalesman.getValue() == null) {
-				new Alert(AlertType.ERROR, "Select Salesman!!!").showAndWait();
+				notification.showErrorMessage("Select Salesman!!!");
 				cmbSalesman.requestFocus();
 				return 0;
 			}
 			if (trList.size() == 0) {
-				new Alert(AlertType.ERROR, "No Data to save add items!!!").showAndWait();
+				notification.showErrorMessage("No Data to save add items!!!");
 				txtItemName.requestFocus();
 				return 0;
 			}
 			if (txtGrandTotal.getText().equals("" + 0.0)) {
-				new Alert(AlertType.ERROR, "No Data to save add items!!!").showAndWait();
+				notification.showErrorMessage("No Data to save add items!!!");
 				txtItemName.requestFocus();
 				return 0;
 			}
 			if (cmbRecievedBy.getValue() == null) {
-				new Alert(AlertType.ERROR, "select Recived By!!!").showAndWait();
+				notification.showErrorMessage("select Recived By!!!");
 				cmbRecievedBy.requestFocus();
 				return 0;
 			}
 			if (txtReffNo.getText().equals("")) {
-				new Alert(AlertType.ERROR, "Enter reference!!!").showAndWait();
+				notification.showErrorMessage("Enter reference!!!");
 				txtReffNo.requestFocus();
 				return 0;
 			}
 			if (cmbBankName.getValue() == null) {
-				new Alert(AlertType.ERROR, "Select Payment recived Bank!!!").showAndWait();
+				notification.showErrorMessage("Select Payment recived Bank!!!");
 				cmbBankName.requestFocus();
 				return 0;
 			}
 			if (txtReivedAmount.getText().equals("")) {
-				new Alert(AlertType.ERROR, "Enter Recived Amount!!!").showAndWait();
+				notification.showErrorMessage("Enter Recived Amount!!!");
 				txtReivedAmount.requestFocus();
 				return 0;
 			}
 			if (Double.parseDouble(txtReivedAmount.getText()) > Double.parseDouble(txtGrandTotal.getText())) {
-				new Alert(AlertType.ERROR, "Recived Amount should be \nless than or equal Grand Total!!!")
-						.showAndWait();
+				notification.showErrorMessage("Recived Amount should be \nless than or equal Grand Total!!!");
 				txtReivedAmount.requestFocus();
 				return 0;
 			}
@@ -780,7 +809,7 @@ public class BillControler implements Initializable{
 			return 1;
 
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR, "Error").showAndWait();
+			notification.showErrorMessage("Error");
 			e.printStackTrace();
 			return 0;
 		}
@@ -823,7 +852,7 @@ public class BillControler implements Initializable{
 				new GenerateBill(billno);
 				new PrintFile("D:\\Software\\Prints\\bill.pdf");
 			} catch (Exception e) {
-				new Alert(AlertType.ERROR, e.getMessage()).showAndWait();
+				notification.showErrorMessage( e.getMessage());
 			}
 		} else if (result.get() == ButtonType.CANCEL) {
 
@@ -843,7 +872,7 @@ public class BillControler implements Initializable{
 			new CouriorReceipt(bill);
 			new PrintFile("D:\\Software\\Prints\\courior.pdf");
 		} else if (result.get() == ButtonType.CANCEL) {
-
+			return;
 		}
 	}
 
@@ -885,7 +914,7 @@ public class BillControler implements Initializable{
 				oldBillList.add(b);
 			}
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR, "Error in Search Bill " + e.getMessage()).show();
+			notification.showErrorMessage("Error in Search Bill " + e.getMessage());
 		}
 	}
 	

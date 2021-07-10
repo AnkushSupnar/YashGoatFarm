@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="652.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.DailyItemSalesReportController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="652.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.DailyItemSalesReportController">
    <children>
       <Pane layoutX="100.0" layoutY="32.0" prefHeight="42.0" prefWidth="600.0" styleClass="frameMenu" stylesheets="@../transaction/MenuCard.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -76,7 +76,7 @@
       </HBox>
       <TextField fx:id="txtItemName" layoutX="161.0" layoutY="63.0" prefHeight="25.0" prefWidth="206.0" promptText="Enter Item Name" />
       <Label layoutX="161.0" layoutY="47.0" text="Select Item Name" />
-      <TableView fx:id="table" layoutX="22.0" layoutY="143.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="143.0">
+      <TableView fx:id="table" layoutX="22.0" layoutY="143.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="143.0">
         <columns>
           <TableColumn fx:id="colSrNo" prefWidth="67.0" text="Sr.No" />
           <TableColumn fx:id="colBillNo" prefWidth="117.0" text="BillNo" />

@@ -40,4 +40,9 @@ public class CounterStockDataServiceImpl implements CounterStockDataService {
 		return dao.getItemNameWiseCounterStockData(itemname);
 	}
 
+	@Override
+	public List<String> getAllCounterItemNames() {
+		return dao.getAllCounterItemNames(); 
+	}
+
 }

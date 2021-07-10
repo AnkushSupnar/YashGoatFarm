@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPage" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.AddEmployeeControler">
+<AnchorPane fx:id="mainPage" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.AddEmployeeControler">
    <children>
       <TitledPane animated="false" layoutX="20.0" layoutY="5.0" prefHeight="152.0" prefWidth="998.0" text="Employee Personal Details">
         <content>
@@ -151,7 +151,7 @@
             <FontAwesomeIcon fill="WHITE" glyphName="CLOSE" size="20" />
          </graphic>
       </Button>
-      <TableView fx:id="table" layoutX="20.0" layoutY="400.0" prefHeight="224.0" prefWidth="998.0" style="-fx-background-color: #e3f2fd;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="400.0">
+      <TableView fx:id="table" layoutX="20.0" layoutY="400.0" prefHeight="224.0" prefWidth="998.0" style="-fx-background-color: #e3f2fd;" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="400.0">
         <columns>
           <TableColumn fx:id="colSrNo" prefWidth="47.0" text="Sr.No" />
           <TableColumn fx:id="colName" prefWidth="213.0" text="Employee Name" />

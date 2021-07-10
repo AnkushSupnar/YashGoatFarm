@@ -2,8 +2,9 @@ package hibernate.dao.daoImpl;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
+
 import hibernate.dao.dao.CuttingOrderDao;
 import hibernate.entities.Customer;
 import hibernate.entities.CuttingLabour;
@@ -180,7 +181,7 @@ public class CuttingOrderdaoImpl implements CuttingOrderDao {
 			String hql = "update CuttingLabour set paidCuttingCharges=:amt where id=:i and labourId=:lid";
 			for (CuttingTransaction tr : order.getTransaction()) {
                 for (CuttingLabour cl : tr.getLabourList()) {
-                    @SuppressWarnings({ "rawtypes", "deprecation" })
+                    @SuppressWarnings({ "rawtypes" })
 					Query query = session.createQuery(hql).
 					setParameter("amt", cl.getCuttingCharges()).
 					setParameter("i", cl.getId()).

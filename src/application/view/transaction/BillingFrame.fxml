@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPanel" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.BillControler">
+<BorderPane fx:id="mainPanel" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.BillControler">
    <center>
       <AnchorPane prefHeight="600.0" prefWidth="600.0">
          <children>
-            <TableView fx:id="tableOldBill" layoutX="23.0" layoutY="73.0" prefHeight="718.0" prefWidth="572.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+            <TableView fx:id="tableOldBill" layoutX="23.0" layoutY="73.0" prefHeight="718.0" prefWidth="572.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
               <columns>
                 <TableColumn fx:id="colBillNo" prefWidth="59.0" text="Bill No" />
                 <TableColumn fx:id="colCustomerName" prefWidth="182.0" text="Customer Name" />
@@ -143,7 +143,7 @@
                   <FontAwesomeIcon fill="WHITE" glyphName="EDIT" />
                </graphic>
             </Button>
-            <TableView fx:id="table" layoutX="10.0" layoutY="283.0" prefHeight="215.0" prefWidth="553.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+            <TableView fx:id="table" layoutX="10.0" layoutY="283.0" prefHeight="215.0" prefWidth="553.0" stylesheets="@../css/table.css" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
               <columns>
                 <TableColumn fx:id="colSrNo" prefWidth="33.0" text="No" />
                 <TableColumn fx:id="colItemName" prefWidth="207.0" text="Item Name" />
