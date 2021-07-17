@@ -21,6 +21,6 @@ public BankTransaction getBankTransactionById(long id);
 	public void deleteBankTransaction(String particulars);
 	public List<BankTransaction>getPeriodWiseBankTransaction(LocalDate fromDate,LocalDate toDate,int bankid);
 
-	public double getOpenigBalance(int bankid,LocalDate date);
+	public float getOpenigBalance(int bankid,LocalDate date);
 	public BankTransaction getTransactionByParticular(String particular,int bankid);
 }

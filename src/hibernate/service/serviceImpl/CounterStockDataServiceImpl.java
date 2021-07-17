@@ -15,7 +15,7 @@ public class CounterStockDataServiceImpl implements CounterStockDataService {
 	}
 	
 	@Override
-	public double getCounterItemStock(String itemname) {
+	public float getCounterItemStock(String itemname) {
 		return dao.getCounterItemStock(itemname);
 	}
 
@@ -30,7 +30,7 @@ public class CounterStockDataServiceImpl implements CounterStockDataService {
 	}
 
 	@Override
-	public int updateQuantity(String itemname, double newqty) {
+	public int updateQuantity(String itemname, float newqty) {
 		return dao.updateQuantity(itemname, newqty);
 	}
 

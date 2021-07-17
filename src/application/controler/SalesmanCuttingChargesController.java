@@ -167,7 +167,7 @@ public class SalesmanCuttingChargesController implements Initializable {
 	    	
 	    	SalesmanCuttingCharges salemanCharges = new SalesmanCuttingCharges();
 	    	salemanCharges.setBank(bankService.getBankByName(cmbBankName.getValue()));
-	    	salemanCharges.setCuttingCharges(Double.parseDouble(txtTotalCharges.getText()));
+	    	salemanCharges.setCuttingCharges(Float.parseFloat(txtTotalCharges.getText()));
 	    	salemanCharges.setDate(LocalDate.now());
 	    	salemanCharges.setSaleman(cmbSalesmanName.getValue());
 	    	salemanCharges.setBankTransaction(txtTransaction.getText());

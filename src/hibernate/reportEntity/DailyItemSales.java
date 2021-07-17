@@ -5,15 +5,15 @@ public class DailyItemSales {
 	int srno;
 	long billNo;
 	String itemName;
-	double qty;
+	float qty;
 	String unit;
-	double rate;
-	double amount;
+	float rate;
+	float amount;
 	public DailyItemSales() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public DailyItemSales(int srno, long billNo, String itemName, double qty, String unit, double rate, double amount) {
+	public DailyItemSales(int srno, long billNo, String itemName, float qty, String unit, float rate, float amount) {
 		super();
 		this.srno = srno;
 		this.billNo = billNo;
@@ -41,10 +41,10 @@ public class DailyItemSales {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public double getQty() {
+	public float getQty() {
 		return qty;
 	}
-	public void setQty(double qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 	public String getUnit() {
@@ -53,16 +53,16 @@ public class DailyItemSales {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public double getRate() {
+	public float getRate() {
 		return rate;
 	}
-	public void setRate(double rate) {
+	public void setRate(float rate) {
 		this.rate = rate;
 	}
-	public double getAmount() {
+	public float getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
 	@Override

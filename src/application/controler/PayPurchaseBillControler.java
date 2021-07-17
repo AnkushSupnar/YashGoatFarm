@@ -42,10 +42,10 @@ public class PayPurchaseBillControler implements Initializable {
 	@FXML private TableColumn<PurchaseInvoice,LocalDate> colDate;
 	@FXML private TableColumn<PurchaseInvoice,Long> colBillNo;
 	@FXML private TableColumn<PurchaseInvoice,String> colInvoiceNo;
-	@FXML private TableColumn<PurchaseInvoice,Double> colAmount;//grandtotal
-	@FXML private TableColumn<PurchaseInvoice,Double> colPaid;
-	@FXML private TableColumn<PurchaseInvoice,Double> colRemaining;//otherchargs
-	@FXML private TableColumn<PurchaseInvoice,Double> colTodayPaid;
+	@FXML private TableColumn<PurchaseInvoice,Float> colAmount;//grandtotal
+	@FXML private TableColumn<PurchaseInvoice,Float> colPaid;
+	@FXML private TableColumn<PurchaseInvoice,Float> colRemaining;//otherchargs
+	@FXML private TableColumn<PurchaseInvoice,Float> colTodayPaid;
 	@FXML private TextField txtBillAmount;  
 	@FXML private TextField txtPaid;   
 	@FXML private TextField txtToday;
@@ -90,7 +90,7 @@ public class PayPurchaseBillControler implements Initializable {
 		}
 		purchaseList.addAll(purchaseSevice.getPartyWiseUnpaidPurchaseInvoice(partyService.getPurchasePartyByName(cmbPartyName.getValue()).getId()));
 		int srno=0;
-		double total=0,paid=0;
+		float total=0,paid=0;
 		for(int i=0;i<purchaseList.size();i++)
 		{
 			purchaseList.get(i).setBankreffno(""+(++srno));;
@@ -112,19 +112,19 @@ public class PayPurchaseBillControler implements Initializable {
 			new Alert(AlertType.ERROR,"No Data To Calculate!!!").showAndWait();
 			return;
 		}
-		if(txtTotalRemaining.getText().equals("")||Double.parseDouble(txtTotalRemaining.getText())<=0)
+		if(txtTotalRemaining.getText().equals("")||Float.parseFloat(txtTotalRemaining.getText())<=0)
 		{
 			new Alert(AlertType.ERROR,"No Amount Remaining To Save!!!").showAndWait();
 			return;
 		}
-		if(txtToday.getText().equals("")||Double.parseDouble(txtToday.getText())<=0)
+		if(txtToday.getText().equals("")||Float.parseFloat(txtToday.getText())<=0)
 		{
 			new Alert(AlertType.ERROR,"Todays Amount must be greater than 0 !!!").showAndWait();
 			txtToday.requestFocus();
 			return;
 		}
 		PurchaseInvoice invoice=null;
-		double today = Double.parseDouble(txtToday.getText());
+		float today = Float.parseFloat(txtToday.getText());
 		List<PurchaseInvoice> list = purchaseList;
 		for(int i=0;i<list.size();i++)
 		{
@@ -150,8 +150,8 @@ public class PayPurchaseBillControler implements Initializable {
 			}
 		}
 		txtRemaining.setText(""+(
-				Double.parseDouble(txtTotalRemaining.getText())-
-				Double.parseDouble(txtToday.getText())));
+				Float.parseFloat(txtTotalRemaining.getText())-
+				Float.parseFloat(txtToday.getText())));
 	}
 
 	@FXML
@@ -186,7 +186,7 @@ public class PayPurchaseBillControler implements Initializable {
 				bankTrService.saveBankTransaction(btr);				
 			}
 		}
-		bankService.reduceBankBalance(bankService.getBankByName(cmbBank.getValue()).getId(), Double.parseDouble(txtToday.getText()));
+		bankService.reduceBankBalance(bankService.getBankByName(cmbBank.getValue()).getId(), Float.parseFloat(txtToday.getText()));
 		new Alert(AlertType.INFORMATION,"Record Save Success").showAndWait();
 		btnReset.fire();
 	}

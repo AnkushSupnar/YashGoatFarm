@@ -48,10 +48,10 @@ public class DailyItemSalesReportController implements Initializable{
 	    @FXML private TableColumn<DailyItemSales,Integer> colSrNo;
  	    @FXML private TableColumn<DailyItemSales,Long>    colBillNo;
 	    @FXML private TableColumn<DailyItemSales,String> colItemName;
-	    @FXML private TableColumn<DailyItemSales,Double> colQty;
+	    @FXML private TableColumn<DailyItemSales,Float> colQty;
 	    @FXML private TableColumn<DailyItemSales,String> colUnit;
-	    @FXML private TableColumn<DailyItemSales,Double> colRate;
-	    @FXML private TableColumn<DailyItemSales,Double> colAmount;
+	    @FXML private TableColumn<DailyItemSales,Float> colRate;
+	    @FXML private TableColumn<DailyItemSales,Float> colAmount;
 	    @FXML private Button btnShowChart;
 
 	    private BillService billService;
@@ -157,7 +157,7 @@ public class DailyItemSalesReportController implements Initializable{
 		    void billListToList(String itemName)
 		    {
 		    	int sr=0;
-		    	double qty=0,amount=0;
+		    	float qty=0,amount=0;
 		    	for(Bill bill:billList)
 		    	{
 		    		for(Transaction tr:bill.getTransaction())
@@ -203,10 +203,10 @@ public class DailyItemSalesReportController implements Initializable{
 		    	
 		    	
 		    }
-		    private double getItemSale(String name)
+		    private float getItemSale(String name)
 		    {
 		    	try {
-		    		double qty=0;
+		    		float qty=0;
 					for(Bill bill:billList)
 					{
 						for(Transaction tr:bill.getTransaction())

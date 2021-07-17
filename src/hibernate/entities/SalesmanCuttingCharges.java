@@ -19,7 +19,7 @@ public class SalesmanCuttingCharges {
 	long id;
 	String saleman;
 	LocalDate date;
-	double cuttingCharges;
+	float cuttingCharges;
 	@ManyToOne
 	@JoinColumn(name = "bankid")
 	Bank bank;
@@ -31,7 +31,7 @@ public class SalesmanCuttingCharges {
 		super();
 	}
 
-	public SalesmanCuttingCharges(String saleman, LocalDate date, double cuttingCharges, Bank bank,
+	public SalesmanCuttingCharges(String saleman, LocalDate date, float cuttingCharges, Bank bank,
 			List<SalesmanCuttingTransaction> transaction,String bankTransaction) {
 		super();
 		this.saleman = saleman;
@@ -66,11 +66,11 @@ public class SalesmanCuttingCharges {
 		this.date = date;
 	}
 
-	public double getCuttingCharges() {
+	public float getCuttingCharges() {
 		return cuttingCharges;
 	}
 
-	public void setCuttingCharges(double cuttingCharges) {
+	public void setCuttingCharges(float cuttingCharges) {
 		this.cuttingCharges = cuttingCharges;
 	}
 

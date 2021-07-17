@@ -16,9 +16,9 @@ public class CounterStockTransaction {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 	String itemname;
-	double oldqty;
-	double newqty;
-	double totalqty;
+	float oldqty;
+	float newqty;
+	float totalqty;
 	@ManyToOne
 	@JoinColumn(name="counterstockid")
 	CounterStock counterstock;
@@ -26,9 +26,9 @@ public class CounterStockTransaction {
 		super();		
 	}
 	public CounterStockTransaction(String itemname, 
-			double oldqty,
-			double newqty,
-			double totalqty,
+			float oldqty,
+			float newqty,
+			float totalqty,
 			CounterStock counterstock) {
 		super();
 		this.itemname = itemname;
@@ -49,22 +49,22 @@ public class CounterStockTransaction {
 	public void setItemname(String itemname) {
 		this.itemname = itemname;
 	}
-	public double getOldqty() {
+	public float getOldqty() {
 		return oldqty;
 	}
-	public void setOldqty(double oldqty) {
+	public void setOldqty(float oldqty) {
 		this.oldqty = oldqty;
 	}
-	public double getNewqty() {
+	public float getNewqty() {
 		return newqty;
 	}
-	public void setNewqty(double newqty) {
+	public void setNewqty(float newqty) {
 		this.newqty = newqty;
 	}
-	public double getTotalqty() {
+	public float getTotalqty() {
 		return totalqty;
 	}
-	public void setTotalqty(double totalqty) {
+	public void setTotalqty(float totalqty) {
 		this.totalqty = totalqty;
 	}
 	public CounterStock getCounterstock() {

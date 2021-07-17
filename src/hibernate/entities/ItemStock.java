@@ -13,11 +13,11 @@ public class ItemStock {
 	long id;
 	String itemname;
 	String unit;
-	double quantity;
+	float quantity;
 	public ItemStock() {
 		super();
 	}
-	public ItemStock(String itemname,String unit, double quantity) {
+	public ItemStock(String itemname,String unit, float quantity) {
 		super();
 		this.itemname = itemname;
 		this.unit=unit;
@@ -41,10 +41,10 @@ public class ItemStock {
 	public void setItemname(String itemname) {
 		this.itemname = itemname;
 	}
-	public double getQuantity() {
+	public float getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(double quantity) {
+	public void setQuantity(float quantity) {
 		this.quantity = quantity;
 	}
 	@Override

@@ -17,24 +17,24 @@ public class CuttingLabour {
 	@JoinColumn(name="labourId")
 	Employee labour;
 	
-	double quantity;
+	float quantity;
 	
 	@ManyToOne
 	@JoinColumn(name="cuttingTransactionId")
 	CuttingTransaction transaction;
 	
-	double cuttingCharges;
-	double paidCuttingCharges;
+	float cuttingCharges;
+	float paidCuttingCharges;
 	
 	public CuttingLabour() {
 		super();
 	}
 
 	public CuttingLabour(Employee labour, 
-			double quantity,
+			float quantity,
 			CuttingTransaction transaction,
-			double cuttingCharges,
-			double paidCuttingCharges) {
+			float cuttingCharges,
+			float paidCuttingCharges) {
 		super();
 		this.labour = labour;
 		this.quantity = quantity;
@@ -43,11 +43,11 @@ public class CuttingLabour {
 		this.paidCuttingCharges = paidCuttingCharges;
 	}
 
-	public double getCuttingCharges() {
+	public float getCuttingCharges() {
 		return cuttingCharges;
 	}
 
-	public void setCuttingCharges(double cuttingCharges) {
+	public void setCuttingCharges(float cuttingCharges) {
 		this.cuttingCharges = cuttingCharges;
 	}
 
@@ -67,11 +67,11 @@ public class CuttingLabour {
 		this.labour = labour;
 	}
 
-	public double getQuantity() {
+	public float getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(double quantity) {
+	public void setQuantity(float quantity) {
 		this.quantity = quantity;
 	}
 
@@ -83,11 +83,11 @@ public class CuttingLabour {
 		this.transaction = transaction;
 	}
 
-	public double getPaidCuttingCharges() {
+	public float getPaidCuttingCharges() {
 		return paidCuttingCharges;
 	}
 
-	public void setPaidCuttingCharges(double paidCuttingCharges) {
+	public void setPaidCuttingCharges(float paidCuttingCharges) {
 		this.paidCuttingCharges = paidCuttingCharges;
 	}
 

@@ -28,7 +28,7 @@ public class LabourCharges {
 	@JoinColumn(name="bankId")
 	Bank bank;
 	String bankReffNo;
-	double amount;
+	float amount;
 	
 	@OneToMany(mappedBy = "labourCharges",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	List<LabourChargesTransaction> transaction = new ArrayList<LabourChargesTransaction>();
@@ -37,7 +37,7 @@ public class LabourCharges {
 		super();
 	}
 
-	public LabourCharges(LocalDate date, Employee labour, Bank bank, double amount,
+	public LabourCharges(LocalDate date, Employee labour, Bank bank, float amount,
 			List<LabourChargesTransaction> transaction,String bankReffNo) {
 		super();
 		this.date = date;
@@ -80,11 +80,11 @@ public class LabourCharges {
 		this.bank = bank;
 	}
 
-	public double getAmount() {
+	public float getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
 

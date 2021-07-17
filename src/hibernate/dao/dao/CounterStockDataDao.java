@@ -6,10 +6,10 @@ import hibernate.entities.CounterStockData;
 
 public interface CounterStockDataDao {
 
-	double getCounterItemStock(String itemname);
+	float getCounterItemStock(String itemname);
 	List<CounterStockData>getAllCounterStockData();
 	int saveCounterStockdata(CounterStockData counterStockData);
-	int updateQuantity(String itemname,double newqty);
+	int updateQuantity(String itemname,float newqty);
 	CounterStockData getItemNameWiseCounterStockData(String itemname);
 	List<String>getAllCounterItemNames();
 }

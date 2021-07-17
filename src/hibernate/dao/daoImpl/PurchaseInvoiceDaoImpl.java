@@ -163,7 +163,7 @@ public class PurchaseInvoiceDaoImpl implements PurchasInvoiceDao {
 	}
 
 	@Override
-	public int updatePaidAmount(long billno, double amount) {
+	public int updatePaidAmount(long billno, float amount) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			session.beginTransaction();
 			String hql = "update PurchaseInvoice set paid=paid+:amt where billno=:bno";

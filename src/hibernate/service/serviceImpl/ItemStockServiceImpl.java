@@ -34,7 +34,7 @@ public class ItemStockServiceImpl implements ItemStockService {
 	}
 
 	@Override
-	public double getItemStock(String name) {
+	public float getItemStock(String name) {
 		return dao.getItemStock(name);
 	}
 	@Override
@@ -42,7 +42,7 @@ public class ItemStockServiceImpl implements ItemStockService {
 		return dao.getItemNames();
 	}
 	@Override
-	public int reduceItemStock(String itemname, double qty) {
+	public int reduceItemStock(String itemname, float qty) {
 		return dao.reduceItemStock(itemname, qty);
 	}
 

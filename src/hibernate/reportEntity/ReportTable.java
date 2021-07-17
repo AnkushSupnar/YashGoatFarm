@@ -7,17 +7,17 @@ public class ReportTable {
 	LocalDate date;
 	String salesman;
 	String itemName;
-	double qty;
-	double rate;
-	double amount;
-	double commision;
-	double labour;
-	double remain;
+	float qty;
+	float rate;
+	float amount;
+	float commision;
+	float labour;
+	float remain;
 	public ReportTable() {
 		super();
 	}
-	public ReportTable(int srNo, LocalDate date, String salesman, String itemName, double qty, double rate,
-			double amount, double commision, double labour, double remain) {
+	public ReportTable(int srNo, LocalDate date, String salesman, String itemName, float qty, float rate,
+			float amount, float commision, float labour, float remain) {
 		super();
 		this.srNo = srNo;
 		this.date = date;
@@ -54,40 +54,40 @@ public class ReportTable {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public double getQty() {
+	public float getQty() {
 		return qty;
 	}
-	public void setQty(double qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
-	public double getRate() {
+	public float getRate() {
 		return rate;
 	}
-	public void setRate(double rate) {
+	public void setRate(float rate) {
 		this.rate = rate;
 	}
-	public double getAmount() {
+	public float getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
-	public double getCommision() {
+	public float getCommision() {
 		return commision;
 	}
-	public void setCommision(double commision) {
+	public void setCommision(float commision) {
 		this.commision = commision;
 	}
-	public double getLabour() {
+	public float getLabour() {
 		return labour;
 	}
-	public void setLabour(double labour) {
+	public void setLabour(float labour) {
 		this.labour = labour;
 	}
-	public double getRemain() {
+	public float getRemain() {
 		return remain;
 	}
-	public void setRemain(double remain) {
+	public void setRemain(float remain) {
 		this.remain = remain;
 	}
 	@Override

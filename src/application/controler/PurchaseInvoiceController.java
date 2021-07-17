@@ -63,9 +63,9 @@ public class PurchaseInvoiceController implements Initializable {
 	    @FXML private TableColumn<PurchaseTransaction, Long> colSrNo;
 	    @FXML private TableColumn<PurchaseTransaction,String> colItemName;
 	    @FXML private TableColumn<PurchaseTransaction,String> colUnit;
-	    @FXML private TableColumn<PurchaseTransaction,Double> colQty;
-	    @FXML private TableColumn<PurchaseTransaction,Double> colRate;
-	    @FXML private TableColumn<PurchaseTransaction,Double> colAmount;
+	    @FXML private TableColumn<PurchaseTransaction,Float> colQty;
+	    @FXML private TableColumn<PurchaseTransaction,Float> colRate;
+	    @FXML private TableColumn<PurchaseTransaction,Float> colAmount;
 	    @FXML private Button btnsave;
 	    @FXML private Button btnClear2;
 	    @FXML private Button btnEdit2;
@@ -83,8 +83,8 @@ public class PurchaseInvoiceController implements Initializable {
 	    @FXML private TableColumn<PurchaseInvoice,String> colInvoiceNo;
 	    @FXML private TableColumn<PurchaseInvoice,String> colPartyName;
 	    @FXML private TableColumn<PurchaseInvoice,LocalDate> colDate;
-	    @FXML private TableColumn<PurchaseInvoice,Double> colAmount2;
-	    @FXML private TableColumn<PurchaseInvoice,Double> colPaid;
+	    @FXML private TableColumn<PurchaseInvoice,Float> colAmount2;
+	    @FXML private TableColumn<PurchaseInvoice,Float> colPaid;
 
 	    
 	    private ObservableList<String>partyNameList = FXCollections.observableArrayList();
@@ -119,9 +119,9 @@ public class PurchaseInvoiceController implements Initializable {
 			colSrNo.setCellValueFactory(new PropertyValueFactory<PurchaseTransaction, Long>("id"));
 			colItemName.setCellValueFactory(new PropertyValueFactory<PurchaseTransaction, String>("itemname"));
 			colUnit.setCellValueFactory(new PropertyValueFactory<PurchaseTransaction, String>("unit"));
-			colQty.setCellValueFactory(new PropertyValueFactory<PurchaseTransaction, Double>("quantity"));
-			colRate.setCellValueFactory(new PropertyValueFactory<PurchaseTransaction, Double>("rate"));
-			colAmount.setCellValueFactory(new PropertyValueFactory<PurchaseTransaction, Double>("amount"));
+			colQty.setCellValueFactory(new PropertyValueFactory<PurchaseTransaction, Float>("quantity"));
+			colRate.setCellValueFactory(new PropertyValueFactory<PurchaseTransaction, Float>("rate"));
+			colAmount.setCellValueFactory(new PropertyValueFactory<PurchaseTransaction, Float>("amount"));
 			table.setItems(transactionList);
 
 			cmbpaymentFrom.getItems().addAll(bankService.getAllBankNames());
@@ -131,8 +131,8 @@ public class PurchaseInvoiceController implements Initializable {
 			colInvoiceNo.setCellValueFactory(new PropertyValueFactory<PurchaseInvoice, String>("invoiceNo"));
 			colPartyName.setCellValueFactory(new PropertyValueFactory<PurchaseInvoice, String>("bankreffno"));
 			colDate.setCellValueFactory(new PropertyValueFactory<PurchaseInvoice, LocalDate>("date"));
-			colAmount2.setCellValueFactory(new PropertyValueFactory<PurchaseInvoice, Double>("grandtotal"));
-			colPaid.setCellValueFactory(new PropertyValueFactory<PurchaseInvoice, Double>("paid"));
+			colAmount2.setCellValueFactory(new PropertyValueFactory<PurchaseInvoice, Float>("grandtotal"));
+			colPaid.setCellValueFactory(new PropertyValueFactory<PurchaseInvoice, Float>("paid"));
 			for (int i = 0; i < todaysInvoiceList.size(); i++) {
 				todaysInvoiceList.get(i).setBankreffno(todaysInvoiceList.get(i).getParty().getName());
 			}
@@ -238,8 +238,8 @@ public class PurchaseInvoiceController implements Initializable {
 				return;
 			}
 			PurchaseTransaction transaction = new PurchaseTransaction(txtItemName.getText(), txtUnit.getText(),
-					Double.parseDouble(txtRate.getText()), Double.parseDouble(txtQuantity.getText()),
-					Double.parseDouble(txtAmount.getText()), null);
+					Float.parseFloat(txtRate.getText()), Float.parseFloat(txtQuantity.getText()),
+					Float.parseFloat(txtAmount.getText()), null);
 
 			addPurchaseTransaction(transaction);
 			clear();
@@ -294,18 +294,18 @@ public class PurchaseInvoiceController implements Initializable {
 			invoice.setInvoiceNo(txtInvoiceNo.getText());
 			invoice.setDate(date.getValue());
 			invoice.setParty(partyService.getPurchasePartyByName(cmbPartyName.getSelectionModel().getSelectedItem()));
-			invoice.setGrandtotal(Double.parseDouble(txtGrandTotal.getText()));
-			invoice.setGst(Double.parseDouble(txtGst.getText()));
-			invoice.setNettotal(Double.parseDouble(txtNetTotal.getText()));
-			invoice.setOthercharges(Double.parseDouble(txtOtherChrgs.getText()));
+			invoice.setGrandtotal(Float.parseFloat(txtGrandTotal.getText()));
+			invoice.setGst(Float.parseFloat(txtGst.getText()));
+			invoice.setNettotal(Float.parseFloat(txtNetTotal.getText()));
+			invoice.setOthercharges(Float.parseFloat(txtOtherChrgs.getText()));
 			invoice.setBankreffno(txtTransactionReff.getText());
-			invoice.setTransportcharges(Double.parseDouble(txtTransportChrgs.getText()));
-			invoice.setPaid(Double.parseDouble(txtPaidAmount.getText()));
+			invoice.setTransportcharges(Float.parseFloat(txtTransportChrgs.getText()));
+			invoice.setPaid(Float.parseFloat(txtPaidAmount.getText()));
 			if (txtPaidAmount.getText().equals("" + 0.0)) {
 				invoice.setBank(bankService.getCashAccount());
 			} else {
 				invoice.setBank(bankService.getBankByName(cmbpaymentFrom.getSelectionModel().getSelectedItem()));
-				double oldpaid = 0.0;
+				float oldpaid = 0.0f;
 				if(oldInvoice!=null)
 				{
 					oldpaid=oldInvoice.getPaid();
@@ -367,7 +367,7 @@ public class PurchaseInvoiceController implements Initializable {
 					bt = new BankTransaction();
 					bt.setBankid(invoice.getBank().getId());
 					bt.setCredit(invoice.getPaid());
-					bt.setDebit(0.0);
+					bt.setDebit(0.0f);
 					bt.setParticulars("Reduce Invoice Amount BillNo " + invoice.getBillno());
 					bt.setReffid(invoice.getBillno());
 					bt.setDate(date.getValue());
@@ -420,7 +420,7 @@ public class PurchaseInvoiceController implements Initializable {
 		@FXML
 		void btnRemoveAction(ActionEvent event) {
 
-			txtNetTotal.setText("" + (Double.parseDouble(txtNetTotal.getText())
+			txtNetTotal.setText("" + (Float.parseFloat(txtNetTotal.getText())
 					- table.getSelectionModel().getSelectedItem().getAmount()));
 			transactionList.remove(table.getSelectionModel().getSelectedIndex());
 			int sr = 1;
@@ -532,7 +532,7 @@ public class PurchaseInvoiceController implements Initializable {
 				if (transactionList.size() == 0) {
 					tr.setId(1);
 					transactionList.add(tr);
-					txtNetTotal.setText("" + (Double.parseDouble(txtNetTotal.getText()) + tr.getAmount()));
+					txtNetTotal.setText("" + (Float.parseFloat(txtNetTotal.getText()) + tr.getAmount()));
 					calculateGrandTotal();
 				} else {
 					int index = -1;
@@ -546,7 +546,7 @@ public class PurchaseInvoiceController implements Initializable {
 					}
 					if (index != -1) {
 
-						txtNetTotal.setText("" + (Double.parseDouble(txtNetTotal.getText()) + tr.getAmount()));
+						txtNetTotal.setText("" + (Float.parseFloat(txtNetTotal.getText()) + tr.getAmount()));
 						calculateGrandTotal();
 						tr.setQuantity(transactionList.get(index).getQuantity() + tr.getQuantity());
 						tr.setAmount(tr.getRate() * tr.getQuantity());
@@ -556,7 +556,7 @@ public class PurchaseInvoiceController implements Initializable {
 
 					} else {
 						System.out.println("Item Not Found");
-						txtNetTotal.setText("" + (Double.parseDouble(txtNetTotal.getText()) + tr.getAmount()));
+						txtNetTotal.setText("" + (Float.parseFloat(txtNetTotal.getText()) + tr.getAmount()));
 						calculateGrandTotal();
 						tr.setId(transactionList.size() + 1);
 						transactionList.add(tr);
@@ -574,7 +574,7 @@ public class PurchaseInvoiceController implements Initializable {
 				return false;
 			}
 			try {
-				Double.parseDouble(num);
+				Float.parseFloat(num);
 				return true;
 			} catch (Exception e) {
 				return false;
@@ -606,8 +606,8 @@ public class PurchaseInvoiceController implements Initializable {
 				txtTransportChrgs.requestFocus();
 				return;
 			}
-			txtGrandTotal.setText("" + (Double.parseDouble(txtNetTotal.getText()) + Double.parseDouble(txtGst.getText())
-					+ Double.parseDouble(txtOtherChrgs.getText()) + Double.parseDouble(txtTransportChrgs.getText())));
+			txtGrandTotal.setText("" + (Float.parseFloat(txtNetTotal.getText()) + Float.parseFloat(txtGst.getText())
+					+ Float.parseFloat(txtOtherChrgs.getText()) + Float.parseFloat(txtTransportChrgs.getText())));
 
 		}
 
@@ -640,13 +640,13 @@ public class PurchaseInvoiceController implements Initializable {
 				if (txtPaidAmount.getText().equals("")) {
 					txtPaidAmount.setText("" + 0.0f);
 				}
-				if (Double.parseDouble(txtPaidAmount.getText()) > 0.0f && cmbpaymentFrom.getValue() == null) {
+				if (Float.parseFloat(txtPaidAmount.getText()) > 0.0f && cmbpaymentFrom.getValue() == null) {
 					new Alert(AlertType.ERROR, "Select Payment From Bank Name").showAndWait();
 					cmbpaymentFrom.requestFocus();
 					return 0;
 				}
 				
-				if (Double.parseDouble(txtPaidAmount.getText()) > Double.parseDouble(txtGrandTotal.getText())) {
+				if (Float.parseFloat(txtPaidAmount.getText()) > Float.parseFloat(txtGrandTotal.getText())) {
 					new Alert(AlertType.ERROR, "Paying Amount Should Be equal Or Less Than Grand Total").showAndWait();
 					txtPaidAmount.requestFocus();
 					txtPaidAmount.selectAll();

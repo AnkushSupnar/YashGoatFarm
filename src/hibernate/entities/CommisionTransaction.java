@@ -17,8 +17,8 @@ public class CommisionTransaction {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 	LocalDate date;
-	double totalCommision;
-	double paidCommision;
+	float totalCommision;
+	float paidCommision;
 	
 	@ManyToOne
 	@JoinColumn(name="commision")
@@ -32,7 +32,7 @@ public class CommisionTransaction {
 		super();
 	}
 
-	public CommisionTransaction( LocalDate date, double totalCommision, double paidCommision,
+	public CommisionTransaction( LocalDate date, float totalCommision, float paidCommision,
 			Commision commision, Bill bill) {
 		super();
 		this.date = date;
@@ -58,19 +58,19 @@ public class CommisionTransaction {
 		this.date = date;
 	}
 
-	public double getTotalCommision() {
+	public float getTotalCommision() {
 		return totalCommision;
 	}
 
-	public void setTotalCommision(double totalCommision) {
+	public void setTotalCommision(float totalCommision) {
 		this.totalCommision = totalCommision;
 	}
 
-	public double getPaidCommision() {
+	public float getPaidCommision() {
 		return paidCommision;
 	}
 
-	public void setPaidCommision(double paidCommision) {
+	public void setPaidCommision(float paidCommision) {
 		this.paidCommision = paidCommision;
 	}
 

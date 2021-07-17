@@ -51,11 +51,11 @@ public class WeeklyItemSalesReport implements Initializable {
     @FXML private TableColumn<WeeklyItemSales,Integer> colSrNo;
     @FXML private TableColumn<WeeklyItemSales,Long>    colDate;
     @FXML private TableColumn<WeeklyItemSales,String>  colBillNo;
-    @FXML private TableColumn<WeeklyItemSales,Double>  colItemName;
+    @FXML private TableColumn<WeeklyItemSales,Float>  colItemName;
     @FXML private TableColumn<WeeklyItemSales,String>  colQty;
     @FXML private TableColumn<?, ?> colUnit;
-    @FXML private TableColumn<WeeklyItemSales,Double>  colRate;
-    @FXML private TableColumn<WeeklyItemSales,Double>  colAmount;
+    @FXML private TableColumn<WeeklyItemSales,Float>  colRate;
+    @FXML private TableColumn<WeeklyItemSales,Float>  colAmount;
     
     private BillService billService;
     private ItemService itemService;
@@ -104,7 +104,7 @@ public class WeeklyItemSalesReport implements Initializable {
 	    	CommonData.weeklyItemSaleStickList.clear();
 	    	billList.addAll(billService.getPeriodWiseBills(date.getValue().with(DayOfWeek.MONDAY),date.getValue().with(DayOfWeek.SUNDAY)));
 	    	int sr=0;
-	    	double qty=0,amount=0;
+	    	float qty=0,amount=0;
 	    	if(billList.isEmpty())
 	    	{
 	    		new Alert(AlertType.ERROR,"No Data to show").showAndWait();
@@ -191,10 +191,10 @@ public class WeeklyItemSalesReport implements Initializable {
 	    		e.printStackTrace();
 	    	}
 	    }
-	    private double getItemAllSale(String itemName)
+	    private float getItemAllSale(String itemName)
 	    {
 	    	try {
-	    		double qty=0;
+	    		float qty=0;
 				for(Bill bill:billList)
 				{
 					for(Transaction tr:bill.getTransaction())

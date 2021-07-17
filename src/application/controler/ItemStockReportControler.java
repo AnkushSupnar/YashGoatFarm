@@ -33,8 +33,8 @@ public class ItemStockReportControler implements Initializable {
 	@FXML private TableView<ItemStockReport> table;
     @FXML private TableColumn<ItemStockReport,Integer> colSrNo;
     @FXML private TableColumn<ItemStockReport,String> colItemName;
-    @FXML private TableColumn<ItemStockReport, Double> colSoldQty;
-    @FXML private TableColumn<ItemStockReport,Double> colQty;
+    @FXML private TableColumn<ItemStockReport, Float> colSoldQty;
+    @FXML private TableColumn<ItemStockReport,Float> colQty;
     @FXML private TableColumn<ItemStockReport,String> colUni;
     @FXML private Button btnPrint;
     
@@ -71,10 +71,10 @@ public class ItemStockReportControler implements Initializable {
 		new PrintFile("D:\\Software\\Prints\\ItemStock.pdf");
 		}
     }
-	private double getSoldQty(String item)
+	private float getSoldQty(String item)
 	{
 		try {
-			double qty=0;
+			float qty=0;
 			for(Bill bill:billList)
 			{
 				for(Transaction tr:bill.getTransaction())

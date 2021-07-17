@@ -14,7 +14,7 @@ public interface PurchasInvoiceDao {
 	public List<PurchaseInvoice>getThisWeekInvoice();
 	public List<PurchaseInvoice>getPartyWiseUnpaidPurchaseInvoice(int partyId);
 	public int savePurchaseInvoice(PurchaseInvoice purchaseInvoice);
-	public int updatePaidAmount(long billno,double amount);
+	public int updatePaidAmount(long billno,float amount);
 	public long getNewInvoiceNo();
 	public void deleteTransaction(long billno);
 	

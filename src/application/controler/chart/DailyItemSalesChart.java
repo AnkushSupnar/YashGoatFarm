@@ -19,33 +19,33 @@ import javafx.scene.chart.XYChart;
 
 public class DailyItemSalesChart implements Initializable {
 
-	 @FXML private BarChart<String,Double> barChart;
+	 @FXML private BarChart<String,Float> barChart;
 	 @FXML private CategoryAxis x;
 	 @FXML private NumberAxis y;
 	 
-	 @FXML private BarChart<String,Double> stickBarChart;
+	 @FXML private BarChart<String,Float> stickBarChart;
 	 
 	 @FXML private PieChart pieChart;
 	 @FXML private PieChart stickPieChart;
 	 
 
-	 private XYChart.Series<String, Double> series,series2;
+	 private XYChart.Series<String, Float> series,series2;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		//for Items
-		series = new XYChart.Series<String, Double>();		
+		series = new XYChart.Series<String, Float>();		
 		for(DailyItemSales tr:CommonData.dailyItemSaleList)
 		{			
-			series.getData().add(new XYChart.Data<String, Double>(tr.getItemName(),tr.getQty()));	
+			series.getData().add(new XYChart.Data<String, Float>(tr.getItemName(),tr.getQty()));	
 		}
 		barChart.getData().add(series);
 		//for Stick Items
-		series2 = new XYChart.Series<String, Double>();
+		series2 = new XYChart.Series<String, Float>();
 		for(DailyItemSales tr:CommonData.dailyItemSaleStickList)
 		{
 			
-			series2.getData().add(new XYChart.Data<String, Double>(tr.getItemName(),tr.getQty()));
+			series2.getData().add(new XYChart.Data<String, Float>(tr.getItemName(),tr.getQty()));
 					
 		}
 		stickBarChart.getData().add(series2);

@@ -96,7 +96,7 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public double getCommision(String itemName) {		
+	public float getCommision(String itemName) {		
 			Item item = getItemByName(itemName);
 			return item.getCommision();
 	}
@@ -117,7 +117,7 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public double getLabourCharges(String itemName) {
+	public float getLabourCharges(String itemName) {
 		return getItemByName(itemName).getLabourCharges();
 	}
 

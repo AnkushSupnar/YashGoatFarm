@@ -74,13 +74,13 @@ public class BankTransactionServiceImpl implements BankTransactionService {
 		
 	}
 	@Override
-	public double getOpenigBalance(int bankid, LocalDate date) {
+	public float getOpenigBalance(int bankid, LocalDate date) {
 		try {
 			System.out.println("Get Date upto"+date.minusDays(1));
 			BankTransaction tr = getTransactionByParticular("Opening Balance", bankid);
 			BankTransaction firsttr = getBankTransactionById(1);
-			double opening = tr.getDebit();
-			double debit=0,credit=0;
+			float opening = tr.getDebit();
+			float debit=0,credit=0;
 			List<BankTransaction>list = getPeriodWiseBankTransaction(firsttr.getDate(), date.minusDays(1), bankid);
 			for(BankTransaction t:list)
 			{

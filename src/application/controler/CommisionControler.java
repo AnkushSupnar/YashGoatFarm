@@ -64,10 +64,10 @@ public class CommisionControler implements Initializable {
 	    @FXML private TableView<Bill> table;
 	    @FXML private TableColumn<Bill, Long> colBillNo;
 	    @FXML private TableColumn<Bill,LocalDate> colDate;
-	    @FXML private TableColumn<Bill,Double> CollBillAmount;
-	    @FXML private TableColumn<Bill,Double> colCommision;
-	    @FXML private TableColumn<Bill, Double> colTransporting;
-	    @FXML private TableColumn<Bill,Double> ColPaidCommision;
+	    @FXML private TableColumn<Bill,Float> CollBillAmount;
+	    @FXML private TableColumn<Bill,Float> colCommision;
+	    @FXML private TableColumn<Bill, Float> colTransporting;
+	    @FXML private TableColumn<Bill,Float> ColPaidCommision;
 	    
 	    @FXML private TextField txtTotalCommision;
 	    @FXML private ComboBox<String> cmbBankName; 
@@ -84,10 +84,10 @@ public class CommisionControler implements Initializable {
 	    @FXML private TableColumn<Commision, String> colEmpName;
 	    @FXML private TableColumn<Commision,LocalDate> colDate2;
 	    @FXML private TableColumn<Commision, Long> colBill;
-	    @FXML private TableColumn<Commision, Double> colBank;
-	    @FXML private TableColumn<Commision, Double> colCash;
-	    @FXML private TableColumn<Commision, Double> colCommision2;
-	    @FXML private TableColumn<Commision, Double> colTransaporting;
+	    @FXML private TableColumn<Commision, Float> colBank;
+	    @FXML private TableColumn<Commision, Float> colCash;
+	    @FXML private TableColumn<Commision, Float> colCommision2;
+	    @FXML private TableColumn<Commision, Float> colTransaporting;
 	    
 	    
 	    
@@ -116,9 +116,9 @@ public class CommisionControler implements Initializable {
 			cmbSalesmanName.getItems().addAll(employeeService.getAllSalesmanNames());
 			colBillNo.setCellValueFactory(new PropertyValueFactory<Bill,Long>("billno"));
 			colDate.setCellValueFactory(new PropertyValueFactory<Bill,LocalDate>("date"));
-			CollBillAmount.setCellValueFactory(new PropertyValueFactory<Bill,Double>("nettotal"));
-			colCommision.setCellValueFactory(new PropertyValueFactory<Bill,Double>("otherchargs"));//otherchargs column is use to Commision
-			ColPaidCommision.setCellValueFactory(new PropertyValueFactory<Bill,Double>("paidcommision"));
+			CollBillAmount.setCellValueFactory(new PropertyValueFactory<Bill,Float>("nettotal"));
+			colCommision.setCellValueFactory(new PropertyValueFactory<Bill,Float>("otherchargs"));//otherchargs column is use to Commision
+			ColPaidCommision.setCellValueFactory(new PropertyValueFactory<Bill,Float>("paidcommision"));
 			colTransporting.setCellValueFactory(new PropertyValueFactory<>("transportingchrges"));
 			table.setItems(billList);
 			cmbBankName.getItems().addAll(bankService.getAllBankNames());
@@ -210,7 +210,7 @@ public class CommisionControler implements Initializable {
 	    	billList.clear();
 	    	
 	    	billList.addAll(billService.getUnpaidCommisionBills(employeeService.getEmployeeByName(cmbSalesmanName.getValue()).getId()));
-	    	//double commisoin = 0.0f,bill=0,cash=0,bank=0,gtotal=0,tranp=0;
+	    	//float commisoin = 0.0f,bill=0,cash=0,bank=0,gtotal=0,tranp=0;
 	    	if(billList.size()==0)
 	    	{
 	    		new Alert(AlertType.ERROR,"NO Commision Pending For this Date").showAndWait();
@@ -286,12 +286,12 @@ public class CommisionControler implements Initializable {
 	    	}
 	    	Commision commision = new Commision( 
 	    			LocalDate.now(),
-	    			Double.parseDouble(txtTotalCommision.getText()),
-	    			Double.parseDouble(txtTotalCommision.getText()),
-	    			Double.parseDouble(txtBillAmount.getText()),
-	    			Double.parseDouble(txtBank.getText()),
-	    			Double.parseDouble(txtCash.getText()),
-	    			Double.parseDouble(txtOtherCharges.getText()),
+	    			Float.parseFloat(txtTotalCommision.getText()),
+	    			Float.parseFloat(txtTotalCommision.getText()),
+	    			Float.parseFloat(txtBillAmount.getText()),
+	    			Float.parseFloat(txtBank.getText()),
+	    			Float.parseFloat(txtCash.getText()),
+	    			Float.parseFloat(txtOtherCharges.getText()),
 	    			txtRefferenceNo.getText(),
 	    			employeeService.getEmployeeByName(cmbSalesmanName.getValue()),
 	    			bankService.getBankByName(cmbBankName.getValue()),
@@ -473,10 +473,10 @@ public class CommisionControler implements Initializable {
 				}
 	    }
 	   
-	    private double getBillCommision(Bill bill)
+	    private float getBillCommision(Bill bill)
 	    {
 	    	System.out.println("Got To Check Commision "+bill.getBillno());
-	    	double commision=0.0f;
+	    	float commision=0.0f;
 	    	if(bill!=null)
 	    	{
 	    		for(Transaction tr:bill.getTransaction())
@@ -491,7 +491,7 @@ public class CommisionControler implements Initializable {
 
 	    private void validateBillList()
 	    {
-	    	double commisoin = 0.0f,bill=0,cash=0,bank=0,gtotal=0,tranp=0,paid=0;
+	    	float commisoin = 0.0f,bill=0,cash=0,bank=0,gtotal=0,tranp=0,paid=0;
 	    	for(int i=0;i<billList.size();i++)
 	    	{
 	    		

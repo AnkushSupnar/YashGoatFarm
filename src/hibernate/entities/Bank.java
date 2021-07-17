@@ -15,11 +15,11 @@ public class Bank {
 	String ifsc;
 	String branch;
 	String accountno;
-	double balance;
+	float balance;
 	public Bank() {
 		super();
 	}
-	public Bank(String bankname, String accounttype, String ifsc, String branch, String accountno, double balance) {
+	public Bank(String bankname, String accounttype, String ifsc, String branch, String accountno, float balance) {
 		super();
 		this.bankname = bankname;
 		this.accounttype = accounttype;
@@ -64,10 +64,10 @@ public class Bank {
 	public void setAccountno(String accountno) {
 		this.accountno = accountno;
 	}
-	public double getBalance() {
+	public float getBalance() {
 		return balance;
 	}
-	public void setBalance(double balance) {
+	public void setBalance(float balance) {
 		this.balance = balance;
 	}
 	@Override

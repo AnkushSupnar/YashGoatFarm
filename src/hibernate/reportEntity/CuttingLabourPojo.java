@@ -4,12 +4,12 @@ public class CuttingLabourPojo {
 
 	int id;
 	String name;
-	double qty;
+	float qty;
 	public CuttingLabourPojo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public CuttingLabourPojo(String name, double qty) {
+	public CuttingLabourPojo(String name, float qty) {
 		super();
 		this.name = name;
 		this.qty = qty;
@@ -26,10 +26,10 @@ public class CuttingLabourPojo {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public double getQty() {
+	public float getQty() {
 		return qty;
 	}
-	public void setQty(double qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 	@Override

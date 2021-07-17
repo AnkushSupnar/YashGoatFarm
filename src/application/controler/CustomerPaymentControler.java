@@ -44,10 +44,10 @@ public class CustomerPaymentControler implements Initializable {
 	@FXML private TableColumn<Bill,String> colSrNo;//recievedby
 	@FXML private TableColumn<Bill,LocalDate> colDate;
 	@FXML private TableColumn<Bill,Long> colBillNo;
-	@FXML private TableColumn<Bill,Double> colBillAmount;//nettotal
-	@FXML private TableColumn<Bill,Double> colRecieved;
-	@FXML private TableColumn<Bill,Double> colRemaining;//otherchargs
-	@FXML private TableColumn<Bill,Double> colToday;//transportingchrges
+	@FXML private TableColumn<Bill,Float> colBillAmount;//nettotal
+	@FXML private TableColumn<Bill,Float> colRecieved;
+	@FXML private TableColumn<Bill,Float> colRemaining;//otherchargs
+	@FXML private TableColumn<Bill,Float> colToday;//transportingchrges
 	@FXML private TableColumn<Bill,String> colSalesman;//recievedreff
 	@FXML private TextField txtTotalBillAmount;
 	@FXML private TextField txtTotalPaid;
@@ -109,7 +109,7 @@ public class CustomerPaymentControler implements Initializable {
 		}
 		billList.addAll(billService.getUnpaidBills(customerService.getCustomerByName(txtCustomerName.getText()).getId()));
 		int sr=0;
-		double total=0,paid=0;
+		float total=0,paid=0;
 		for(int i=0;i<billList.size();i++)
 		{
 			billList.get(i).setNettotal(
@@ -148,7 +148,7 @@ public class CustomerPaymentControler implements Initializable {
 			txtCustomerName.requestFocus();
 			return;
 		}
-		if(Double.parseDouble(txtTotalRemainig.getText())<=0)
+		if(Float.parseFloat(txtTotalRemainig.getText())<=0)
 		{
 			new Alert(AlertType.ERROR,"No Pending Bills For This Customer!!!").showAndWait();
 			txtCustomerName.requestFocus();
@@ -160,14 +160,14 @@ public class CustomerPaymentControler implements Initializable {
 			txtTodays.requestFocus();
 			return;
 		}
-		if(Double.parseDouble(txtTotalRemainig.getText())<Double.parseDouble(txtTodays.getText()))
+		if(Float.parseFloat(txtTotalRemainig.getText())<Float.parseFloat(txtTodays.getText()))
 		{
 			new Alert(AlertType.ERROR,"Recieved Amount Must Less or Equal to Remaining Amount!!!").showAndWait();
 			txtTodays.requestFocus();
 			return;
 		}
-		double today = Double.parseDouble(txtTodays.getText());
-		//double remain=0;
+		float today = Float.parseFloat(txtTodays.getText());
+		//float remain=0;
 		//Bill bill = null;
 		List<Bill>list = billList;
 		for(int i=0;i<list.size();i++)
@@ -194,8 +194,8 @@ public class CustomerPaymentControler implements Initializable {
 			billList.set(i, bill);
 		}
 		txtRemaining.setText(""+(
-		Double.parseDouble(txtTotalRemainig.getText())-
-		Double.parseDouble(txtTodays.getText())));
+		Float.parseFloat(txtTotalRemainig.getText())-
+		Float.parseFloat(txtTodays.getText())));
 	}
 
 	@FXML
@@ -228,7 +228,7 @@ public class CustomerPaymentControler implements Initializable {
 			}
 			//System.out.println("Bill to pay"+ bill.getBillno());
 		}
-		bankService.addBankBalance(bankid, Double.parseDouble(txtTodays.getText()));
+		bankService.addBankBalance(bankid, Float.parseFloat(txtTodays.getText()));
 		new Alert(AlertType.INFORMATION,"Record Save Success").showAndWait();
 		btnReset.fire();
 	}
@@ -264,7 +264,7 @@ public class CustomerPaymentControler implements Initializable {
 			return false;
 		}
 		try {
-			Double.parseDouble(num);
+			Float.parseFloat(num);
 			return true;
 		} catch (Exception e) {
 			return false;

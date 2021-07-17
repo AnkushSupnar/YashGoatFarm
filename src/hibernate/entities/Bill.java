@@ -24,9 +24,9 @@ public class Bill {
 	Customer customer;
 	
 	LocalDate date;
-	double nettotal;
-	double transportingchrges;
-	double otherchargs;
+	float nettotal;
+	float transportingchrges;
+	float otherchargs;
 	
 	@ManyToOne
 	@JoinColumn(name="bankid")
@@ -42,14 +42,14 @@ public class Bill {
 	@OneToMany(mappedBy = "bill",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<Transaction>transaction;
 	
-	private double recivedamount;
-	private double paidcommision;
+	private float recivedamount;
+	private float paidcommision;
 	public Bill() {
 		super();
 	}
-	public Bill(Customer customer, LocalDate date, double nettotal, double transportingchrges, double otherchargs,
+	public Bill(Customer customer, LocalDate date, float nettotal, float transportingchrges, float otherchargs,
 			Bank bank, String recievedby, String recievedreff, Employee employee,
-			List<Transaction> transaction,double recivedamount,double paidcommision) {
+			List<Transaction> transaction,float recivedamount,float paidcommision) {
 		super();
 		this.customer = customer;
 		this.date = date;
@@ -82,22 +82,22 @@ public class Bill {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public double getNettotal() {
+	public float getNettotal() {
 		return nettotal;
 	}
-	public void setNettotal(double nettotal) {
+	public void setNettotal(float nettotal) {
 		this.nettotal = nettotal;
 	}
-	public double getTransportingchrges() {
+	public float getTransportingchrges() {
 		return transportingchrges;
 	}
-	public void setTransportingchrges(double transportingchrges) {
+	public void setTransportingchrges(float transportingchrges) {
 		this.transportingchrges = transportingchrges;
 	}
-	public double getOtherchargs() {
+	public float getOtherchargs() {
 		return otherchargs;
 	}
-	public void setOtherchargs(double otherchargs) {
+	public void setOtherchargs(float otherchargs) {
 		this.otherchargs = otherchargs;
 	}
 	public Bank getBank() {
@@ -106,10 +106,10 @@ public class Bill {
 	public void setBank(Bank bank) {
 		this.bank = bank;
 	}
-	public double getPaidcommision() {
+	public float getPaidcommision() {
 		return paidcommision;
 	}
-	public void setPaidcommision(double paidcommision) {
+	public void setPaidcommision(float paidcommision) {
 		this.paidcommision = paidcommision;
 	}
 	public String getRecievedby() {
@@ -137,10 +137,10 @@ public class Bill {
 		this.transaction = transaction;
 	}
 
-	public double getRecivedamount() {
+	public float getRecivedamount() {
 		return recivedamount;
 	}
-	public void setRecivedamount(double recivedamount) {
+	public void setRecivedamount(float recivedamount) {
 		this.recivedamount = recivedamount;
 	}
 	@Override

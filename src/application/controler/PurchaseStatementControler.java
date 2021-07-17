@@ -48,9 +48,9 @@ public class PurchaseStatementControler implements Initializable {
 	    @FXML private TableColumn<PurchaseStatementPojo, Integer> colSrNo;
 	    @FXML private TableColumn<PurchaseStatementPojo,String> colParticulars;
 	    @FXML private TableColumn<PurchaseStatementPojo,LocalDate> colDate;
-	    @FXML private TableColumn<PurchaseStatementPojo,Double> colDebit;
-	    @FXML private TableColumn<PurchaseStatementPojo,Double> colCredit;
-	    @FXML private TableColumn<PurchaseStatementPojo,Double> colBalance;
+	    @FXML private TableColumn<PurchaseStatementPojo,Float> colDebit;
+	    @FXML private TableColumn<PurchaseStatementPojo,Float> colCredit;
+	    @FXML private TableColumn<PurchaseStatementPojo,Float> colBalance;
 	    
 	    @FXML private TextField txtDebit;
 	    @FXML private TextField txtCredit;
@@ -88,7 +88,7 @@ public class PurchaseStatementControler implements Initializable {
 			System.out.println("Party id = " + partyid);
 			purchaseList.clear();
 			int srno = 0;
-			double bal=0,debit=0,credit=0;;
+			float bal=0,debit=0,credit=0;;
 			for (LocalDate date = dateFrom.getValue(); date
 					.isBefore(dateTo.getValue().plusDays(1)); date = date.plusDays(1)) {
 				invoiceList = invoiceService.getPurchaseInvoicePartyWise(date, partyid);

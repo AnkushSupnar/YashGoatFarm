@@ -11,9 +11,9 @@ public interface ItemDao {
 	public List<String> getAllItemNames();
 	
 	public int saveItem(Item item);
-	public double getCommision(String itemName);
+	public float getCommision(String itemName);
 	public List<String>getCuttingItemNames();
-	public double getLabourCharges(String itemName);
+	public float getLabourCharges(String itemName);
 	
 	public List<String>getStockableItemNames();
 }

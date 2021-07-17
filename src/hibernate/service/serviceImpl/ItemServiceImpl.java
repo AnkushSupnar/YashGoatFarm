@@ -39,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
 		return dao.saveItem(item);
 	}
 	@Override
-	public double getCommision(String itemName) {
+	public float getCommision(String itemName) {
 		return dao.getCommision(itemName);
 	}
 	@Override
@@ -47,7 +47,7 @@ public class ItemServiceImpl implements ItemService {
 		return dao.getCuttingItemNames();
 	}
 	@Override
-	public double getLabourCharges(String itemName) {
+	public float getLabourCharges(String itemName) {
 		return getItemByName(itemName).getLabourCharges();
 	}
 	@Override

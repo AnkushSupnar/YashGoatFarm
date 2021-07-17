@@ -50,9 +50,9 @@ public class CounterStockController implements Initializable {
  	    @FXML private TableView<CounterStockTransaction> table;
 	    @FXML private TableColumn<CounterStockTransaction, Long> colSrNo;
 	    @FXML private TableColumn<CounterStockTransaction,String> colItemName;
-	    @FXML private TableColumn<CounterStockTransaction,Double> colOldQty;
-	    @FXML private TableColumn<CounterStockTransaction,Double> colNewQty;
-	    @FXML private TableColumn<CounterStockTransaction,Double> colTotalQty;
+	    @FXML private TableColumn<CounterStockTransaction,Float> colOldQty;
+	    @FXML private TableColumn<CounterStockTransaction,Float> colNewQty;
+	    @FXML private TableColumn<CounterStockTransaction,Float> colTotalQty;
 	     
 	    @FXML private TableView<CounterStock> tblOld;
  	    @FXML private TableColumn<CounterStock,Long> colId;
@@ -99,13 +99,15 @@ public class CounterStockController implements Initializable {
 	    			{
 	    				if(id==0) {
 	    				lblAvailableQty.setText(""+itemStockService.getItemStock(txtItemName.getText()));
+	    				float st = (float) itemStockService.getItemStock(txtItemName.getText());
+	    				System.out.println("float stoxk"+st);
 	    				txtOldQty.setText(""+counterStockDataService.getCounterItemStock(txtItemName.getText()));
 	    				txtNewQty.requestFocus();
 	    				}
 	    				else {
 	    					if(oldCounterStock!=null)
 	    					{
-	    						double oldstock=0,oldqty=0;
+	    						float oldqty=0;
 	    						for(CounterStockTransaction tr:oldCounterStock.getTransaction())
 	    						{
 	    							if(tr.getItemname().equals(txtItemName.getText().trim()))
@@ -115,6 +117,7 @@ public class CounterStockController implements Initializable {
 	    								break;
 	    							}
 	    						}
+	    						 
 	    						lblAvailableQty.setText(""+(itemStockService.getItemStock(txtItemName.getText())+oldqty));
 	    						txtOldQty.setText(""+(counterStockDataService.getCounterItemStock(txtItemName.getText())-oldqty));
 	    					}
@@ -134,13 +137,13 @@ public class CounterStockController implements Initializable {
 	    	txtNewQty.setOnAction(e->{
 	    		if(!txtNewQty.getText().equals(""))
 	    		{
-	    			if(Double.parseDouble(txtNewQty.getText())>Double.parseDouble(lblAvailableQty.getText())) {
+	    			if(Float.parseFloat(txtNewQty.getText())>Float.parseFloat(lblAvailableQty.getText())) {
 	    				notification.showErrorMessage("Quantity Not Available in Godown Stock");
 	    				return;
 	    			}else {
 	    			txtTotalQty.setText(""+(
-	    					Double.parseDouble(txtNewQty.getText())+
-	    					Double.parseDouble(txtOldQty.getText())
+	    					Float.parseFloat(txtNewQty.getText())+
+	    					Float.parseFloat(txtOldQty.getText())
 	    					));
 	    				btnAdd.requestFocus();
 	    			}
@@ -171,7 +174,7 @@ public class CounterStockController implements Initializable {
 	    		{
 	    			txtNewQty.fireEvent(event);
 	    		}
-	    		if(Double.parseDouble(txtTotalQty.getText())<=0)
+	    		if(Float.parseFloat(txtTotalQty.getText())<=0)
 	    		{
 	    			notification.showErrorMessage("Unable to add Given Quantity");
 	    			txtNewQty.requestFocus();
@@ -179,14 +182,14 @@ public class CounterStockController implements Initializable {
 	    		}
 	    		
 	    		txtTotalQty.setText(""+(
-    					Double.parseDouble(txtNewQty.getText())+
-    					Double.parseDouble(txtOldQty.getText())
+    					Float.parseFloat(txtNewQty.getText())+
+    					Float.parseFloat(txtOldQty.getText())
     					));
 	    		//add in trList
 	    		if(trList.size()==0)
 	    		{
 	    			//first Element
-	    			trList.add(new CounterStockTransaction(txtItemName.getText(),Double.parseDouble(txtOldQty.getText()),Double.parseDouble(txtNewQty.getText()),Double.parseDouble(txtTotalQty.getText()), null));
+	    			trList.add(new CounterStockTransaction(txtItemName.getText(),Float.parseFloat(txtOldQty.getText()),Float.parseFloat(txtNewQty.getText()),Float.parseFloat(txtTotalQty.getText()), null));
 	    			validateTrList();
 	    			clear();
 	    		}else{
@@ -203,7 +206,7 @@ public class CounterStockController implements Initializable {
 	    			if(flag==-1)
 	    			{
 	    				//new Item
-	    				trList.add(new CounterStockTransaction(txtItemName.getText(),Double.parseDouble(txtOldQty.getText()),Double.parseDouble(txtNewQty.getText()),Double.parseDouble(txtTotalQty.getText()), null));
+	    				trList.add(new CounterStockTransaction(txtItemName.getText(),Float.parseFloat(txtOldQty.getText()),Float.parseFloat(txtNewQty.getText()),Float.parseFloat(txtTotalQty.getText()), null));
 	    				validateTrList();
 	    				clear();
 	    			}
@@ -213,8 +216,8 @@ public class CounterStockController implements Initializable {
 	    				//update getted id
 	    				CounterStockTransaction ctr = new CounterStockTransaction(txtItemName.getText(),
 	    						trList.get(flag).getOldqty(),
-	    						trList.get(flag).getNewqty()+Double.parseDouble(txtNewQty.getText()),
-	    						trList.get(flag).getTotalqty()+Double.parseDouble(txtNewQty.getText()),
+	    						trList.get(flag).getNewqty()+Float.parseFloat(txtNewQty.getText()),
+	    						trList.get(flag).getTotalqty()+Float.parseFloat(txtNewQty.getText()),
 	    						null);
 	    				trList.remove(flag);
 	    				trList.add(flag,ctr);	    				
@@ -374,7 +377,7 @@ public class CounterStockController implements Initializable {
 				// reduce old Stock from CounterStockData
 				for(CounterStockTransaction oldTr:oldStock.getTransaction())
 				{
-					double nqty = oldTr.getNewqty();
+					float nqty = oldTr.getNewqty();
 					counterStockDataService.updateQuantity(oldTr.getItemname(),(nqty*=-1));
 				}
 				//update ui table

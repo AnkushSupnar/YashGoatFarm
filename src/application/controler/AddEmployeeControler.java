@@ -96,7 +96,7 @@ public class AddEmployeeControler implements Initializable {
 	private TableColumn<Employee, String> colSalaryDuration;
 
 	@FXML
-	private TableColumn<Employee, Double> colSalary;
+	private TableColumn<Employee, Float> colSalary;
 
 	@FXML
 	private TableColumn<Employee, LocalDate> colDoj;
@@ -120,7 +120,7 @@ public class AddEmployeeControler implements Initializable {
 		colPost.setCellValueFactory(new PropertyValueFactory<Employee, String>("jobpost"));
 		colSalaryType.setCellValueFactory(new PropertyValueFactory<Employee, String>("salarytype"));
 		colSalaryDuration.setCellValueFactory(new PropertyValueFactory<Employee, String>("salarytime"));
-		colSalary.setCellValueFactory(new PropertyValueFactory<Employee, Double>("salary"));
+		colSalary.setCellValueFactory(new PropertyValueFactory<Employee, Float>("salary"));
 
 		cmbJobPost.getItems().add("Manager");
 		cmbJobPost.getItems().add("Salesman");
@@ -221,7 +221,7 @@ public class AddEmployeeControler implements Initializable {
 			e.setMobileno(txtMobileNo.getText().trim());
 			e.setPin(Integer.parseInt(txtPin.getText().trim()));
 			e.setPost(cmbJobPost.getValue());
-			e.setSalary(Double.parseDouble(txtSalary.getText().trim()));
+			e.setSalary(Float.parseFloat(txtSalary.getText().trim()));
 			e.setSalarytime(cmbSalaryDuration.getValue());
 			e.setSalarytype(cmbSalaryType.getValue());
 			e.setTaluka(txtTaluka.getText().trim());

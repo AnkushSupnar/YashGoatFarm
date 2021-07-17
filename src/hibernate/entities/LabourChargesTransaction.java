@@ -22,9 +22,9 @@ public class LabourChargesTransaction {
 	LocalDate date;
 	
 	String itemName;
-	double qty;
-	double charges;
-	double paidLabourCharges;
+	float qty;
+	float charges;
+	float paidLabourCharges;
 	
 	@ManyToOne
 	@JoinColumn(name = "labourChargesId")
@@ -34,7 +34,7 @@ public class LabourChargesTransaction {
 		super();
 	}
 
-	public LabourChargesTransaction(LocalDate date, String itemName, double qty, double charges, double paidLabourCharges,
+	public LabourChargesTransaction(LocalDate date, String itemName, float qty, float charges, float paidLabourCharges,
 			LabourCharges labourCharges) {
 		super();
 		this.date = date;
@@ -69,27 +69,27 @@ public class LabourChargesTransaction {
 		this.itemName = itemName;
 	}
 
-	public double getQty() {
+	public float getQty() {
 		return qty;
 	}
 
-	public void setQty(double qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 
-	public double getCharges() {
+	public float getCharges() {
 		return charges;
 	}
 
-	public void setCharges(double charges) {
+	public void setCharges(float charges) {
 		this.charges = charges;
 	}
 
-	public double getPaidLabourCharges() {
+	public float getPaidLabourCharges() {
 		return paidLabourCharges;
 	}
 
-	public void setPaidLabourCharges(double paidLabourCharges) {
+	public void setPaidLabourCharges(float paidLabourCharges) {
 		this.paidLabourCharges = paidLabourCharges;
 	}
 

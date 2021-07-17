@@ -4,13 +4,13 @@ public class ItemStockReport {
 
 	long id;
 	String itemName;
-	double soldQty;
-	double qty;
+	float soldQty;
+	float qty;
 	String unit;
 	public ItemStockReport() {
 		super();		
 	}
-	public ItemStockReport(String itemName, double soldQty, double qty, String unit) {
+	public ItemStockReport(String itemName, float soldQty, float qty, String unit) {
 		super();
 		this.itemName = itemName;
 		this.soldQty = soldQty;
@@ -29,16 +29,16 @@ public class ItemStockReport {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public double getSoldQty() {
+	public float getSoldQty() {
 		return soldQty;
 	}
-	public void setSoldQty(double soldQty) {
+	public void setSoldQty(float soldQty) {
 		this.soldQty = soldQty;
 	}
-	public double getQty() {
+	public float getQty() {
 		return qty;
 	}
-	public void setQty(double qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 	public String getUnit() {

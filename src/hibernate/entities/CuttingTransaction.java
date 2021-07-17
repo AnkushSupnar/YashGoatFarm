@@ -21,7 +21,7 @@ public class CuttingTransaction {
 	@ManyToOne
 	Item item;
 	
-	double quantity;
+	float quantity;
 	
 	@ManyToOne
 	@JoinColumn(name="cuttingOrderId")
@@ -33,7 +33,7 @@ public class CuttingTransaction {
 		super();
 	}
 	public CuttingTransaction(Item item,
-			double quantity,
+			float quantity,
 			CuttingOrder cuttingOrder, 
 			List<CuttingLabour> labourList) {
 		super();
@@ -54,10 +54,10 @@ public class CuttingTransaction {
 	public void setItem(Item item) {
 		this.item = item;
 	}
-	public double getQuantity() {
+	public float getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(double quantity) {
+	public void setQuantity(float quantity) {
 		this.quantity = quantity;
 	}
 	public CuttingOrder getCuttingOrder() {

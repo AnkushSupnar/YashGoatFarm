@@ -78,7 +78,7 @@ public class CuttingOrderControler implements Initializable {
     @FXML private TableView<CuttingTransactionPojo> table;
     @FXML private TableColumn<CuttingTransactionPojo,Integer> colSrNo;
     @FXML private TableColumn<CuttingTransactionPojo,String> colItemName;
-    @FXML private TableColumn<CuttingTransactionPojo,Double> colQty;
+    @FXML private TableColumn<CuttingTransactionPojo,Float> colQty;
     @FXML private TableColumn<CuttingTransactionPojo,List<CuttingLabourPojo>>colLabour;
     
     @FXML private Button btnSave;
@@ -182,7 +182,7 @@ public class CuttingOrderControler implements Initializable {
 					flag=i;
 				}
 			}
-			CuttingTransactionPojo ctp = new CuttingTransactionPojo(txtItemName.getText(), Double.parseDouble(txtQuantity.getText()), lList);
+			CuttingTransactionPojo ctp = new CuttingTransactionPojo(txtItemName.getText(), Float.parseFloat(txtQuantity.getText()), lList);
 			if(flag==-1)
 			{
 				//add new
@@ -262,19 +262,19 @@ public class CuttingOrderControler implements Initializable {
 				cmbLabourName.requestFocus();
 				return;
 			}
-			if((Double.parseDouble(txtQuantity.getText())- getLabourAllQty())<Double.parseDouble(txtCuttingQuantity.getText()))
+			if((Float.parseFloat(txtQuantity.getText())- getLabourAllQty())<Float.parseFloat(txtCuttingQuantity.getText()))
 			{
 				notification.showErrorMessage("Quantity must be less than or equal Remaining Cutting Quantity !!!");
 				txtCuttingQuantity.requestFocus();
 				return;
 			}
-		CuttingLabourPojo cp =	new CuttingLabourPojo(cmbLabourName.getValue(),Double.parseDouble(txtCuttingQuantity.getText()));
+		CuttingLabourPojo cp =	new CuttingLabourPojo(cmbLabourName.getValue(),Float.parseFloat(txtCuttingQuantity.getText()));
 			cp.setId(labourNameList.size()+1);
 			labourNameList.add(cp);
 			cmbLabourName.setValue("");
-			if(Double.parseDouble(txtQuantity.getText())- getLabourAllQty()>0)
+			if(Float.parseFloat(txtQuantity.getText())- getLabourAllQty()>0)
 			txtCuttingQuantity.setText(""+
-			(Double.parseDouble(txtQuantity.getText())- getLabourAllQty()));
+			(Float.parseFloat(txtQuantity.getText())- getLabourAllQty()));
 			else
 				txtCuttingQuantity.setText(""+0);
 		} catch (Exception e) {
@@ -540,16 +540,16 @@ public class CuttingOrderControler implements Initializable {
 			return false;
 		}
 		try {
-			Double.parseDouble(num);
+			Float.parseFloat(num);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
 
-    private double getLabourAllQty()
+    private float getLabourAllQty()
     {
-    	double qty=0;
+    	float qty=0;
     	for(CuttingLabourPojo c:labourNameList)
     	{
     		qty=c.getQty()+qty;

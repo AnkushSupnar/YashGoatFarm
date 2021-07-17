@@ -68,7 +68,7 @@ public class AddBankControler implements Initializable {
 	private TableColumn<Bank, String> colBranch;
 
 	@FXML
-	private TableColumn<Bank, Double> colBalance;
+	private TableColumn<Bank, Float> colBalance;
 
 	@FXML
 	private ComboBox<String> cmbAcountType;
@@ -98,7 +98,7 @@ public class AddBankControler implements Initializable {
 		colIfsc.setCellValueFactory(new PropertyValueFactory<Bank, String>("ifsc"));
 		colBranch.setCellValueFactory(new PropertyValueFactory<Bank, String>("branch"));
 		colAccountno.setCellValueFactory(new PropertyValueFactory<Bank, String>("accountno"));
-		colBalance.setCellValueFactory(new PropertyValueFactory<Bank, Double>("balance"));
+		colBalance.setCellValueFactory(new PropertyValueFactory<Bank, Float>("balance"));
 
 		service = new BankServiceImpl();
 		bankTrService = new BankTransactionServiceImpl();
@@ -145,7 +145,7 @@ public class AddBankControler implements Initializable {
 					txtIfsc.getText().trim(),
 					txtBanch.getText().trim(),
 					txtAccountno.getText().trim(),
-					Double.parseDouble(txtBalance.getText().trim()));
+					Float.parseFloat(txtBalance.getText().trim()));
 			bank.setId(id);
 			
 			int flag=service.saveBank(bank);

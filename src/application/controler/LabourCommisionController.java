@@ -165,7 +165,7 @@ public class LabourCommisionController implements Initializable {
 				txtTransactionNo.setText("-");
 			}
 			hibernate.entities.LabourCharges charges = new hibernate.entities.LabourCharges();
-			charges.setAmount(Double.parseDouble(txtTotalCharges.getText()));
+			charges.setAmount(Float.parseFloat(txtTotalCharges.getText()));
 			charges.setBank(bankService.getBankByName(cmbBankName.getValue()));
 			charges.setDate(LocalDate.now());
 			charges.setLabour(employeeService.getEmployeeByName(cmbLabourName.getValue()));

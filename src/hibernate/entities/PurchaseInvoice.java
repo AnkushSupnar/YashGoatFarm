@@ -22,12 +22,12 @@ public class PurchaseInvoice {
 	@JoinColumn(name="partyid")
 	PurchaseParty party;
 	LocalDate date;
-	double nettotal;
-	double gst;
-	double othercharges;
-	double transportcharges;
-	double grandtotal;
-	double paid;
+	float nettotal;
+	float gst;
+	float othercharges;
+	float transportcharges;
+	float grandtotal;
+	float paid;
 
 	@OneToMany(mappedBy = "invoice",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<PurchaseTransaction> transaction;
@@ -38,9 +38,9 @@ public class PurchaseInvoice {
 	public PurchaseInvoice() {
 		super();
 	}
-	public PurchaseInvoice(String invoiceNo, PurchaseParty party, LocalDate date, double nettotal, double gst,
-			double othercharges, double transportcharges, double grandtotal, List<PurchaseTransaction> transaction,
-			Bank bank,String bankreffno,double paid) {
+	public PurchaseInvoice(String invoiceNo, PurchaseParty party, LocalDate date, float nettotal, float gst,
+			float othercharges, float transportcharges, float grandtotal, List<PurchaseTransaction> transaction,
+			Bank bank,String bankreffno,float paid) {
 		super();
 		this.invoiceNo = invoiceNo;
 		this.party = party;
@@ -55,10 +55,10 @@ public class PurchaseInvoice {
 		this.bankreffno = bankreffno;
 		this.paid = paid;
 	}
-	public double getPaid() {
+	public float getPaid() {
 		return paid;
 	}
-	public void setPaid(double paid) {
+	public void setPaid(float paid) {
 		this.paid = paid;
 	}
 	public String getBankreffno() {
@@ -91,34 +91,34 @@ public class PurchaseInvoice {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public double getNettotal() {
+	public float getNettotal() {
 		return nettotal;
 	}
-	public void setNettotal(double nettotal) {
+	public void setNettotal(float nettotal) {
 		this.nettotal = nettotal;
 	}
-	public double getGst() {
+	public float getGst() {
 		return gst;
 	}
-	public void setGst(double gst) {
+	public void setGst(float gst) {
 		this.gst = gst;
 	}
-	public double getOthercharges() {
+	public float getOthercharges() {
 		return othercharges;
 	}
-	public void setOthercharges(double othercharges) {
+	public void setOthercharges(float othercharges) {
 		this.othercharges = othercharges;
 	}
-	public double getTransportcharges() {
+	public float getTransportcharges() {
 		return transportcharges;
 	}
-	public void setTransportcharges(double transportcharges) {
+	public void setTransportcharges(float transportcharges) {
 		this.transportcharges = transportcharges;
 	}
-	public double getGrandtotal() {
+	public float getGrandtotal() {
 		return grandtotal;
 	}
-	public void setGrandtotal(double grandtotal) {
+	public void setGrandtotal(float grandtotal) {
 		this.grandtotal = grandtotal;
 	}
 	public List<PurchaseTransaction> getTransaction() {

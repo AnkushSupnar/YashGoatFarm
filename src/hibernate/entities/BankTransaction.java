@@ -15,8 +15,8 @@ public class BankTransaction {
 	long id;
 	String particulars;
 	long reffid;
-	double debit;
-	double credit;
+	float debit;
+	float credit;
 	int bankid;
 	LocalDate date;
 	public BankTransaction() {
@@ -25,8 +25,8 @@ public class BankTransaction {
 	}
 	public BankTransaction(String particulars,
 			long reffid, 
-			double debit, 
-			double credit, 
+			float debit, 
+			float credit, 
 			int bankid,
 			LocalDate date) {
 		super();
@@ -55,16 +55,16 @@ public class BankTransaction {
 	public void setReffid(long reffid) {
 		this.reffid = reffid;
 	}
-	public double getDebit() {
+	public float getDebit() {
 		return debit;
 	}
-	public void setDebit(double debit) {
+	public void setDebit(float debit) {
 		this.debit = debit;
 	}
-	public double getCredit() {
+	public float getCredit() {
 		return credit;
 	}
-	public void setCredit(double credit) {
+	public void setCredit(float credit) {
 		this.credit = credit;
 	}
 	public int getBankid() {

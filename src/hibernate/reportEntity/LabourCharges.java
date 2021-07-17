@@ -6,14 +6,14 @@ public class LabourCharges {
 	long id;
 	LocalDate date;
 	String item;
-	double qty;
-	double labourcharges;
-	double paidLabourCharges;
+	float qty;
+	float labourcharges;
+	float paidLabourCharges;
 	public LabourCharges() {
 		super();		
 	}
-	public LabourCharges(long id, LocalDate date, String item, double qty, double labourcharges,
-			double paidLabourCharges) {
+	public LabourCharges(long id, LocalDate date, String item, float qty, float labourcharges,
+			float paidLabourCharges) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -40,22 +40,22 @@ public class LabourCharges {
 	public void setItem(String item) {
 		this.item = item;
 	}
-	public double getQty() {
+	public float getQty() {
 		return qty;
 	}
-	public void setQty(double qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
-	public double getLabourcharges() {
+	public float getLabourcharges() {
 		return labourcharges;
 	}
-	public void setLabourcharges(double labourcharges) {
+	public void setLabourcharges(float labourcharges) {
 		this.labourcharges = labourcharges;
 	}
-	public double getPaidLabourCharges() {
+	public float getPaidLabourCharges() {
 		return paidLabourCharges;
 	}
-	public void setPaidLabourCharges(double paidLabourCharges) {
+	public void setPaidLabourCharges(float paidLabourCharges) {
 		this.paidLabourCharges = paidLabourCharges;
 	}
 	@Override

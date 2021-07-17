@@ -1,5 +1,6 @@
 package hibernate.util;
 
+import java.io.FileReader;
 import java.util.Properties;
 
 import org.hibernate.Session;
@@ -21,16 +22,27 @@ public class HibernateUtil {
 			try {
 				Configuration configuration = new Configuration();
 				Properties setting = new Properties();
-				setting.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-				setting.put(Environment.URL, "jdbc:mysql://localhost:3306/yash");
-				setting.put(Environment.USER, "root");
-				setting.put(Environment.PASS, "2355");
-				setting.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-				setting.put(Environment.SHOW_SQL, "true");
-				setting.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-				setting.put(Environment.HBM2DDL_AUTO, "update");
+				FileReader read = new FileReader("D:\\Software\\yash.properties");
+				setting.load(read);
+//				setting.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
+//				setting.put(Environment.URL, "jdbc:mysql://localhost:3306/yash");
+//				setting.put(Environment.USER, "root");
+//				setting.put(Environment.PASS, "2355");
+//				setting.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+//				setting.put(Environment.SHOW_SQL, "true");
+//				setting.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+setting.put(Environment.HBM2DDL_AUTO, "update");
+//				
+//allow access remote
+//				mysql> CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';
+//				mysql> GRANT ALL PRIVILEGES ON *.* TO 'monty'@'localhost'
+//				    ->     WITH GRANT OPTION;
+//				mysql> CREATE USER 'monty'@'%' IDENTIFIED BY 'some_pass';
+//				mysql> GRANT ALL PRIVILEGES ON *.* TO 'monty'@'%'
+//				    ->     WITH GRANT OPTION;
+//				
 				
-
+				
 				configuration.setProperties(setting);
 				configuration.addAnnotatedClass(Login.class);
 				configuration.addAnnotatedClass(Employee.class);
@@ -57,6 +69,7 @@ public class HibernateUtil {
 				configuration.addAnnotatedClass(CounterStockData.class);
 				configuration.addAnnotatedClass(SalesmanCuttingCharges.class);
 				configuration.addAnnotatedClass(SalesmanCuttingTransaction.class);
+				configuration.addAnnotatedClass(PaymentReciept.class);
 
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 						.applySettings(configuration.getProperties()).build();

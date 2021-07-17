@@ -36,7 +36,7 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public double getBankBalance(int id) {
+	public float getBankBalance(int id) {
 		return dao.getBankBalance(id);
 	}
 
@@ -46,12 +46,12 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public void addBankBalance(int id, double amount) {
+	public void addBankBalance(int id, float amount) {
 		dao.addBankBalance(id, amount);
 	}
 
 	@Override
-	public void reduceBankBalance(int id, double amount) {
+	public void reduceBankBalance(int id, float amount) {
 		dao.reduceBankBalance(id, amount);
 	}
 

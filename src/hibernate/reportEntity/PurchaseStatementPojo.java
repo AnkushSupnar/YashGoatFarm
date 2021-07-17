@@ -5,13 +5,13 @@ import java.time.LocalDate;
 public class PurchaseStatementPojo {
 	int id;
 	String particulars;
-	double debit,credit,balance;
+	float debit,credit,balance;
 	LocalDate date;
 	long billno;
 	public PurchaseStatementPojo() {
 		super();
 	}
-	public PurchaseStatementPojo(int id, String particulars, double debit, double credit, double balance,
+	public PurchaseStatementPojo(int id, String particulars, float debit, float credit, float balance,
 			LocalDate date, long billno) {
 		super();
 		this.id = id;
@@ -34,22 +34,22 @@ public class PurchaseStatementPojo {
 	public void setParticulars(String particulars) {
 		this.particulars = particulars;
 	}
-	public double getDebit() {
+	public float getDebit() {
 		return debit;
 	}
-	public void setDebit(double debit) {
+	public void setDebit(float debit) {
 		this.debit = debit;
 	}
-	public double getCredit() {
+	public float getCredit() {
 		return credit;
 	}
-	public void setCredit(double credit) {
+	public void setCredit(float credit) {
 		this.credit = credit;
 	}
-	public double getBalance() {
+	public float getBalance() {
 		return balance;
 	}
-	public void setBalance(double balance) {
+	public void setBalance(float balance) {
 		this.balance = balance;
 	}
 	public LocalDate getDate() {

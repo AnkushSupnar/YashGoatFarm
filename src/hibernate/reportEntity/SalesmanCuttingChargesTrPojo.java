@@ -6,12 +6,12 @@ public class SalesmanCuttingChargesTrPojo {
 	long id;
 	LocalDate date;
 	String itemName;
-	double qty;
-	double charges;
+	float qty;
+	float charges;
 	public SalesmanCuttingChargesTrPojo() {
 		super();		
 	}
-	public SalesmanCuttingChargesTrPojo(long id, LocalDate date, String itemName, double qty, double charges) {
+	public SalesmanCuttingChargesTrPojo(long id, LocalDate date, String itemName, float qty, float charges) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -37,16 +37,16 @@ public class SalesmanCuttingChargesTrPojo {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public double getQty() {
+	public float getQty() {
 		return qty;
 	}
-	public void setQty(double qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
-	public double getCharges() {
+	public float getCharges() {
 		return charges;
 	}
-	public void setCharges(double charges) {
+	public void setCharges(float charges) {
 		this.charges = charges;
 	}
 	@Override

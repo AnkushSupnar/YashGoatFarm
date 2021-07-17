@@ -169,7 +169,7 @@ public class BankTransactionDaoImpl implements BankTransactionDao {
 	}
 
 	@Override
-	public double getOpenigBalance(int bankid, LocalDate date) {
+	public float getOpenigBalance(int bankid, LocalDate date) {
 		return 0;
 	}
 

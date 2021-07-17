@@ -14,9 +14,9 @@ public class PurchaseTransaction {
 	long id;
 	String itemname;
 	String unit;
-	double rate;
-	double quantity;
-	double amount;
+	float rate;
+	float quantity;
+	float amount;
 	@ManyToOne
 	@JoinColumn(name = "billno")
 	PurchaseInvoice invoice;
@@ -26,7 +26,7 @@ public class PurchaseTransaction {
 	}
 
 	public PurchaseTransaction(String itemname, 
-			String unit, double rate, double quantity, double amount,
+			String unit, float rate, float quantity, float amount,
 			PurchaseInvoice invoice) {
 		super();
 		this.itemname = itemname;
@@ -61,27 +61,27 @@ public class PurchaseTransaction {
 		this.unit = unit;
 	}
 
-	public double getRate() {
+	public float getRate() {
 		return rate;
 	}
 
-	public void setRate(double rate) {
+	public void setRate(float rate) {
 		this.rate = rate;
 	}
 
-	public double getQuantity() {
+	public float getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(double quantity) {
+	public void setQuantity(float quantity) {
 		this.quantity = quantity;
 	}
 
-	public double getAmount() {
+	public float getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
 

@@ -9,7 +9,7 @@ public interface ItemStockDao {
 	public ItemStock getItemStockByItemName(String name);
 	public int saveItemStock(ItemStock stock);
 	public List<ItemStock> getAllItemStock();
-	public double getItemStock(String name);
+	public float getItemStock(String name);
 	public List<String>getItemNames();
-	public int reduceItemStock(String itemname,double qty);
+	public int reduceItemStock(String itemname,float qty);
 }

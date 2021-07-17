@@ -81,7 +81,7 @@ public class ItemStockDaoImpl implements ItemStockDao {
 	}
 
 	@Override
-	public double getItemStock(String name) {
+	public float getItemStock(String name) {
 		if(getItemStockByItemName(name)!=null)
 			return getItemStockByItemName(name).getQuantity();
 		else
@@ -103,7 +103,7 @@ public class ItemStockDaoImpl implements ItemStockDao {
 	}
 
 	@Override
-	public int reduceItemStock(String itemname, double qty) {
+	public int reduceItemStock(String itemname, float qty) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			session.beginTransaction();
 			ItemStock stock = getItemStockByItemName(itemname);

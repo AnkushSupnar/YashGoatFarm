@@ -14,7 +14,7 @@ public interface CounterStockDao {
 	List<CounterStock>getCounterStockByDatePeriod(LocalDate start,LocalDate end);
 	int saveCounterStock(CounterStock stock);
 	void deleteTransaction(long stockid);
-	double getAvailableCounterStock(String itemname);
+	float getAvailableCounterStock(String itemname);
 	
 	
 }

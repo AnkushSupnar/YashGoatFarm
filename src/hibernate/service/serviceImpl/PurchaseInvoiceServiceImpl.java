@@ -63,7 +63,7 @@ public class PurchaseInvoiceServiceImpl implements PurchaseInvoiceService {
 		return dao.getPartyWiseUnpaidPurchaseInvoice(partyId);
 	}
 	@Override
-	public int updatePaidAmount(long billno, double amount) {
+	public int updatePaidAmount(long billno, float amount) {
 		return dao.updatePaidAmount(billno, amount);
 	}
 	@Override

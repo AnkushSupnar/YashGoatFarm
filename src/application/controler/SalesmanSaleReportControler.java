@@ -42,9 +42,9 @@ public class SalesmanSaleReportControler implements Initializable {
 	    @FXML private TableColumn<Bill, String> colSrNo;//recievedreff
 	    @FXML private TableColumn<Bill,LocalDate> colDate;
 	    @FXML private TableColumn<Bill,Long> colBillNo;
-	    @FXML private TableColumn<Bill,Double> colBillAmount;
-	    @FXML private TableColumn<Bill,Double> colCommistion;
-	    @FXML private TableColumn<Bill,Double> colPaidCommision;
+	    @FXML private TableColumn<Bill,Float> colBillAmount;
+	    @FXML private TableColumn<Bill,Float> colCommistion;
+	    @FXML private TableColumn<Bill,Float> colPaidCommision;
 	    @FXML private TableColumn<Bill,String>colCustomerName;
 	    @FXML private TextField txtTotalBillAmount;
 	    @FXML private TextField txtTotalCommision;
@@ -62,9 +62,9 @@ public class SalesmanSaleReportControler implements Initializable {
 		colSrNo.setCellValueFactory(new PropertyValueFactory<Bill, String>("recievedreff"));
 		colDate.setCellValueFactory(new PropertyValueFactory<Bill, LocalDate>("date"));
 		colBillNo.setCellValueFactory(new PropertyValueFactory<Bill, Long>("billno"));
-		colBillAmount.setCellValueFactory(new PropertyValueFactory<Bill, Double>("nettotal"));
-		colCommistion.setCellValueFactory(new PropertyValueFactory<Bill, Double>("otherchargs"));
-		colPaidCommision.setCellValueFactory(new PropertyValueFactory<Bill, Double>("paidcommision"));
+		colBillAmount.setCellValueFactory(new PropertyValueFactory<Bill, Float>("nettotal"));
+		colCommistion.setCellValueFactory(new PropertyValueFactory<Bill, Float>("otherchargs"));
+		colPaidCommision.setCellValueFactory(new PropertyValueFactory<Bill, Float>("paidcommision"));
 		colCustomerName.setCellValueFactory(new PropertyValueFactory<Bill, String>("recievedby"));
 		table.setItems(billList);
 		
@@ -128,7 +128,7 @@ public class SalesmanSaleReportControler implements Initializable {
 					}
 				}
 				int sr=0;
-				double totalBill=0,totalCommision=0,totalpaid=0;
+				float totalBill=0,totalCommision=0,totalpaid=0;
 				for(int i=0;i<billList.size();i++)
 				{
 					billList.get(i).setRecievedreff(""+(++sr));
@@ -168,9 +168,9 @@ public class SalesmanSaleReportControler implements Initializable {
 	    	
 	    }
 
-	    private double getCommision(Bill bill)
+	    private float getCommision(Bill bill)
 	    {
-	    	double commision=0;
+	    	float commision=0;
 	    	for(Transaction tr:bill.getTransaction())
 	    	{
 	    		commision = commision+tr.getCommision();

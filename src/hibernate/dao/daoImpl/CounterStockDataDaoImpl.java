@@ -13,12 +13,12 @@ import hibernate.util.HibernateUtil;
 public class CounterStockDataDaoImpl implements CounterStockDataDao {
 
 	@Override
-	public double getCounterItemStock(String itemname) {
+	public float getCounterItemStock(String itemname) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			session.beginTransaction();
 			String hql = "select qty from CounterStockData where itemname=:itemname";
 			try {
-			return session.createQuery(hql,Double.class).setParameter("itemname", itemname).getSingleResult();
+			return session.createQuery(hql,Float.class).setParameter("itemname", itemname).getSingleResult();
 			}catch(NoResultException nor)
 			{
 				return 0;
@@ -67,7 +67,7 @@ public class CounterStockDataDaoImpl implements CounterStockDataDao {
 	}
 
 	@Override
-	public int updateQuantity(String itemname, double newqty) {
+	public int updateQuantity(String itemname, float newqty) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			session.beginTransaction();
 			CounterStockData data= getItemNameWiseCounterStockData(itemname);

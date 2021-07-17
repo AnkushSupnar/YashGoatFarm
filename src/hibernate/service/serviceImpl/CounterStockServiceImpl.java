@@ -48,7 +48,7 @@ public class CounterStockServiceImpl implements CounterStockService{
 	}
 
 	@Override
-	public double getAvailableCounterStock(String itemname) {
+	public float getAvailableCounterStock(String itemname) {
 	return dao.getAvailableCounterStock(itemname);
 	}
 

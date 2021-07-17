@@ -15,8 +15,8 @@ public class SalesmanCuttingTransaction {
 	long id;
 	LocalDate date;
 	String itemName;
-	double qty;
-	double charges;
+	float qty;
+	float charges;
 	@ManyToOne
 	@JoinColumn(name="orderId")
 	private CuttingOrder order;
@@ -27,7 +27,7 @@ public class SalesmanCuttingTransaction {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public SalesmanCuttingTransaction(LocalDate date, String itemName, double qty, double charges, CuttingOrder order,
+	public SalesmanCuttingTransaction(LocalDate date, String itemName, float qty, float charges, CuttingOrder order,
 			SalesmanCuttingCharges salesmanCuttingChargesNo) {
 		super();
 		this.date = date;
@@ -55,16 +55,16 @@ public class SalesmanCuttingTransaction {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public double getQty() {
+	public float getQty() {
 		return qty;
 	}
-	public void setQty(double qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
-	public double getCharges() {
+	public float getCharges() {
 		return charges;
 	}
-	public void setCharges(double charges) {
+	public void setCharges(float charges) {
 		this.charges = charges;
 	}
 	public CuttingOrder getOrder() {

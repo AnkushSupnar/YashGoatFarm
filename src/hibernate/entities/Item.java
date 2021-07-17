@@ -12,14 +12,14 @@ public class Item {
 	String itemname;
 	@Column(nullable = true)
 	String hsn;
-	double rate;
+	float rate;
 	String unit;
-	double commision;
-	double labourCharges;
+	float commision;
+	float labourCharges;
 	public Item() {
 		super();
 	}
-	public Item(String itemname, String hsn, double rate, String unit, double commision,double labourCharges) {
+	public Item(String itemname, String hsn, float rate, String unit, float commision,float labourCharges) {
 		super();
 		this.itemname = itemname;
 		this.hsn = hsn;
@@ -46,10 +46,10 @@ public class Item {
 	public void setHsn(String hsn) {
 		this.hsn = hsn;
 	}
-	public double getRate() {
+	public float getRate() {
 		return rate;
 	}
-	public void setRate(double rate) {
+	public void setRate(float rate) {
 		this.rate = rate;
 	}
 	public String getUnit() {
@@ -58,16 +58,16 @@ public class Item {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public double getCommision() {
+	public float getCommision() {
 		return commision;
 	}
-	public void setCommision(double commision) {
+	public void setCommision(float commision) {
 		this.commision = commision;
 	}
-	public double getLabourCharges() {
+	public float getLabourCharges() {
 		return labourCharges;
 	}
-	public void setLabourCharges(double labourCharges) {
+	public void setLabourCharges(float labourCharges) {
 		this.labourCharges = labourCharges;
 	}
 	@Override

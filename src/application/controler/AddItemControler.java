@@ -51,11 +51,11 @@ public class AddItemControler implements Initializable {
     @FXML
     private TableColumn<Item, String> colUnit;
     @FXML
-    private TableColumn<Item, Double> colRate;
+    private TableColumn<Item, Float> colRate;
     @FXML
-    private TableColumn<Item, Double> colCommision;
+    private TableColumn<Item, Float> colCommision;
     @FXML
-    private TableColumn<Item, Double> colLabour;
+    private TableColumn<Item, Float> colLabour;
     @FXML
     private Button btnUpdate;
     @FXML
@@ -71,10 +71,10 @@ public class AddItemControler implements Initializable {
 		colSrNo.setCellValueFactory(new PropertyValueFactory<Item, Integer>("id"));
 		colItemName.setCellValueFactory(new PropertyValueFactory<Item, String>("itemname"));
 		colUnit.setCellValueFactory(new PropertyValueFactory<Item, String>("unit"));
-		colRate.setCellValueFactory(new PropertyValueFactory<Item, Double>("rate"));
-		colCommision.setCellValueFactory(new PropertyValueFactory<Item,Double>("commision"));
+		colRate.setCellValueFactory(new PropertyValueFactory<Item, Float>("rate"));
+		colCommision.setCellValueFactory(new PropertyValueFactory<Item,Float>("commision"));
 		colHsnCode.setCellValueFactory(new PropertyValueFactory<Item,String>("hsn"));
-		colLabour.setCellValueFactory(new PropertyValueFactory<Item,Double>("labourCharges"));
+		colLabour.setCellValueFactory(new PropertyValueFactory<Item,Float>("labourCharges"));
 		itemList.addAll(service.getAllItems());
 		table.setItems(itemList);
 		
@@ -116,10 +116,10 @@ public class AddItemControler implements Initializable {
 			Item item = new Item(
 					txtItemName.getText().trim(),
 					txtHsnCode.getText().trim(),
-					Double.parseDouble(txtRate.getText().trim()),
+					Float.parseFloat(txtRate.getText().trim()),
 					cmbUnit.getValue(),
-					Double.parseDouble(txtCommision.getText().trim()),
-					Double.parseDouble(txtLabour.getText().trim()));
+					Float.parseFloat(txtCommision.getText().trim()),
+					Float.parseFloat(txtLabour.getText().trim()));
 			item.setId(id);
 			int f=0;
 			for(Item i:itemList)

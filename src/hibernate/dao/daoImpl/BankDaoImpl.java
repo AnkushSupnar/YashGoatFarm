@@ -62,11 +62,11 @@ public class BankDaoImpl implements BankDao {
 	}
 
 	@Override
-	public double getBankBalance(int id) {
+	public float getBankBalance(int id) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			session.beginTransaction();
 			String hql = "select balance from Bank where id=:i";
-			return session.createQuery(hql,Double.class).setParameter("i", id).uniqueResult();
+			return session.createQuery(hql,Float.class).setParameter("i", id).uniqueResult();
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public class BankDaoImpl implements BankDao {
 	}
 
 	@Override
-	public void addBankBalance(int id,double amount) {
+	public void addBankBalance(int id,float amount) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			session.beginTransaction();
 			Bank bank = session.get(Bank.class, id);
@@ -116,7 +116,7 @@ public class BankDaoImpl implements BankDao {
 	}
 
 	@Override
-	public void reduceBankBalance(int id,double amount) {
+	public void reduceBankBalance(int id,float amount) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			session.beginTransaction();
 			Bank bank = session.get(Bank.class, id);

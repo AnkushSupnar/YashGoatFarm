@@ -14,18 +14,18 @@ public class Transaction {
 	private long id;
 	private String itemname;
 	private String unit;
-	private double rate;
-	private double quantity;
-	private double amount;
-	private double commision;
+	private float rate;
+	private float quantity;
+	private float amount;
+	private float commision;
 	@ManyToOne
 	@JoinColumn(name="billno")
 	private Bill bill;
 	public Transaction() {
 		super();
 	}
-	public Transaction(String itemname, String unit, double rate, double quantity, double amount,
-			Bill bill,double commision) {
+	public Transaction(String itemname, String unit, float rate, float quantity, float amount,
+			Bill bill,float commision) {
 		super();
 		this.itemname = itemname;
 		this.unit = unit;
@@ -35,10 +35,10 @@ public class Transaction {
 		this.commision = commision;
 		this.bill = bill;
 	}
-	public double getCommision() {
+	public float getCommision() {
 		return commision;
 	}
-	public void setCommision(double commision) {
+	public void setCommision(float commision) {
 		this.commision = commision;
 	}
 	public long getId() {
@@ -59,22 +59,22 @@ public class Transaction {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public double getRate() {
+	public float getRate() {
 		return rate;
 	}
-	public void setRate(double rate) {
+	public void setRate(float rate) {
 		this.rate = rate;
 	}
-	public double getQuantity() {
+	public float getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(double quantity) {
+	public void setQuantity(float quantity) {
 		this.quantity = quantity;
 	}
-	public double getAmount() {
+	public float getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
 	public Bill getBill() {

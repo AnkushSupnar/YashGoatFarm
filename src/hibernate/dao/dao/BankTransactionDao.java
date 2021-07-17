@@ -22,6 +22,6 @@ public interface BankTransactionDao {
 	public void deleteBankTransaction(long id);
 	
 	public List<BankTransaction>getPeriodWiseBankTransaction(LocalDate fromDate,LocalDate toDate,int bankid);
-	public double getOpenigBalance(int bankid,LocalDate date);
+	public float getOpenigBalance(int bankid,LocalDate date);
 	public BankTransaction getTransactionByParticular(String particular,int bankid);
 }

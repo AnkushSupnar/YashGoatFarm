@@ -7,13 +7,13 @@ public class CuttingTransactionPojo {
 
 	int id;
 	String itemName;
-	double quantity;
+	float quantity;
 	List<CuttingLabourPojo>labourList = new ArrayList<CuttingLabourPojo>();
 	public CuttingTransactionPojo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public CuttingTransactionPojo(String itemName, double quantity, List<CuttingLabourPojo> labourList) {
+	public CuttingTransactionPojo(String itemName, float quantity, List<CuttingLabourPojo> labourList) {
 		super();
 		this.itemName = itemName;
 		this.quantity = quantity;
@@ -31,10 +31,10 @@ public class CuttingTransactionPojo {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public double getQuantity() {
+	public float getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(double quantity) {
+	public void setQuantity(float quantity) {
 		this.quantity = quantity;
 	}
 	public List<CuttingLabourPojo> getLabourList() {

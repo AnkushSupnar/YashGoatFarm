@@ -20,7 +20,6 @@ import hibernate.entities.Bill;
 import hibernate.entities.CounterStockData;
 import hibernate.entities.Customer;
 import hibernate.entities.Item;
-import hibernate.entities.ItemStock;
 import hibernate.entities.Login;
 import hibernate.entities.Transaction;
 import hibernate.service.service.BankService;
@@ -30,7 +29,6 @@ import hibernate.service.service.CounterStockDataService;
 import hibernate.service.service.CustomerService;
 import hibernate.service.service.EmployeeService;
 import hibernate.service.service.ItemService;
-import hibernate.service.service.ItemStockService;
 import hibernate.service.serviceImpl.BankServiceImpl;
 import hibernate.service.serviceImpl.BankTransactionServiceImpl;
 import hibernate.service.serviceImpl.BillServiceImpl;
@@ -38,7 +36,6 @@ import hibernate.service.serviceImpl.CounterStockDataServiceImpl;
 import hibernate.service.serviceImpl.CustomerServiceImpl;
 import hibernate.service.serviceImpl.EmployeeServiceImpl;
 import hibernate.service.serviceImpl.ItemServiceImpl;
-import hibernate.service.serviceImpl.ItemStockServiceImpl;
 import hibernate.util.CommonData;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
@@ -53,7 +50,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -92,9 +88,9 @@ public class BillControler implements Initializable{
     @FXML private TableColumn<Transaction, Long> colSrNo;
     @FXML private TableColumn<Transaction, String> colItemName;
     @FXML private TableColumn<Transaction, String> colUnit;
-    @FXML private TableColumn<Transaction, Double> colQty;
-    @FXML private TableColumn<Transaction, Double> colRate;
-    @FXML private TableColumn<Transaction, Double> colAmount;
+    @FXML private TableColumn<Transaction, Float> colQty;
+    @FXML private TableColumn<Transaction, Float> colRate;
+    @FXML private TableColumn<Transaction, Float> colAmount;
     @FXML private Button btnSave;
     @FXML private Button btnClearBill;
     @FXML private Button btnExit;
@@ -113,8 +109,8 @@ public class BillControler implements Initializable{
     @FXML private TableColumn<Bill, Long> colBillNo;
     @FXML private TableColumn<Bill,String> colCustomerName;
     @FXML private TableColumn<Bill,LocalDate> colDate;
-    @FXML private TableColumn<Bill,Double> colBillAmount;
-    @FXML private TableColumn<Bill, Double> colRecivedAmount;
+    @FXML private TableColumn<Bill,Float> colBillAmount;
+    @FXML private TableColumn<Bill, Float> colRecivedAmount;
     @FXML private Button btnTodaysBills;
     @FXML private Button btnThisWeek;
     @FXML private Button btnThisMonth;
@@ -133,7 +129,7 @@ public class BillControler implements Initializable{
     private EmployeeService employeeService;
     private BankService bankService;
     private BankTransactionService bankTrService;
-    private ItemStockService itemStockService;
+   // private ItemStockService itemStockService;
     //private ObservableList<String>itemNameList = FXCollections.observableArrayList();
     private SuggestionProvider<String> customerNameProvider;
     private ObservableList<String> customerNameList = FXCollections.observableArrayList();
@@ -150,7 +146,7 @@ public class BillControler implements Initializable{
 		employeeService = new EmployeeServiceImpl();
 		bankService = new BankServiceImpl();
 		bankTrService = new BankTransactionServiceImpl();
-		itemStockService = new ItemStockServiceImpl();
+		//itemStockService = new ItemStockServiceImpl();
 		counterStockDataService = new CounterStockDataServiceImpl();
 		notification = new AlertNotification();
 		// billNo = 0;
@@ -159,9 +155,9 @@ public class BillControler implements Initializable{
 		colSrNo.setCellValueFactory(new PropertyValueFactory<Transaction, Long>("id"));
 		colItemName.setCellValueFactory(new PropertyValueFactory<Transaction, String>("itemname"));
 		colUnit.setCellValueFactory(new PropertyValueFactory<Transaction, String>("unit"));
-		colQty.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("quantity"));
-		colRate.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("rate"));
-		colAmount.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("amount"));
+		colQty.setCellValueFactory(new PropertyValueFactory<Transaction, Float>("quantity"));
+		colRate.setCellValueFactory(new PropertyValueFactory<Transaction, Float>("rate"));
+		colAmount.setCellValueFactory(new PropertyValueFactory<Transaction, Float>("amount"));
 		table.setItems(trList);
 
 		customerNameList.addAll(customerService.getAllCustomerNames());
@@ -192,8 +188,8 @@ public class BillControler implements Initializable{
 		colBillNo.setCellValueFactory(new PropertyValueFactory<Bill, Long>("billno"));
 		colCustomerName.setCellValueFactory(new PropertyValueFactory<Bill, String>("recievedby"));
 		colDate.setCellValueFactory(new PropertyValueFactory<Bill, LocalDate>("date"));
-		colBillAmount.setCellValueFactory(new PropertyValueFactory<Bill, Double>("nettotal"));
-		colRecivedAmount.setCellValueFactory(new PropertyValueFactory<Bill, Double>("recivedamount"));
+		colBillAmount.setCellValueFactory(new PropertyValueFactory<Bill, Float>("nettotal"));
+		colRecivedAmount.setCellValueFactory(new PropertyValueFactory<Bill, Float>("recivedamount"));
 		for (Bill b : oldBillList) {
 			b.setNettotal(b.getNettotal() + b.getTransportingchrges() + b.getOtherchargs());
 			b.setRecievedby(
@@ -315,15 +311,15 @@ public class BillControler implements Initializable{
 		}
 		// bill.setBillno(billNo);
 		int index = -1;
-		double com=0;
+		float com=0;
 		if(itemService.getItemByName(txtItemName.getText()).getLabourCharges()>0)
 		{
 			if (txtItemName.getText().equals("Indonesian Baahubali"))
-				com =  0.75;
+				com =  0.75f;
 			else if(txtItemName.getText().equals("Bangladesh Hape Rad Napear"))
-				com=0.50;
+				com=0.50f;
 			else
-				com = Double.parseDouble(txtRate.getText()) * 0.25;
+				com = Float.parseFloat(txtRate.getText()) * 0.25f;
 		}
 		
 		else
@@ -333,11 +329,11 @@ public class BillControler implements Initializable{
 		Transaction transaction = new Transaction(
 				txtItemName.getText(), 
 				txtUnit.getText(),
-				Double.parseDouble(txtRate.getText()),
-				Double.parseDouble(txtQty.getText()),
-				Double.parseDouble(txtAmount.getText()), 
+				Float.parseFloat(txtRate.getText()),
+				Float.parseFloat(txtQty.getText()),
+				Float.parseFloat(txtAmount.getText()), 
 				bill,
-				(com * Double.parseDouble(txtQty.getText())));
+				(com * Float.parseFloat(txtQty.getText())));
 		for (int i = 0; i < trList.size(); i++) {
 			if (trList.get(i).getItemname().equals(transaction.getItemname())
 					&& trList.get(i).getRate() == transaction.getRate()) {
@@ -360,7 +356,7 @@ public class BillControler implements Initializable{
 			}
 			transaction.setId(trList.size() + 1);
 			trList.add(transaction);
-			txtNetTotal.setText("" + (Double.parseDouble(txtNetTotal.getText()) + transaction.getAmount()));
+			txtNetTotal.setText("" + (Float.parseFloat(txtNetTotal.getText()) + transaction.getAmount()));
 			calculateGrandTotal();
 
 		} else {
@@ -372,7 +368,7 @@ public class BillControler implements Initializable{
 						counterStockDataService.getCounterItemStock(transaction.getItemname()));
 				return;
 			}
-			txtNetTotal.setText("" + (Double.parseDouble(txtNetTotal.getText()) + transaction.getAmount()));
+			txtNetTotal.setText("" + (Float.parseFloat(txtNetTotal.getText()) + transaction.getAmount()));
 			transaction.setQuantity(transaction.getQuantity() + trList.get(index).getQuantity());
 			transaction.setAmount(transaction.getQuantity() * transaction.getRate());
 			//transaction.setCommision(transaction.getQuantity() * itemService.getCommision(txtItemName.getText()));
@@ -434,11 +430,11 @@ public class BillControler implements Initializable{
 		}
 		//btnSearch.fire();
 		Bill bill = new Bill(customerService.getCustomerByName(txtCustomerName.getText()), date.getValue(),
-				Double.parseDouble(txtNetTotal.getText()), Double.parseDouble(txtTransoChrgs.getText()),
-				Double.parseDouble(txtOtherChargs.getText()), bankService.getBankByName(cmbBankName.getValue()),
+				Float.parseFloat(txtNetTotal.getText()), Float.parseFloat(txtTransoChrgs.getText()),
+				Float.parseFloat(txtOtherChargs.getText()), bankService.getBankByName(cmbBankName.getValue()),
 				cmbRecievedBy.getValue(), txtReffNo.getText(),
 				employeeService.getEmployeeByName(cmbSalesman.getValue()), null,
-				Double.parseDouble(txtReivedAmount.getText()), 0.0f);
+				Float.parseFloat(txtReivedAmount.getText()), 0.0f);
 		bill.setBillno(Long.parseLong(txtBillNo.getText()));
 		for (Transaction tr : trList) {
 			tr.setBill(bill);
@@ -541,7 +537,7 @@ public class BillControler implements Initializable{
 		try {
 			for(Transaction tr:list)
 			{
-				double qty=tr.getQuantity();
+				float qty=tr.getQuantity();
 				qty*=-1;
 				counterStockDataService.saveCounterStockdata(new CounterStockData(tr.getItemname(),qty,tr.getUnit()));
 			}
@@ -695,7 +691,7 @@ public class BillControler implements Initializable{
 			return false;
 		}
 		try {
-			Double.parseDouble(num);
+			Float.parseFloat(num);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -710,8 +706,8 @@ public class BillControler implements Initializable{
 			if (!isNumber(txtOtherChargs.getText())) {
 				txtOtherChargs.setText("" + 0.0);
 			}
-			txtGrandTotal.setText("" + (Double.parseDouble(txtNetTotal.getText())
-					+ Double.parseDouble(txtTransoChrgs.getText()) + Double.parseDouble(txtOtherChargs.getText())));
+			txtGrandTotal.setText("" + (Float.parseFloat(txtNetTotal.getText())
+					+ Float.parseFloat(txtTransoChrgs.getText()) + Float.parseFloat(txtOtherChargs.getText())));
 		} catch (Exception e) {
 			notification.showErrorMessage("Error" + e.getMessage());
 		}
@@ -728,7 +724,7 @@ public class BillControler implements Initializable{
 				}
 			}
 			if (index != -1) {
-				txtNetTotal.setText("" + (Double.parseDouble(txtNetTotal.getText()) - tr.getAmount()));
+				txtNetTotal.setText("" + (Float.parseFloat(txtNetTotal.getText()) - tr.getAmount()));
 				trList.remove(index);
 				int sr = index;
 				for (int i = index; i < trList.size(); i++) {
@@ -800,7 +796,7 @@ public class BillControler implements Initializable{
 				txtReivedAmount.requestFocus();
 				return 0;
 			}
-			if (Double.parseDouble(txtReivedAmount.getText()) > Double.parseDouble(txtGrandTotal.getText())) {
+			if (Float.parseFloat(txtReivedAmount.getText()) > Float.parseFloat(txtGrandTotal.getText())) {
 				notification.showErrorMessage("Recived Amount should be \nless than or equal Grand Total!!!");
 				txtReivedAmount.requestFocus();
 				return 0;

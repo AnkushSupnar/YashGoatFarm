@@ -112,7 +112,7 @@ public class CounterStockDaoImpl implements CounterStockDao {
 	}
 
 	@Override
-	public double getAvailableCounterStock(String itemname) {
+	public float getAvailableCounterStock(String itemname) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			session.beginTransaction();
 			String hql="select ";

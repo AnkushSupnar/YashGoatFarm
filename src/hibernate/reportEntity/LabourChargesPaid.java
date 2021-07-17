@@ -7,12 +7,12 @@ public class LabourChargesPaid {
 	long id;
 	String labourName;
 	LocalDate date;
-	double commision;
-	double paidCommision;
+	float commision;
+	float paidCommision;
 	public LabourChargesPaid() {
 		super();
 	}
-	public LabourChargesPaid(long id, String labourName, LocalDate date, double commision, double paidCommision) {
+	public LabourChargesPaid(long id, String labourName, LocalDate date, float commision, float paidCommision) {
 		super();
 		this.id = id;
 		this.labourName = labourName;
@@ -38,16 +38,16 @@ public class LabourChargesPaid {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public double getCommision() {
+	public float getCommision() {
 		return commision;
 	}
-	public void setCommision(double commision) {
+	public void setCommision(float commision) {
 		this.commision = commision;
 	}
-	public double getPaidCommision() {
+	public float getPaidCommision() {
 		return paidCommision;
 	}
-	public void setPaidCommision(double paidCommision) {
+	public void setPaidCommision(float paidCommision) {
 		this.paidCommision = paidCommision;
 	}
 	@Override

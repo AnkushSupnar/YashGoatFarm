@@ -1,14 +1,15 @@
-package application;
+ package application;
 	
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 //For Yash
 public class Main extends Application {
-	String pagename="LoginFrame";
+	//String pagename="LoginFrame";
 	//String pagename="transaction/PurchaseInviceFrame";
 	//String pagename="transaction/BillingFrame";
 	//String pagename="home/Dashboard";
@@ -32,12 +33,15 @@ public class Main extends Application {
 	//String pagename="report/ItemStockReport";
 	//String pagename="report/LabourCommision";
 	//String pagename="transaction/counterstock";
+	String pagename="transaction/paymentreciept";
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/application/view/"+pagename+".fxml"));
 	 		Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		//	Image icon = new Image("D:\\Software\\Images\\350.jpg");
+			primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("image.jpg")));
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Yash Goat Farm Management System");
 			primaryStage.show();

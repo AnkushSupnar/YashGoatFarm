@@ -26,7 +26,7 @@ public class Employee {
 	String post;
 	int pin;
 	String jobpost;
-	double salary;
+	float salary;
 	String salarytime;
 	String salarytype;
 	LocalDate joiningdate;
@@ -36,7 +36,7 @@ public class Employee {
 	}
 	public Employee(String fname, String mname, String lname, String mobileno, String altermobileno, String email,
 			String address, String city, String taluka, String district, String post, int pin, String jobpost,
-			double salary, String salarytime, String salarytype, LocalDate joiningdate, LocalDate exitdate) {
+			float salary, String salarytime, String salarytype, LocalDate joiningdate, LocalDate exitdate) {
 		super();
 		this.fname = fname;
 		this.mname = mname;
@@ -141,10 +141,10 @@ public class Employee {
 	public void setJobpost(String jobpost) {
 		this.jobpost = jobpost;
 	}
-	public double getSalary() {
+	public float getSalary() {
 		return salary;
 	}
-	public void setSalary(double salary) {
+	public void setSalary(float salary) {
 		this.salary = salary;
 	}
 	public String getSalarytime() {

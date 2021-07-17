@@ -14,12 +14,12 @@ public class CounterStockData {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 	String itemname;
-	double qty;
+	float qty;
 	String unit;
 	public CounterStockData() {
 		super();	
 	}
-	public CounterStockData(String itemname, double qty, String unit) {
+	public CounterStockData(String itemname, float qty, String unit) {
 		super();
 		this.itemname = itemname;
 		this.qty = qty;
@@ -37,10 +37,10 @@ public class CounterStockData {
 	public void setItemname(String itemname) {
 		this.itemname = itemname;
 	}
-	public double getQty() {
+	public float getQty() {
 		return qty;
 	}
-	public void setQty(double qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 	public String getUnit() {

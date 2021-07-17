@@ -20,12 +20,12 @@ public class Commision {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 	LocalDate date;
-	double toatalCommision;
-	double paidCommision;
-	double totalBill;
-	double bankAmount;
-	double cashamount;
-	double transaportingCharges;
+	float toatalCommision;
+	float paidCommision;
+	float totalBill;
+	float bankAmount;
+	float cashamount;
+	float transaportingCharges;
 	String bankReffNo;
 	@ManyToOne
 	@JoinColumn(name="employeeId")
@@ -42,8 +42,8 @@ public class Commision {
 		super();
 	}
 
-	public Commision(LocalDate date, double toatalCommision, double paidCommision, double totalBill, double bankAmount,
-			double cashamount, double transaportingCharges, String bankReffNo, Employee employee, Bank bank,
+	public Commision(LocalDate date, float toatalCommision, float paidCommision, float totalBill, float bankAmount,
+			float cashamount, float transaportingCharges, String bankReffNo, Employee employee, Bank bank,
 			List<CommisionTransaction> transaction) {
 		super();
 		this.date = date;
@@ -75,51 +75,51 @@ public class Commision {
 		this.date = date;
 	}
 
-	public double getToatalCommision() {
+	public float getToatalCommision() {
 		return toatalCommision;
 	}
 
-	public void setToatalCommision(double toatalCommision) {
+	public void setToatalCommision(float toatalCommision) {
 		this.toatalCommision = toatalCommision;
 	}
 
-	public double getPaidCommision() {
+	public float getPaidCommision() {
 		return paidCommision;
 	}
 
-	public void setPaidCommision(double paidCommision) {
+	public void setPaidCommision(float paidCommision) {
 		this.paidCommision = paidCommision;
 	}
 
-	public double getTotalBill() {
+	public float getTotalBill() {
 		return totalBill;
 	}
 
-	public void setTotalBill(double totalBill) {
+	public void setTotalBill(float totalBill) {
 		this.totalBill = totalBill;
 	}
 
-	public double getBankAmount() {
+	public float getBankAmount() {
 		return bankAmount;
 	}
 
-	public void setBankAmount(double bankAmount) {
+	public void setBankAmount(float bankAmount) {
 		this.bankAmount = bankAmount;
 	}
 
-	public double getCashamount() {
+	public float getCashamount() {
 		return cashamount;
 	}
 
-	public void setCashamount(double cashamount) {
+	public void setCashamount(float cashamount) {
 		this.cashamount = cashamount;
 	}
 
-	public double getTransaportingCharges() {
+	public float getTransaportingCharges() {
 		return transaportingCharges;
 	}
 
-	public void setTransaportingCharges(double transaportingCharges) {
+	public void setTransaportingCharges(float transaportingCharges) {
 		this.transaportingCharges = transaportingCharges;
 	}
 
