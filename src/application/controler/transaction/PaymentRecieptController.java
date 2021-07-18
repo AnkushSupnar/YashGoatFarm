@@ -3,22 +3,28 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
-import org.hibernate.internal.build.AllowSysOut;
-
 import application.guiUtil.AlertNotification;
-import hibernate.dao.daoImpl.BankTransactionDaoImpl;
+import application.print.GenerateBill;
+import application.print.PrintFile;
+import application.print.PrintPaymentReceipt;
 import hibernate.entities.BankTransaction;
 import hibernate.entities.PaymentReciept;
 import hibernate.service.service.BankService;
@@ -26,12 +32,12 @@ import hibernate.service.service.BankTransactionService;
 import hibernate.service.service.PaymentRecieptService;
 import hibernate.service.serviceImpl.BankServiceImpl;
 import hibernate.service.serviceImpl.BankTransactionServiceImpl;
-import hibernate.service.serviceImpl.ItemServiceImpl;
 import hibernate.service.serviceImpl.PaymentRecieptServiceImpl;
 import javafx.fxml.Initializable;
 
 public class PaymentRecieptController implements Initializable {
 
+	@FXML private AnchorPane mainPanel;
      @FXML private DatePicker date;
      @FXML private TextField txtName;
      @FXML private TextField txtReference;
@@ -41,6 +47,7 @@ public class PaymentRecieptController implements Initializable {
      @FXML private Button btnClear;
      @FXML private Button btnUpdate;
      @FXML private Button btnHome;
+     @FXML private Button btnPrint;
      @FXML private TableView<PaymentReciept> table;
      @FXML private TableColumn<PaymentReciept,Long> colSrNo;
      @FXML private TableColumn<PaymentReciept,LocalDate> colDate;
@@ -76,6 +83,40 @@ public class PaymentRecieptController implements Initializable {
 		btnPay.setOnAction(e->pay());
 		btnUpdate.setOnAction(e->update());
 		btnClear.setOnAction(e->clear());
+		btnPrint.setOnAction(e->{
+			if(table.getSelectionModel().getSelectedItem()!=null)
+			{
+				new PrintPaymentReceipt(table.getSelectionModel().getSelectedItem().getId());
+				new PrintFile().openFile("D:\\Software\\Prints\\receipt.pdf");
+			}
+		});
+	}
+
+	private void print(long rid) {
+	try {
+		Stage stage = (Stage) mainPanel.getScene().getWindow();
+		Alert.AlertType type = Alert.AlertType.CONFIRMATION;
+		Alert alert = new Alert(type, "");
+		alert.initModality(Modality.APPLICATION_MODAL);
+		alert.initOwner(stage);
+		alert.getDialogPane().setContentText("Do You Want Print Receipt?");
+		alert.getDialogPane().setHeaderText("Confirmation");
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			// new BillPrint(billno);
+			try {
+				new PrintPaymentReceipt(rid);
+				new PrintFile().openFile	("D:\\Software\\Prints\\receipt.pdf");
+			} catch (Exception e) {
+				notify.showErrorMessage( e.getMessage());
+			}
+		} else if (result.get() == ButtonType.CANCEL) {
+
+		}
+
+	} catch (Exception e) {
+		
+	}
 	}
 
 	private void update() {
@@ -143,6 +184,7 @@ public class PaymentRecieptController implements Initializable {
 					}
 					addInList(reciept);
 					notify.showSuccessMessage("Record Save Success");
+					print(reciept.getId());
 					clear();
 				//	System.out.println(reciept);
 				}
@@ -174,6 +216,7 @@ public class PaymentRecieptController implements Initializable {
 						bankService.reduceBankBalance(reciept.getBank().getId(),reciept.getAmount());
 					}
 					notify.showSuccessMessage("Reciept Update Success");
+					print(reciept.getId());
 					addInList(reciept);
 					clear();
 				}
@@ -222,7 +265,9 @@ public class PaymentRecieptController implements Initializable {
 		{
 			System.out.println("Found");
 			paymentList.remove(flag);
-			paymentList.add(flag,reciept);			
+			paymentList.add(flag,reciept);
+			table.refresh();
+			
 		}		
 	}
 	

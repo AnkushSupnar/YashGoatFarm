@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="646.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.transaction.PaymentRecieptController">
+<AnchorPane fx:id="mainPanel" prefHeight="646.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.transaction.PaymentRecieptController">
    <children>
       <Label layoutX="43.0" layoutY="15.0" text="Date" />
       <DatePicker fx:id="date" layoutX="36.0" layoutY="42.0" prefHeight="25.0" prefWidth="98.0" promptText="select Date" />
@@ -74,7 +74,18 @@
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="btnHome" mnemonicParsing="false" stylesheets="@button.css" text="HOME" textFill="WHITE">
+            <Button fx:id="btnPrint" mnemonicParsing="false" stylesheets="@button.css" text="PRINT" textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="PRINT" size="20" />
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnHome" layoutX="280.0" layoutY="10.0" mnemonicParsing="false" stylesheets="@button.css" text="HOME" textFill="WHITE">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" glyphName="HOME" size="20" />
                </graphic>
