@@ -272,7 +272,7 @@ public class SalesmanCuttingChargesController implements Initializable {
 			if (result.get() == ButtonType.OK) {
 				try {
 					new SalesmanCuttingChargesPrint(id);
-					new PrintFile("D:\\Software\\Prints\\SalesmanCuttingCharges.pdf");
+					new PrintFile().openFile("D:\\Software\\Prints\\SalesmanCuttingCharges.pdf");
 				} catch (Exception e) {
 					new Alert(AlertType.ERROR, e.getMessage()).showAndWait();
 				}

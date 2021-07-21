@@ -213,7 +213,7 @@
                   </Text>
                   <VBox layoutX="33.0" layoutY="103.0">
                      <children>
-                        <Button fx:id="btnViewAllStock" mnemonicParsing="false" onAction="#btnViewAllStockAction" stylesheets="@../transaction/MenuCard.css" text="View All Stock" textFill="WHITE">
+                        <Button fx:id="btnViewAllStock" mnemonicParsing="false" onAction="#btnViewAllStockAction" stylesheets="@../transaction/MenuCard.css" text="Godown Stock" textFill="WHITE">
                            <graphic>
                               <FontAwesomeIcon fill="WHITE" glyphName="BITCOIN" size="20" />
                            </graphic>

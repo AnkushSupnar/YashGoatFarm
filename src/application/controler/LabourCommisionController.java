@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import application.print.GenerateBill;
 import application.print.LabourChargesPrint;
 import application.print.PrintFile;
 import hibernate.entities.BankTransaction;
@@ -34,6 +33,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -45,7 +45,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert.AlertType;
 public class LabourCommisionController implements Initializable {
 	 @FXML private AnchorPane mainPane;
 	@FXML private ComboBox<String> cmbLabourName;
@@ -319,7 +318,7 @@ public class LabourCommisionController implements Initializable {
 			// new BillPrint(billno);
 			try {
 				new LabourChargesPrint(id);
-				new PrintFile("D:\\Software\\Prints\\LabouCharges.pdf");
+				new PrintFile().openFile("D:\\Software\\Prints\\LabouCharges.pdf");;
 			} catch (Exception e) {
 				new Alert(AlertType.ERROR, e.getMessage()).showAndWait();
 			}

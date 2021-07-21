@@ -70,6 +70,7 @@ setting.put(Environment.HBM2DDL_AUTO, "update");
 				configuration.addAnnotatedClass(SalesmanCuttingCharges.class);
 				configuration.addAnnotatedClass(SalesmanCuttingTransaction.class);
 				configuration.addAnnotatedClass(PaymentReciept.class);
+				configuration.addAnnotatedClass(AdvancePayment.class);
 
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 						.applySettings(configuration.getProperties()).build();

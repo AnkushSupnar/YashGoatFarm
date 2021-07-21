@@ -68,7 +68,7 @@ public class ItemStockReportControler implements Initializable {
 		//new ItemStockReportPrint();
 		if(stockList.size()!=0) {
 		new ItemStockReport2(dateStart.getValue(), dateEnd.getValue(), stockList);
-		new PrintFile("D:\\Software\\Prints\\ItemStock.pdf");
+		new PrintFile().openFile("D:\\Software\\Prints\\ItemStock.pdf");
 		}
     }
 	private float getSoldQty(String item)

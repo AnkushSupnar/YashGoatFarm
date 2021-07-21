@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.ViewUtil;
+import application.guiUtil.AlertNotification;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +16,7 @@ import javafx.scene.layout.Pane;
 public class TransactionMenuControler implements Initializable {
 
 	@FXML private AnchorPane transactionMenuPanel;
- 	@FXML private Pane purchaseMenu;
+ 	@FXML private Pane purchaseMenu,menuBankTransaction;
 	@FXML private Button btnBilling;
 	@FXML private Button btnAllBill;
 	@FXML private Button btnPaymentRecieved;
@@ -26,15 +27,14 @@ public class TransactionMenuControler implements Initializable {
 
 	private BorderPane pane;
 	private ViewUtil viewUtil;
-	private Pane billing,purchase,paymentRecieved,payInvoice,
-	viewAllBills,viewInvoices,cuttingOrder;
-	
+	private Pane billing, purchase, paymentRecieved, payInvoice, viewAllBills, viewInvoices, cuttingOrder;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		viewUtil = new ViewUtil();
 		if (ViewUtil.login.getId() != 1) {
 			purchaseMenu.setVisible(false);
+			menuBankTransaction.setVisible(false);
 		}
 		// billing = viewUtil.getPage("transaction/BillingFrame");
 		// purchase = viewUtil.getPage("transaction/PurchaseInviceFrame");
@@ -123,29 +123,44 @@ public class TransactionMenuControler implements Initializable {
 		pane.setCenter(cuttingOrder);
 		cuttingOrder.setVisible(true);
 	}
-	 @FXML
-	    void btnViewCounterStock(ActionEvent event) {
-		 pane = (BorderPane) transactionMenuPanel.getParent();
 
-			if (billing != null)
-				billing.setVisible(false);
+	@FXML
+	void btnViewCounterStock(ActionEvent event) {
+		pane = (BorderPane) transactionMenuPanel.getParent();
 
-			cuttingOrder = viewUtil.getPage("report/viewcounterstock");
-			pane.setCenter(cuttingOrder);
-			cuttingOrder.setVisible(true);
+		if (billing != null)
+			billing.setVisible(false);
 
-	    }
-	 @FXML
-	    void btnAddCounterStock(ActionEvent event) {
-		 pane = (BorderPane) transactionMenuPanel.getParent();
+		cuttingOrder = viewUtil.getPage("report/viewcounterstock");
+		pane.setCenter(cuttingOrder);
+		cuttingOrder.setVisible(true);
 
-			if (billing != null)
-				billing.setVisible(false);
+	}
 
-			cuttingOrder = viewUtil.getPage("transaction/counterstock");
-			pane.setCenter(cuttingOrder);
-			cuttingOrder.setVisible(true);
+	@FXML
+	void btnAddCounterStock(ActionEvent event) {
+		if (ViewUtil.login.getId() != 1) {
+			new AlertNotification().showErrorMessage("You are not authorised to see this page");
+			return;
+		}
+		pane = (BorderPane) transactionMenuPanel.getParent();
+		if (billing != null)
+			billing.setVisible(false);
 
+		cuttingOrder = viewUtil.getPage("transaction/counterstock");
+		pane.setCenter(cuttingOrder);
+		cuttingOrder.setVisible(true);
+	}
 
-	    }
+	@FXML
+	void btnPaymentReceiptAction(ActionEvent event) {
+		pane=null;
+		pane = (BorderPane) transactionMenuPanel.getParent();
+		if (billing != null)
+			billing.setVisible(false);
+
+		cuttingOrder = viewUtil.getPage("transaction/paymentreciept");
+		pane.setCenter(cuttingOrder);
+		cuttingOrder.setVisible(true);
+	}
 }

@@ -33,7 +33,8 @@ public class Main extends Application {
 	//String pagename="report/ItemStockReport";
 	//String pagename="report/LabourCommision";
 	//String pagename="transaction/counterstock";
-	String pagename="transaction/paymentreciept";
+	//String pagename="transaction/paymentreciept";
+	String pagename="transaction/advancepayment";
 	@Override
 	public void start(Stage primaryStage) {
 		try {

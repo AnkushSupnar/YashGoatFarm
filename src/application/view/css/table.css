@@ -1,5 +1,6 @@
 .table-view{
     -fx-background-color: transparent;
+    -fx-border-color:black !important;
  }
 
  /*Style of entire tableView when is getting focused*/

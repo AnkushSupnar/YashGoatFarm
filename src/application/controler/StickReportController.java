@@ -158,7 +158,7 @@ public class StickReportController implements Initializable {
 				  return;
 			  }
 			  new StickReportPrint(reportList, dateStart.getValue(), dateEnd.getValue());
-			  new PrintFile("D:\\Software\\Prints\\StickReport.pdf");
+			  new PrintFile().openFile("D:\\Software\\Prints\\StickReport.pdf");
 		    }
 
 

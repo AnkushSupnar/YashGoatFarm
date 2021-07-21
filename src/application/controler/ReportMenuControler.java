@@ -140,6 +140,11 @@ public class ReportMenuControler implements Initializable {
 	    }
 	    @FXML
 	    void btnViewAllStockAction(ActionEvent event) {
+	    	if(ViewUtil.login.getId()!=1)
+	    	{
+	    		new Alert(AlertType.ERROR,"You are not authorised to view this report!!!").showAndWait();
+	    		return;
+	    	}
 	    	viewAllStock = viewUtil.getPage("report/ItemStockReport");
 	    	pane = (BorderPane)reportMenuPanel.getParent();
 	    	pane.setCenter(viewAllStock);
@@ -219,11 +224,7 @@ public class ReportMenuControler implements Initializable {
 
 	    @FXML
 	    void btnCounterStockAction(ActionEvent event) {
-	    	if(ViewUtil.login.getId()!=1)
-	    	{
-	    		new Alert(AlertType.ERROR,"You are not authorised to view this report!!!").showAndWait();
-	    		return;
-	    	}
+	    	
 	    	centerPane = viewUtil.getPage("report/viewcounterstock");
 	    	pane =(BorderPane) reportMenuPanel.getParent();
 	    	pane.setCenter(centerPane);
