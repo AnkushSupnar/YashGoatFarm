@@ -163,4 +163,16 @@ public class TransactionMenuControler implements Initializable {
 		pane.setCenter(cuttingOrder);
 		cuttingOrder.setVisible(true);
 	}
+	@FXML
+	void btnAdvancePayment(ActionEvent event) {
+		pane=null;
+		pane = (BorderPane) transactionMenuPanel.getParent();
+		if (billing != null)
+			billing.setVisible(false);
+
+		cuttingOrder = viewUtil.getPage("transaction/advancepayment");
+		pane.setCenter(cuttingOrder);
+		cuttingOrder.setVisible(true);
+	}
+
 }

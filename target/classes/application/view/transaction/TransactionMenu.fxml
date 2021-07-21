@@ -123,6 +123,11 @@
                </graphic>
             </Button>
             <FontAwesomeIcon fill="WHITE" glyphName="BANK" layoutX="75.0" layoutY="53.0" size="50" />
+            <Button layoutX="34.0" layoutY="133.0" mnemonicParsing="false" onAction="#btnAdvancePayment" stylesheets="@MenuCard.css" text="Advance Payment " textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="PLUS" size="20" />
+               </graphic>
+            </Button>
          </children>
       </Pane>
    </children>
