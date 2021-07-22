@@ -35,7 +35,7 @@ public class BankTransaction {
 		this.debit = debit;
 		this.credit = credit;
 		this.bankid = bankid;
-		this.date = date;
+		this.date = LocalDate.now();
 	}
 	public long getId() {
 		return id;
@@ -77,7 +77,7 @@ public class BankTransaction {
 		return date;
 	}
 	public void setDate(LocalDate date) {
-		this.date = date;
+		this.date = LocalDate.now();
 	}
 	@Override
 	public String toString() {
