@@ -331,42 +331,29 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" stylesheets="@../transaction/MenuCard.css" text="Weekly Sales Report" textFill="WHITE">
+                     </children>
+                  </VBox>
+                  <FontAwesomeIcon fill="WHITE" glyphName="CALENDAR" layoutX="81.0" layoutY="53.0" size="50" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+            </Pane>
+            <Pane layoutX="250.0" layoutY="10.0" prefWidth="200.0" styleClass="pane" stylesheets="@../transaction/MenuCard.css">
+               <children>
+                  <Text fill="WHITE" layoutX="18.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Purchase Statement">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+                  <VBox layoutX="20.0" layoutY="95.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#btnPartyStatementAction" stylesheets="@../transaction/MenuCard.css" text="Party Statement" textFill="WHITE">
                            <graphic>
-                              <FontAwesomeIcon fill="WHITE" glyphName="JOOMLA" size="20" />
-                           </graphic>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" stylesheets="@../transaction/MenuCard.css" text="Monthly Sales Report" textFill="WHITE">
-                           <graphic>
-                              <FontAwesomeIcon fill="WHITE" glyphName="JOOMLA" size="20" />
-                           </graphic>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" stylesheets="@../transaction/MenuCard.css" text="Period Sales Report" textFill="WHITE">
-                           <graphic>
-                              <FontAwesomeIcon fill="WHITE" glyphName="JOOMLA" size="20" />
-                           </graphic>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" stylesheets="@../transaction/MenuCard.css" text="Year Sales Rport" textFill="WHITE">
-                           <graphic>
-                              <FontAwesomeIcon fill="WHITE" glyphName="JOOMLA" size="20" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="BITCOIN" size="20" />
                            </graphic>
                            <font>
                               <Font size="14.0" />
@@ -382,9 +369,6 @@
                <padding>
                   <Insets bottom="10.0" />
                </padding>
-               <HBox.margin>
-                  <Insets right="40.0" />
-               </HBox.margin>
             </Pane>
          </children>
       </HBox>

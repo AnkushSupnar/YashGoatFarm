@@ -75,7 +75,7 @@ public class PrintBankStatement {
 			table.addCell(c1);   
 		    
 			doc.add(table);
-			float[] columnWidths = new float[]{10f,15f,40f, 10f,10f};
+			float[] columnWidths = new float[]{10f,15f,40f, 15f,15f};
 			PdfPTable data = new PdfPTable(5);
 			data.setWidths(columnWidths);
 			c1 = new PdfPCell(new Paragraph("Bank Name : "+bankService.getBankById(list.get(0).getBankid()).getBankname(), smallBold));
@@ -102,6 +102,7 @@ public class PrintBankStatement {
 			
 			addHeader(data);
 			//adding Data
+			double credit=0,debit=0;
 			int i=0;
 			for(BankTransaction tr:list)
 			{
@@ -128,13 +129,65 @@ public class PrintBankStatement {
 				c1.setBorder(0);
 				c1.setBorder(PdfPCell.BOX);
 				data.addCell(c1);
+				credit = credit+tr.getDebit();
 				
 				c1 = new PdfPCell(new Paragraph(""+tr.getCredit(),smallfont));
 				c1.setHorizontalAlignment(Element.ALIGN_LEFT);
 				c1.setBorder(0);
 				c1.setBorder(PdfPCell.BOX);
 				data.addCell(c1);
+				debit=debit+tr.getCredit();
 			}
+			c1 = new PdfPCell(new Paragraph("     ",smallfont));
+			c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+			c1.setBorder(0);
+			c1.setColspan(2);			
+			c1.setBorder(PdfPCell.BOX);
+			data.addCell(c1);
+			
+			c1 = new PdfPCell(new Paragraph("Total",smallBold));
+			c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			c1.setBorder(0);
+			c1.setBorder(PdfPCell.BOX);
+			data.addCell(c1);
+			
+			c1 = new PdfPCell(new Paragraph(""+credit,smallBold));
+			c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			c1.setBorder(0);
+			c1.setBorder(PdfPCell.BOX);
+			data.addCell(c1);
+			
+			c1 = new PdfPCell(new Paragraph(""+debit,smallBold));
+			c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			c1.setBorder(0);
+			c1.setBorder(PdfPCell.BOX);
+			data.addCell(c1);
+			
+			c1 = new PdfPCell(new Paragraph("     ",smallfont));
+			c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+			c1.setBorder(0);
+			c1.setColspan(2);			
+			c1.setBorder(PdfPCell.BOX);
+			data.addCell(c1);
+			
+			c1 = new PdfPCell(new Paragraph("Total Balance",smallBold));
+			c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			c1.setBorder(0);
+			c1.setBorder(PdfPCell.BOX);
+			data.addCell(c1);
+			
+			c1 = new PdfPCell(new Paragraph("",smallBold));
+			c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			c1.setBorder(0);
+			c1.setBorder(PdfPCell.BOX);
+			data.addCell(c1);
+			
+			c1 = new PdfPCell(new Paragraph(""+bankService.getBankBalance(list.get(0).getBankid()),smallBold));
+			c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			c1.setBorder(0);
+			c1.setBorder(PdfPCell.BOX);
+			data.addCell(c1);
+			
 			//table.addCell(data);
 			doc.add(data);
 			

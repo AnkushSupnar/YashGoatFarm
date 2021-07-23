@@ -1,4 +1,4 @@
-package application.controler;
+package application.controler.report;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -7,12 +7,15 @@ import java.util.ResourceBundle;
 
 import application.ViewUtil;
 import application.print.PurchaseStatementPrint;
+import hibernate.entities.AdvancePayment;
 import hibernate.entities.BankTransaction;
 import hibernate.entities.PurchaseInvoice;
 import hibernate.reportEntity.PurchaseStatementPojo;
+import hibernate.service.service.AdvancePaymentService;
 import hibernate.service.service.BankTransactionService;
 import hibernate.service.service.PurchaseInvoiceService;
 import hibernate.service.service.PurchasePartyService;
+import hibernate.service.serviceImpl.AdvancePaymentServiceImpl;
 import hibernate.service.serviceImpl.BankTransactionServiceImpl;
 import hibernate.service.serviceImpl.PurchaseInvoiceServiceImpl;
 import hibernate.service.serviceImpl.PurchasePartyServiceImpl;
@@ -59,7 +62,9 @@ public class PurchaseStatementControler implements Initializable {
 	    private PurchasePartyService partyService;
 	    private PurchaseInvoiceService invoiceService;
 	    private BankTransactionService bankTransactionservice;
+	    private AdvancePaymentService advanceService;
 	    private List<PurchaseInvoice> invoiceList;
+	    
 	    private ObservableList<PurchaseStatementPojo> purchaseList = FXCollections.observableArrayList();
 	    
 	@Override
@@ -67,6 +72,7 @@ public class PurchaseStatementControler implements Initializable {
 		partyService = new PurchasePartyServiceImpl();
 		invoiceService = new PurchaseInvoiceServiceImpl();
 		bankTransactionservice = new BankTransactionServiceImpl();
+		advanceService = new AdvancePaymentServiceImpl();
 		cmbPartyName.getItems().addAll(partyService.getAllPurchasePartyNames());
 		
 		colSrNo.setCellValueFactory(new PropertyValueFactory<>("id")); 
@@ -88,11 +94,16 @@ public class PurchaseStatementControler implements Initializable {
 			System.out.println("Party id = " + partyid);
 			purchaseList.clear();
 			int srno = 0;
-			float bal=0,debit=0,credit=0;;
+			float bal=0,debit=0,credit=0;
+			
 			for (LocalDate date = dateFrom.getValue(); date
 					.isBefore(dateTo.getValue().plusDays(1)); date = date.plusDays(1)) {
 				invoiceList = invoiceService.getPurchaseInvoicePartyWise(date, partyid);
 				BankTransaction bankTr;
+				for(AdvancePayment pay:advanceService.getDatePartyWiseAdvancePayment(date, partyid))
+				{
+					purchaseList.add(new PurchaseStatementPojo((++srno),"Advance Payment id"+pay.getId(),pay.getAmount(), 0, 0, pay.getDate(), pay.getId()));
+				}
 				for (PurchaseInvoice in : invoiceList) {
 					purchaseList.add(new PurchaseStatementPojo(++srno, "Purchase BillNo" + in.getBillno(), 0,
 							in.getGrandtotal(), 0, in.getDate(), in.getBillno()));
@@ -113,7 +124,7 @@ public class PurchaseStatementControler implements Initializable {
 			}
 			txtCredit.setText(""+credit);
 			txtDebit.setText(""+debit);
-			txtBalance.setText(""+(credit-debit));
+			txtBalance.setText(""+(debit-credit));
 
 		} catch (Exception e) {
 			e.printStackTrace();

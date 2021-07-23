@@ -18,7 +18,7 @@ public class AdvancePayment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 	@ManyToOne
-	@JoinColumn(name="partid")
+	@JoinColumn(name="partyid")
 	PurchaseParty party;
 	
 	LocalDate date;

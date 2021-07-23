@@ -229,5 +229,12 @@ public class ReportMenuControler implements Initializable {
 	    	pane =(BorderPane) reportMenuPanel.getParent();
 	    	pane.setCenter(centerPane);
 	    }
+	    @FXML
+	    void btnPartyStatementAction(ActionEvent event) {
+	    	centerPane = viewUtil.getPage("report/purchasestatement");
+	    	pane =(BorderPane) reportMenuPanel.getParent();
+	    	pane.setCenter(centerPane);
+	    }
+
 
 }
