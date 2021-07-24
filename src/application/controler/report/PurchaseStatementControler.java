@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.ViewUtil;
+import application.print.PrintFile;
 import application.print.PurchaseStatementPrint;
 import hibernate.entities.AdvancePayment;
 import hibernate.entities.BankTransaction;
@@ -155,7 +156,10 @@ public class PurchaseStatementControler implements Initializable {
 
 	@FXML
 	void btnPrintAction(ActionEvent event) {
-		new PurchaseStatementPrint();
+		if(purchaseList.isEmpty())
+			return;
+		new PurchaseStatementPrint(purchaseList,dateFrom.getValue(),dateTo.getValue(),cmbPartyName.getSelectionModel().getSelectedItem());
+		//new PrintFile().openFile("D:\\Software\\Prints\\PurchaseStatement.pdf");
 	}
 
 	@FXML

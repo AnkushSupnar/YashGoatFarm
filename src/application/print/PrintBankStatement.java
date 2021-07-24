@@ -81,7 +81,7 @@ public class PrintBankStatement {
 			c1 = new PdfPCell(new Paragraph("Bank Name : "+bankService.getBankById(list.get(0).getBankid()).getBankname(), smallBold));
 			c1.setHorizontalAlignment(Element.ALIGN_LEFT);
 			c1.setBorder(0);
-			c1.setColspan(5);
+			c1.setColspan(6);
 			c1.setBorder(PdfPCell.NO_BORDER);
 			data.addCell(c1);
 			String d="";
@@ -92,13 +92,10 @@ public class PrintBankStatement {
 			c1 = new PdfPCell(new Paragraph("Report Date : "+d, smallBold));
 			c1.setHorizontalAlignment(Element.ALIGN_LEFT);
 			c1.setBorder(0);
-			c1.setColspan(5);
+			c1.setColspan(6);
 			c1.setBorder(PdfPCell.NO_BORDER);
 			data.addCell(c1);
-			
-			
-			
-			
+				
 			
 			addHeader(data);
 			//adding Data
