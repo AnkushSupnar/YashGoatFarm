@@ -69,7 +69,7 @@
             <FontAwesomeIcon fill="WHITE" glyphName="CLOSE" />
          </graphic>
       </Button>
-      <TableView fx:id="table" layoutX="12.0" layoutY="151.0" prefHeight="249.0" prefWidth="577.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="151.0">
+      <TableView fx:id="table" layoutX="12.0" layoutY="151.0" prefHeight="249.0" prefWidth="577.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="151.0">
         <columns>
           <TableColumn fx:id="colSrNo" prefWidth="49.0" text="Sr.No" />
           <TableColumn fx:id="colParticulars" prefWidth="176.0" text="Particulars" />

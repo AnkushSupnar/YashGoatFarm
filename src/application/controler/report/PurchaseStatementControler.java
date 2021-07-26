@@ -159,7 +159,7 @@ public class PurchaseStatementControler implements Initializable {
 		if(purchaseList.isEmpty())
 			return;
 		new PurchaseStatementPrint(purchaseList,dateFrom.getValue(),dateTo.getValue(),cmbPartyName.getSelectionModel().getSelectedItem());
-		//new PrintFile().openFile("D:\\Software\\Prints\\PurchaseStatement.pdf");
+		new PrintFile().openFile("D:\\Software\\Prints\\PurchaseStatement.pdf");
 	}
 
 	@FXML
