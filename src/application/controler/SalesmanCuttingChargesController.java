@@ -1,11 +1,20 @@
 package application.controler;
 
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.DayOfWeek.SUNDAY;
+import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
+import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
+import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
+import static java.time.temporal.TemporalAdjusters.nextOrSame;
+import static java.time.temporal.TemporalAdjusters.previousOrSame;
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import application.print.GenerateBill;
+import application.guiUtil.AlertNotification;
 import application.print.PrintFile;
 import application.print.SalesmanCuttingChargesPrint;
 import hibernate.entities.BankTransaction;
@@ -26,6 +35,7 @@ import hibernate.service.serviceImpl.SalesmanCuttingChargesServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -70,6 +80,12 @@ public class SalesmanCuttingChargesController implements Initializable {
     @FXML private TableColumn<SalesmanCuttingCharges,String> colSalesman;
     @FXML private TableColumn<SalesmanCuttingCharges,Double> colPaid;
 
+    @FXML private Button btnLoad;
+    @FXML private Button btnWeek;
+    @FXML private Button btnMonth;
+    @FXML private Button btnYear;
+    @FXML private Button btnAll;
+    @FXML private DatePicker date;
     private BankService bankService;
     private EmployeeService employeeService;
     private CuttingOrderService orderService;
@@ -78,7 +94,7 @@ public class SalesmanCuttingChargesController implements Initializable {
     private ObservableList<SalesmanCuttingTransaction>trList = FXCollections.observableArrayList();
     private ObservableList<CuttingOrder>orderList = FXCollections.observableArrayList();
     private ObservableList<SalesmanCuttingChargesTrPojo>salesmanTr = FXCollections.observableArrayList();
-	
+	private AlertNotification notify;
 	private ObservableList<SalesmanCuttingCharges>allCuttingList = FXCollections.observableArrayList();
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -89,7 +105,7 @@ public class SalesmanCuttingChargesController implements Initializable {
 		cmbSalesmanName.getItems().addAll(employeeService.getAllSalesmanNames());
 		cmbBankName.getItems().addAll(bankService.getAllBankNames());
 		salesmanCuttingService = new SalesmanCuttingChargesServiceImpl();
-		
+		notify = new AlertNotification();
 		  colId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		  colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 		  colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
@@ -102,9 +118,45 @@ public class SalesmanCuttingChargesController implements Initializable {
 			colDate2.setCellValueFactory(new PropertyValueFactory<>("date"));
 			colSalesman.setCellValueFactory(new PropertyValueFactory<>("saleman"));
 			colPaid.setCellValueFactory(new PropertyValueFactory<>("cuttingCharges"));
-			allCuttingList.addAll(salesmanCuttingService.getAllSalesmanCuttingCharges());		
+			//allCuttingList.addAll(salesmanCuttingService.getAllSalesmanCuttingCharges());
+			allCuttingList.addAll(salesmanCuttingService.getDateWiseCharges(LocalDate.now()));
 			tableOld.setItems(allCuttingList);
+			btnLoad.setOnAction(e->loadData(e));
+			btnWeek.setOnAction(e->loadData(e));
+			btnMonth.setOnAction(e->loadData(e));
+			btnYear.setOnAction(e->loadData(e));
+			btnAll.setOnAction(e->loadData(e));
 
+	}
+	private void loadData(Event event)
+	{
+		try {
+			allCuttingList.clear();
+			Button b = (Button) event.getSource();
+			if(b.getId().equals("btnLoad"))
+			{
+				if(date.getValue()==null) return;
+				allCuttingList.addAll(salesmanCuttingService.getDateWiseCharges(date.getValue()));
+			}
+			else if(b.getId().equals("btnWeek"))
+			{
+				allCuttingList.addAll(salesmanCuttingService.getPeriodSalesmanCuttingCharges(date.getValue().with(previousOrSame(MONDAY)), date.getValue().with(nextOrSame(SUNDAY))));
+			}
+			else if(b.getId().equals("btnMonth"))
+			{
+				allCuttingList.addAll(salesmanCuttingService.getPeriodSalesmanCuttingCharges(date.getValue().with(firstDayOfMonth()),date.getValue().with(lastDayOfMonth())));
+			}
+			else if(b.getId().equals("btnYear"))
+			{
+				allCuttingList.addAll(salesmanCuttingService.getPeriodSalesmanCuttingCharges(date.getValue().with(firstDayOfYear()),date.getValue().with(lastDayOfYear())));
+			}
+			else if(b.getId().equals("btnAll"))
+			{
+				allCuttingList.addAll(salesmanCuttingService.getAllSalesmanCuttingCharges());
+			}
+		} catch (Exception e) {
+			notify.showErrorMessage("Error in loading data"+e.getMessage());
+		}
 	}
 	  @FXML 
 	    void btnClear2Action(ActionEvent event) {

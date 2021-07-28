@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 //For Yash
 public class Main extends Application {
-	String pagename="LoginFrame";
+	//String pagename="LoginFrame";
 	//String pagename="transaction/PurchaseInviceFrame";
 	//String pagename="transaction/BillingFrame";
 	//String pagename="home/Dashboard";
@@ -34,7 +34,9 @@ public class Main extends Application {
 	//String pagename="report/LabourCommision";
 	//String pagename="transaction/counterstock";
 	//String pagename="transaction/paymentreciept";
-	//String pagename="transaction/advancepayment";
+	String pagename="transaction/advancepayment";
+	//String pagename="report/paymentrecieptreport";
+	//String pagename ="report/SalesmanLabourChargesReport";
 	@Override
 	public void start(Stage primaryStage) {
 		try {

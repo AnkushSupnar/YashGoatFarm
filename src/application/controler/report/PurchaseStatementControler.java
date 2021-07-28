@@ -31,6 +31,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -59,7 +60,8 @@ public class PurchaseStatementControler implements Initializable {
 	    @FXML private TextField txtDebit;
 	    @FXML private TextField txtCredit;
 	    @FXML private TextField txtBalance;
-	    
+	    @FXML private ProgressIndicator progress;
+
 	    private PurchasePartyService partyService;
 	    private PurchaseInvoiceService invoiceService;
 	    private BankTransactionService bankTransactionservice;
@@ -84,6 +86,9 @@ public class PurchaseStatementControler implements Initializable {
 		colBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
 		
 		table.setItems(purchaseList);
+		
+		table.setVisible(true);
+		progress.setVisible(false);
 	}
 	@FXML
 	void btnShowAction(ActionEvent event) {
@@ -91,6 +96,8 @@ public class PurchaseStatementControler implements Initializable {
 			if (validateData() != 1) {
 				return;
 			}
+			//table.setVisible(false);
+			//progress.setVisible(true);
 			int partyid = partyService.getPurchasePartyByName(cmbPartyName.getValue()).getId();
 			System.out.println("Party id = " + partyid);
 			purchaseList.clear();
@@ -104,15 +111,19 @@ public class PurchaseStatementControler implements Initializable {
 				for(AdvancePayment pay:advanceService.getDatePartyWiseAdvancePayment(date, partyid))
 				{
 					purchaseList.add(new PurchaseStatementPojo((++srno),"Advance Payment id"+pay.getId(),pay.getAmount(), 0, 0, pay.getDate(), pay.getId()));
+				//	progress.setProgress(progress.getProgress()+0.1);
 				}
 				for (PurchaseInvoice in : invoiceList) {
 					purchaseList.add(new PurchaseStatementPojo(++srno, "Purchase BillNo" + in.getBillno(), 0,
 							in.getGrandtotal(), 0, in.getDate(), in.getBillno()));
+					//progress.setProgress(progress.getProgress()+0.1);
 					bankTr = bankTransactionservice
 							.getBankTransactionByPartucular("Reduce Invoice Amount BillNo " + in.getBillno());
-					if (bankTr != null)
+					if (bankTr != null) {
 						purchaseList.add(new PurchaseStatementPojo(++srno, "Pay Purchase Bill " + in.getBillno(),
 								bankTr.getCredit(), 0, 0, bankTr.getDate(), in.getBillno()));
+						//progress.setProgress(progress.getProgress()+0.1);
+					}
 				}
 			}
 			for(int i=0;i<purchaseList.size();i++)

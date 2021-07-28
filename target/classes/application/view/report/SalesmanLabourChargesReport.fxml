@@ -10,10 +10,11 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1121.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.SalesmanCuttingChargesController">
+<AnchorPane fx:id="mainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1174.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.SalesmanCuttingChargesController">
    <children>
       <SplitPane dividerPositions="0.5560640732265446" layoutX="157.0" layoutY="37.0" prefHeight="566.0" prefWidth="876.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="37.0">
         <items>
@@ -96,7 +97,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="tableOld" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tableOld" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="colSrNo" prefWidth="64.0" text="Id" />
                       <TableColumn fx:id="colDate2" prefWidth="102.0" text="Date" />
@@ -112,5 +113,50 @@
             <Font name="Berlin Sans FB" size="16.0" />
          </font>
       </Text>
+      <DatePicker fx:id="date" layoutX="620.0" layoutY="3.0" prefHeight="25.0" prefWidth="116.0" promptText="select Date" />
+      <HBox layoutX="743.0" layoutY="2.0" spacing="5.0">
+         <children>
+            <Button fx:id="btnLoad" mnemonicParsing="false" stylesheets="@../transaction/button.css" text="LOAD" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="SEARCH" size="15" />
+               </graphic>
+            </Button>
+            <Button fx:id="btnWeek" mnemonicParsing="false" stylesheets="@../transaction/button.css" text="WEEK" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="LAPTOP" size="15" />
+               </graphic>
+            </Button>
+            <Button fx:id="btnMonth" mnemonicParsing="false" stylesheets="@../transaction/button.css" text="MONTH" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="LAPTOP" size="15" />
+               </graphic>
+            </Button>
+            <Button fx:id="btnYear" mnemonicParsing="false" stylesheets="@../transaction/button.css" text="YEAR" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="LAPTOP" size="15" />
+               </graphic>
+            </Button>
+            <Button fx:id="btnAll" layoutX="269.0" layoutY="10.0" mnemonicParsing="false" stylesheets="@../transaction/button.css" text="ALL" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="LAPTOP" size="15" />
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
