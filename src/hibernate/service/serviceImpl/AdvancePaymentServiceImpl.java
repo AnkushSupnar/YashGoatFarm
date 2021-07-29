@@ -43,5 +43,9 @@ public class AdvancePaymentServiceImpl implements AdvancePaymentService {
 	public int saveAdvancePayment(AdvancePayment payment) {
 		return dao.saveAdvancePayment(payment);
 	}
+	@Override
+	public double getPartyAdvancePayment(int partyId) {
+		return dao.getPartyAdvancePayment(partyId);
+	}
 
 }

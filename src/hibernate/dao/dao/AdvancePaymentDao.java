@@ -13,6 +13,6 @@ public interface AdvancePaymentDao {
 	List<AdvancePayment>getDateWiseAdvancePayment(LocalDate date);
 	List<AdvancePayment>getDatePartyWiseAdvancePayment(LocalDate date,int party);
 	int saveAdvancePayment(AdvancePayment payment);
-	float getPartyAdvancePayment(int partyId);
+	double getPartyAdvancePayment(int partyId);
 	
 }

@@ -19,4 +19,6 @@ public interface PurchasInvoiceDao {
 	public void deleteTransaction(long billno);
 	
 	public List<PurchaseInvoice>getPurchaseInvoicePartyWise(LocalDate date,int partyid);
+	public double getAllPaidAmountByparty(int partyId);
+	public double getPartyUnpaidAmount(int partyId);
 }

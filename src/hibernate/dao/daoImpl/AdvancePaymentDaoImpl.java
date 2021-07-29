@@ -92,11 +92,11 @@ public class AdvancePaymentDaoImpl implements AdvancePaymentDao {
 	}
 
 	@Override
-	public float getPartyAdvancePayment(int partyId) {
+	public double getPartyAdvancePayment(int partyId) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			session.beginTransaction();
 			String hql = "select sum(amount) from AdvancePayment where partyid=:partyid";
-			return session.createQuery(hql,Float.class).setParameter("partyid",partyId).uniqueResult();
+			return session.createQuery(hql,Double.class).setParameter("partyid",partyId).uniqueResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;

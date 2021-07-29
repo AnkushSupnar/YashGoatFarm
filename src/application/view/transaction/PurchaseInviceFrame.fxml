@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="685.0" prefWidth="1243.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.PurchaseInvoiceController">
+<AnchorPane prefHeight="685.0" prefWidth="1243.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.transaction.PurchaseInvoiceController">
    <children>
       <Pane layoutX="11.0" layoutY="10.0" prefHeight="685.0" prefWidth="657.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -112,7 +112,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <TableView fx:id="table" layoutY="297.0" prefHeight="172.0" prefWidth="655.0" tableMenuButtonVisible="true">
+            <TableView fx:id="table" layoutY="297.0" prefHeight="172.0" prefWidth="655.0" stylesheets="@../css/table.css" tableMenuButtonVisible="true">
               <columns>
                 <TableColumn fx:id="colSrNo" prefWidth="51.0" text="Sr.No" />
                 <TableColumn fx:id="colItemName" prefWidth="244.0" text="Item Name" />
@@ -203,10 +203,16 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
+                  <Label layoutX="18.0" layoutY="124.0" text="Advance Paid" />
+                  <TextField fx:id="txtAdvancePaid" editable="false" layoutX="92.0" layoutY="120.0" onKeyReleased="#txtPaidAmountKeyEvent" prefHeight="25.0" prefWidth="237.0" style="-fx-background-color: #00e676;" text="0.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </TextField>
                </children></Pane>
          </children>
       </Pane>
-      <TableView fx:id="tblOldBill" layoutX="670.0" layoutY="86.0" prefHeight="200.0" prefWidth="573.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="670.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+      <TableView fx:id="tblOldBill" layoutX="670.0" layoutY="86.0" prefHeight="200.0" prefWidth="573.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="670.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
         <columns>
           <TableColumn fx:id="colBillNo" prefWidth="53.0" text="Bill No" />
           <TableColumn fx:id="colInvoiceNo" prefWidth="66.0" text="Invoice No" />

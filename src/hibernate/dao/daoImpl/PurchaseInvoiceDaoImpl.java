@@ -195,5 +195,29 @@ public class PurchaseInvoiceDaoImpl implements PurchasInvoiceDao {
 		}
 	}
 
+	@Override
+	public double getAllPaidAmountByparty(int partyId) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+			String hql=" select sum(paid) from PurchaseInvoice where partyid=:partyid";
+			return session.createQuery(hql,Double.class).setParameter("partyid",partyId).uniqueResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public double getPartyUnpaidAmount(int partyId) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+			String hql="select sum(nettotal)-sum(paid) from PurchaseInvoice where partyid=:pid";
+			return session.createQuery(hql,Double.class).setParameter("pid",partyId).uniqueResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
 	
 }

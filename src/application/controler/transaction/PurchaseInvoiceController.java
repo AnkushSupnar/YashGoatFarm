@@ -1,4 +1,4 @@
-package application.controler;
+package application.controler.transaction;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.textfield.TextFields;
+import org.hibernate.internal.build.AllowSysOut;
 
 import hibernate.entities.BankTransaction;
 import hibernate.entities.Item;
@@ -19,6 +20,7 @@ import hibernate.service.service.ItemService;
 import hibernate.service.service.ItemStockService;
 import hibernate.service.service.PurchaseInvoiceService;
 import hibernate.service.service.PurchasePartyService;
+import hibernate.service.serviceImpl.AdvancePaymentServiceImpl;
 import hibernate.service.serviceImpl.BankServiceImpl;
 import hibernate.service.serviceImpl.BankTransactionServiceImpl;
 import hibernate.service.serviceImpl.ItemServiceImpl;
@@ -78,6 +80,7 @@ public class PurchaseInvoiceController implements Initializable {
 	    @FXML private ComboBox<String> cmbpaymentFrom;
 	    @FXML private TextField txtTransactionReff;
 	    @FXML private TextField txtPaidAmount;
+	    @FXML private TextField txtAdvancePaid;
 	    @FXML private TableView<PurchaseInvoice> tblOldBill;
 	    @FXML private TableColumn<PurchaseInvoice,Long> colBillNo;
 	    @FXML private TableColumn<PurchaseInvoice,String> colInvoiceNo;
@@ -124,7 +127,9 @@ public class PurchaseInvoiceController implements Initializable {
 			colAmount.setCellValueFactory(new PropertyValueFactory<PurchaseTransaction, Float>("amount"));
 			table.setItems(transactionList);
 
-			cmbpaymentFrom.getItems().addAll(bankService.getAllBankNames());
+			cmbpaymentFrom.getItems().addAll(bankService.getBankById(2).getBankname());
+			cmbpaymentFrom.getSelectionModel().selectFirst();
+			
 
 			todaysInvoiceList.addAll(purchaseInvoiceService.getAllPurchaseInvoice());
 			colBillNo.setCellValueFactory(new PropertyValueFactory<PurchaseInvoice, Long>("billno"));
@@ -149,6 +154,11 @@ public class PurchaseInvoiceController implements Initializable {
 			PurchaseParty party = partyService
 					.getPurchasePartyByName(cmbPartyName.getSelectionModel().getSelectedItem());
 			txtPartyInfo.setText(party.toString());
+			txtAdvancePaid.setText(""+(
+					new AdvancePaymentServiceImpl().getPartyAdvancePayment(party.getId())-
+					purchaseInvoiceService.getAllPaidAmountByparty(party.getId())-
+					purchaseInvoiceService.getAllPaidAmountByparty(party.getId())
+					));
 		}
 
 		@FXML
@@ -288,6 +298,17 @@ public class PurchaseInvoiceController implements Initializable {
 			if (validateFormData() != 1) {
 				return;
 			}
+			BankTransactionService btService = new BankTransactionServiceImpl();
+			boolean advance=false;
+			if(Float.parseFloat(txtAdvancePaid.getText())>=Float.parseFloat(txtGrandTotal.getText()))
+			{
+				
+				txtPaidAmount.setText(""+(
+						Float.parseFloat(txtGrandTotal.getText())
+						));
+				advance=true;
+				
+			}
 			PurchaseInvoice invoice = new PurchaseInvoice();			
 			invoice.setBillno(Long.parseLong(txtBillNo.getText()));
 			PurchaseInvoice oldInvoice = purchaseInvoiceService.getPurchaseInvoice(invoice.getBillno());
@@ -301,6 +322,7 @@ public class PurchaseInvoiceController implements Initializable {
 			invoice.setBankreffno(txtTransactionReff.getText());
 			invoice.setTransportcharges(Float.parseFloat(txtTransportChrgs.getText()));
 			invoice.setPaid(Float.parseFloat(txtPaidAmount.getText()));
+			
 			if (txtPaidAmount.getText().equals("" + 0.0)) {
 				invoice.setBank(bankService.getCashAccount());
 			} else {
@@ -308,9 +330,10 @@ public class PurchaseInvoiceController implements Initializable {
 				float oldpaid = 0.0f;
 				if(oldInvoice!=null)
 				{
+					if(btService.getBankTransactionByPartucular("Reduce Invoice Amount BillNo " + oldInvoice.getBillno())!=null)
 					oldpaid=oldInvoice.getPaid();
 				}
-				if ((oldpaid+ bankService.getBankBalance(invoice.getBank().getId())) < invoice.getPaid()) {
+				if (oldpaid!=0 && (oldpaid+ bankService.getBankBalance(invoice.getBank().getId())) < invoice.getPaid()) {
 					new Alert(AlertType.ERROR, "Insufficient Amount in Bank Account\n Please Choose Another Bank")
 							.showAndWait();
 					return;
@@ -326,17 +349,20 @@ public class PurchaseInvoiceController implements Initializable {
 				transactionList.get(i).setId(0);
 			}
 			invoice.setTransaction(transactionList);
-			BankTransactionService btService = new BankTransactionServiceImpl();
+			
 			
 			int flag = purchaseInvoiceService.savePurchaseInvoice(invoice);
+			
 			if (flag == 1) {
 				if (invoice.getPaid() > 0) {
-					BankTransaction bt = new BankTransaction("Reduce Invoice Amount BillNo " + invoice.getBillno(),
+					if(advance==false) {
+						BankTransaction bt = new BankTransaction("Reduce Invoice Amount BillNo " + invoice.getBillno(),
 							invoice.getBillno(), 0, invoice.getPaid(), invoice.getBank().getId(),date.getValue());
 					
-					int f = btService.saveBankTransaction(bt);
-					if (f == 1) {
-						bankService.reduceBankBalance(invoice.getBank().getId(), invoice.getPaid());
+						int f = btService.saveBankTransaction(bt);
+						if (f == 1) {
+							bankService.reduceBankBalance(invoice.getBank().getId(), invoice.getPaid());
+						}
 					}
 				}
 				addStock(invoice.getTransaction());
@@ -348,7 +374,7 @@ public class PurchaseInvoiceController implements Initializable {
 			else if(flag==2)
 			{
 				BankTransaction bt = new BankTransaction();
-				if (oldInvoice.getPaid() > 0.0) {
+				if (oldInvoice.getPaid() > 0.0 && !advance) {
 					bt = new BankTransaction();
 					bt.setBankid(oldInvoice.getBank().getId());
 					bt.setCredit(0.0f);
@@ -449,6 +475,7 @@ public class PurchaseInvoiceController implements Initializable {
 			txtBillNo.setText("" + purchaseInvoiceService.getNewInvoiceNo());
 			txtInvoiceNo.requestFocus();
 			txtPaidAmount.setText(""+0.0f);
+			txtAdvancePaid.setText(""+0.0f);
 		}
 
 		@FXML
