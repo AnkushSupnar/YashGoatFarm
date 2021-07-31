@@ -24,14 +24,14 @@ public class HibernateUtil {
 				Properties setting = new Properties();
 				FileReader read = new FileReader("D:\\Software\\yash.properties");
 				setting.load(read);
-//				setting.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
+				setting.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
 //				setting.put(Environment.URL, "jdbc:mysql://localhost:3306/yash");
 //				setting.put(Environment.USER, "root");
 //				setting.put(Environment.PASS, "2355");
-//				setting.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-//				setting.put(Environment.SHOW_SQL, "true");
-//				setting.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-setting.put(Environment.HBM2DDL_AUTO, "update");
+				setting.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+				setting.put(Environment.SHOW_SQL, "true");
+				setting.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+				setting.put(Environment.HBM2DDL_AUTO, "update");
 //				
 //allow access remote
 //				mysql> CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';
@@ -71,6 +71,7 @@ setting.put(Environment.HBM2DDL_AUTO, "update");
 				configuration.addAnnotatedClass(SalesmanCuttingTransaction.class);
 				configuration.addAnnotatedClass(PaymentReciept.class);
 				configuration.addAnnotatedClass(AdvancePayment.class);
+				configuration.addAnnotatedClass(CustomerAdvancePayment.class);
 
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 						.applySettings(configuration.getProperties()).build();

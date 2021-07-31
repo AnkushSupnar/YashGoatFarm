@@ -64,7 +64,7 @@ public class PrintPaymentReceipt {
 		        c1.setBorder(PdfPCell.NO_BORDER);
 		        table.addCell(c1);
 		        
-		        c1 = new PdfPCell(new Paragraph("Contact No-9960855742/8329394603",smallBold));
+		        c1 = new PdfPCell(new Paragraph("Contact No-7350334378/9075747714/9850625022",smallBold));
 		        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
 		        c1.setBorder(PdfPCell.NO_BORDER);
 		        table.addCell(c1);

@@ -1,4 +1,4 @@
-package application.controler;
+package application.controler.transaction;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -174,5 +174,17 @@ public class TransactionMenuControler implements Initializable {
 		pane.setCenter(cuttingOrder);
 		cuttingOrder.setVisible(true);
 	}
+	@FXML
+    void btnCustomerAdvancePayment(ActionEvent event) {
+		pane=null;
+		pane = (BorderPane) transactionMenuPanel.getParent();
+		if (billing != null)
+			billing.setVisible(false);
+
+		cuttingOrder = viewUtil.getPage("transaction/customeradvancepayment");
+		pane.setCenter(cuttingOrder);
+		cuttingOrder.setVisible(true);
+
+    }
 
 }

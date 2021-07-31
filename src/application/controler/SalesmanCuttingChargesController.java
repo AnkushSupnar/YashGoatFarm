@@ -52,6 +52,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 public class SalesmanCuttingChargesController implements Initializable {
+	
 	@FXML private AnchorPane mainPanel;
 	@FXML private ComboBox<String> cmbSalesmanName;
     @FXML private DatePicker dateStart;

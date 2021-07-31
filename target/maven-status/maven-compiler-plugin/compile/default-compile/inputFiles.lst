@@ -22,6 +22,7 @@ C:\Users\Ankush\git\YashGoatFarm\src\application\controler\ViewAllEmployeeContro
 C:\Users\Ankush\git\YashGoatFarm\src\application\print\LabourChargesPrint.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\dao\daoImpl\SalemanCuttingChargesDaoImpl.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\dao\daoImpl\PurchasePartyDaoImpl.java
+C:\Users\Ankush\git\YashGoatFarm\src\application\controler\report\PaymentReceipReportController.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\dao\dao\CompanyDao.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\dao\daoImpl\AdvancePaymentDaoImpl.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\dao\daoImpl\CounterStockDaoImpl.java
@@ -90,6 +91,7 @@ C:\Users\Ankush\git\YashGoatFarm\src\hibernate\dao\dao\CommisionDao.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\entities\CuttingLabour.java
 C:\Users\Ankush\git\YashGoatFarm\src\application\controler\PeriodSalesReport.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\entities\CuttingOrder.java
+C:\Users\Ankush\git\YashGoatFarm\src\application\print\PaymentReceiptReportPrint.java
 C:\Users\Ankush\git\YashGoatFarm\src\application\LaunchApp.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\entities\PurchaseParty.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\service\serviceImpl\BillServiceImpl.java
@@ -127,6 +129,7 @@ C:\Users\Ankush\git\YashGoatFarm\src\hibernate\dao\dao\BillDao.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\entities\Customer.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\service\service\CommisionService.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\dao\dao\EmployeeDao.java
+C:\Users\Ankush\git\YashGoatFarm\src\application\controler\transaction\PurchaseInvoiceController.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\entities\BankTransaction.java
 C:\Users\Ankush\git\YashGoatFarm\src\application\print\PrintFile.java
 C:\Users\Ankush\git\YashGoatFarm\src\application\ViewUtil.java
@@ -146,7 +149,6 @@ C:\Users\Ankush\git\YashGoatFarm\src\hibernate\service\serviceImpl\CommisionServ
 C:\Users\Ankush\git\YashGoatFarm\src\application\controler\chart\DailyItemSalesChart.java
 C:\Users\Ankush\git\YashGoatFarm\src\application\print\PrintPaymentReceipt.java
 C:\Users\Ankush\git\YashGoatFarm\src\application\controler\report\ViewCounterStockController.java
-C:\Users\Ankush\git\YashGoatFarm\src\application\controler\PurchaseInvoiceController.java
 C:\Users\Ankush\git\YashGoatFarm\src\application\controler\transaction\AdvancePaymentController.java
 C:\Users\Ankush\git\YashGoatFarm\src\hibernate\service\serviceImpl\AdvancePaymentServiceImpl.java
 C:\Users\Ankush\git\YashGoatFarm\src\application\print\CounterStockEntry.java
