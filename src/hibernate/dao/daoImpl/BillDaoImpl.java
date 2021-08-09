@@ -289,4 +289,83 @@ public class BillDaoImpl implements BillDao {
 		}
 	}
 
+	@Override
+	public double getCustomerTotalPaidBillAmount(int customerId) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+			String hql="select sum(recivedamount) from bill where customerid=:cid";
+			return session.createQuery(hql,Double.class).setParameter("cid",customerId).uniqueResult();			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public double getCustomerTotalBillAmount(int customerId) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+			String hql="select sum(nettotal+otherchargs+transportingchrges) from bill where customerid=:cid";
+			return session.createQuery(hql,Double.class).setParameter("cid",customerId).uniqueResult();			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public double getWholeSaleBillAmount(int customerid) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+			String hql=" select sum(nettotal+otherchargs+transportingchrges) from Bill where customerid=:cid and bankid=2";
+			return session.createQuery(hql,Double.class).setParameter("cid", customerid).uniqueResult();			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public List<Bill> getDateWiseSalesmanBills(int empid, LocalDate date) {
+	try (Session session = HibernateUtil.getSessionFactory().openSession()){
+		session.beginTransaction();
+		String hql="from Bill where employeeid=:empid and date=:date";
+		return session.createQuery(hql,Bill.class).setParameter("empid",empid).setParameter("date", date).list();
+	} catch (Exception e) {
+		e.printStackTrace();
+		return null;
+	}
+	}
+
+	@Override
+	public List<Bill>getPeriodWiseSalesmanBills(int empid,LocalDate start,LocalDate end) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+	String hql="from Bill where employeeid=:empid and date between :start and :end";
+			return session.createQuery(hql,Bill.class).
+					setParameter("empid",empid).
+					setParameter("start",start).
+					setParameter("end",end).
+					list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<Bill> getSalesmanAllBills(int empid) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+	String hql="from Bill where employeeid=:empid";
+			return session.createQuery(hql,Bill.class).
+					setParameter("empid",empid).					
+					list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
 }

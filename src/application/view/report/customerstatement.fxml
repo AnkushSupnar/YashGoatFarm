@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="580.0" prefWidth="848.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16">
+   <children>
+      <StackPane layoutX="131.0" layoutY="21.0" prefHeight="38.0" prefWidth="623.0" style="-fx-background-color: #007bff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Statement">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </StackPane>
+      <Label layoutX="29.0" layoutY="58.0" text="Customer Name" />
+      <TextField layoutX="29.0" layoutY="78.0" prefHeight="30.0" prefWidth="259.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="294.0" layoutY="58.0" text="Start Date" />
+      <Label layoutX="410.0" layoutY="58.0" text="End Date" />
+      <DatePicker layoutX="292.0" layoutY="81.0" prefHeight="25.0" prefWidth="101.0" promptText="Select Date" />
+      <DatePicker layoutX="406.0" layoutY="81.0" prefHeight="25.0" prefWidth="101.0" promptText="Select Date" />
+      <HBox layoutX="29.0" layoutY="121.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" stylesheets="@../transaction/button.css" text="SHOW">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SEARCH" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" stylesheets="@../transaction/button.css" text="WEEK">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SEARCH" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" stylesheets="@../transaction/button.css" text="MONTH">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SEARCH" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" stylesheets="@../transaction/button.css" text="YEAR">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SEARCH" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" stylesheets="@../transaction/button.css" text="ALL">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SEARCH" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="352.0" layoutY="10.0" mnemonicParsing="false" stylesheets="@../transaction/button.css" text="PRINT">
+               <graphic>
+                  <FontAwesomeIcon glyphName="PRINT" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <TableView layoutX="27.0" layoutY="160.0" prefHeight="356.0" prefWidth="811.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="160.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Sr.No" />
+          <TableColumn prefWidth="75.0" text="Date" />
+            <TableColumn prefWidth="271.0" text="Particulars" />
+            <TableColumn prefWidth="113.0" text="Debit" />
+            <TableColumn prefWidth="124.0" text="Credit" />
+            <TableColumn prefWidth="118.0" text="Balance" />
+        </columns>
+      </TableView>
+      <Label layoutX="29.0" layoutY="516.0" text="Total Debit" AnchorPane.bottomAnchor="40.0" />
+      <TextField layoutX="29.0" layoutY="536.0" prefHeight="30.0" prefWidth="121.0" AnchorPane.bottomAnchor="10.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="159.0" layoutY="516.0" text="Total Credit" AnchorPane.bottomAnchor="40.0" />
+      <TextField layoutX="159.0" layoutY="536.0" prefHeight="30.0" prefWidth="121.0" AnchorPane.bottomAnchor="10.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="287.0" layoutY="516.0" text="Total Balance" AnchorPane.bottomAnchor="40.0" />
+      <TextField layoutX="287.0" layoutY="536.0" prefHeight="30.0" prefWidth="121.0" AnchorPane.bottomAnchor="10.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>

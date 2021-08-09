@@ -22,6 +22,9 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Customer getCustomerByName(String name) {
 		String n[] = name.split(" ");
+		if(n.length!=3)
+			return null;
+		else			
 		return dao.getCustomerByName(n[0], n[1], n[2]);
 				
 	}

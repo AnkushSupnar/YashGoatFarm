@@ -92,4 +92,28 @@ public class BillServiceImpl implements BillService {
 	public List<Bill> getAllUnpaidBills() {
 		return dao.getAllUnpaidBills();
 	}
+	@Override
+	public double getCustomerTotalPaidBillAmount(int customerId) {
+		return dao.getCustomerTotalPaidBillAmount(customerId);
+	}
+	@Override
+	public double getCustomerTotalBillAmount(int customerId) {
+		return dao.getCustomerTotalBillAmount(customerId);
+	}
+	@Override
+	public double getWholeSaleBillAmount(int customerid) {
+		return dao.getWholeSaleBillAmount(customerid);
+	}
+	@Override
+	public List<Bill> getDateWiseSalesmanBills(int empid, LocalDate date) {
+		return dao.getDateWiseSalesmanBills(empid, date);
+	}
+	@Override
+	public List<Bill> getPeriodWiseSalesmanBills(int empid, LocalDate start, LocalDate end) {
+		return dao.getPeriodWiseSalesmanBills(empid, start, end);
+	}
+	@Override
+	public List<Bill> getSalesmanAllBills(int empid) {
+		return dao.getSalesmanAllBills(empid);
+	}
 }

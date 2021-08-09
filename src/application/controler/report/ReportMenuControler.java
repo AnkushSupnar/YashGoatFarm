@@ -1,4 +1,4 @@
-package application.controler;
+package application.controler.report;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -238,6 +238,12 @@ public class ReportMenuControler implements Initializable {
 	    @FXML
 	    void btnCashReceiptreportAction(ActionEvent event) {
 	    	centerPane = viewUtil.getPage("report/paymentrecieptreport");
+	    	pane =(BorderPane) reportMenuPanel.getParent();
+	    	pane.setCenter(centerPane);
+	    }
+	    @FXML
+	    void btnCustomerStatementAction(ActionEvent event) {
+	    	centerPane = viewUtil.getPage("report/customerstatement");
 	    	pane =(BorderPane) reportMenuPanel.getParent();
 	    	pane.setCenter(centerPane);
 	    }

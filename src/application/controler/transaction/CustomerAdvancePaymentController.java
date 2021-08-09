@@ -7,14 +7,19 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.textfield.TextFields;
 
 import application.guiUtil.AlertNotification;
+import hibernate.entities.AdvancePayment;
+import hibernate.entities.BankTransaction;
 import hibernate.entities.CustomerAdvancePayment;
 import hibernate.service.service.BankService;
+import hibernate.service.service.BankTransactionService;
 import hibernate.service.service.CustomerAdvancePaymentService;
 import hibernate.service.service.CustomerService;
 import hibernate.service.serviceImpl.BankServiceImpl;
+import hibernate.service.serviceImpl.BankTransactionServiceImpl;
 import hibernate.service.serviceImpl.CustomerAdvancePaymentServiceImpl;
 import hibernate.service.serviceImpl.CustomerServiceImpl;
 import javafx.fxml.Initializable;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -50,32 +55,210 @@ public class CustomerAdvancePaymentController implements Initializable {
 	private CustomerAdvancePaymentService paymentService;
 	private AlertNotification notify;
 	private BankService bankService;
+	private BankTransactionService bankTrService;
 	private ObservableList<CustomerAdvancePayment> list = FXCollections.observableArrayList();
+	private long id;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		id=0;
 		customerService = new CustomerServiceImpl();
 		paymentService = new CustomerAdvancePaymentServiceImpl();
 		notify = new AlertNotification();
 		bankService = new BankServiceImpl();
+		bankTrService = new BankTransactionServiceImpl();
 		TextFields.bindAutoCompletion(txtCustomer,customerService.getAllCustomerNames());
 		cmbBankName.getItems().addAll(bankService.getAllBankNames());
 		date.setValue(LocalDate.now());
-		colSrNo.setCellValueFactory(new PropertyValueFactory<>(""));
-		colDate.setCellValueFactory(new PropertyValueFactory<>(""));
-		colCustomer.setCellValueFactory(new PropertyValueFactory<>("")); 
-		colAmount.setCellValueFactory(new PropertyValueFactory<>(""));
-		colBankName.setCellValueFactory(new PropertyValueFactory<>(""));
-		colReff.setCellValueFactory(new PropertyValueFactory<>(""));
+		colSrNo.setCellValueFactory(new PropertyValueFactory<>("id"));
+		colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+		colCustomer.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getCustomer().getFname()+" "+cellData.getValue().getCustomer().getMname()+" "+cellData.getValue().getCustomer().getLname())); 
+		colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+		colBankName.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getBank().getBankname()));
+		colReff.setCellValueFactory(new PropertyValueFactory<>("refference"));
 		list.addAll(paymentService.getCustomerAdvanceByDate(LocalDate.now()));
 		table.setItems(list);
+		btnSave.setOnAction(e->save());
+		btnClear.setOnAction(e->clear());
+		btnUpdate.setOnAction(e->update());
 		
+	}	
+	private void update() {
+		try {
+			if(table.getSelectionModel().getSelectedItem()==null)
+			{
+				return;
+			}
+			CustomerAdvancePayment ap = table.getSelectionModel().getSelectedItem();
+			if(ap==null)
+				return;
+			date.setValue(ap.getDate());
+			txtCustomer.setText(ap.getCustomer().getFname()+" "+ap.getCustomer().getMname()+" "+ap.getCustomer().getLname());
+			cmbBankName.setValue(ap.getBank().getBankname());
+			txtAmount.setText(""+ap.getAmount());
+			txtReff.setText(ap.getRefference());
+			id=ap.getId();
+						
+		} catch (Exception e) {
+			notify.showErrorMessage("Error in update"+e.getMessage());
+		}
+	}
+	private void clear() {
+		date.setValue(LocalDate.now());
+		txtAmount.setText("");
+		txtCustomer.setText("");
+		txtReff.setText("");
+		cmbBankName.getSelectionModel().clearSelection();
+		id=0;
 		
 	}
-
+	private void save() {
+		try {
+			if(!validate())
+			{
+				return;
+			}
+			CustomerAdvancePayment oldPay = null;		
+			CustomerAdvancePayment payment = new CustomerAdvancePayment(
+					customerService.getCustomerByName(txtCustomer.getText()),
+					date.getValue(),
+					bankService.getBankByName(cmbBankName.getSelectionModel().getSelectedItem()),
+					Float.parseFloat(txtAmount.getText()),
+					txtReff.getText());
+			if(id!=0) {
+				oldPay= paymentService.getCustomerAdvanceById(id);
+			payment.setId(id);
+			}
+			int flag = paymentService.saveCustomerAdvance(payment);
+			if(flag==1)
+			{
+				//add money in bqnk
+				addPaymentInBank(payment);				
+				clear();
+				list.add(payment);
+				addInList(payment);
+				notify.showSuccessMessage("Record save Success");
+			}
+			else
+			{
+				reducePaymentFromBank(oldPay);
+				addPaymentInBank(payment);;				
+				addInList(payment);
+				clear();
+				notify.showSuccessMessage("Record Update Success");			
+			}			
+		} catch (Exception e) {
+			notify.showErrorMessage("Error in saving data "+e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	private boolean validate() {
+		if(date.getValue()==null)
+		{
+			notify.showErrorMessage("Enter Date");
+			date.requestFocus();
+			return false;
+		}
+		if(txtCustomer.getText().isEmpty())
+		{
+			notify.showErrorMessage("Enter Customer Name");
+			txtCustomer.requestFocus();
+			return false;
+		}
+		if(customerService.getCustomerByName(txtCustomer.getText().trim())==null)
+		{
+			notify.showErrorMessage("Enter Correct Customer Name\n Customer not found!");
+			txtCustomer.requestFocus();
+			return false;
+		}
+		if(cmbBankName.getSelectionModel().getSelectedItem()==null)
+		{
+			notify.showErrorMessage("Select Bank Name");
+			cmbBankName.requestFocus();
+			return false;
+		}
+		if(txtAmount.getText().isEmpty())
+		{
+			notify.showErrorMessage("Enter Amount");
+			txtAmount.requestFocus();
+			return false;
+		}
+		if(!isNumber(txtAmount.getText()))
+		{
+			notify.showErrorMessage("Enter Amount in Digit");
+			txtAmount.selectAll();
+			txtAmount.requestFocus();
+			return false;
+		}
+		if(txtReff.getText().isEmpty())
+		{
+			notify.showErrorMessage("Enter Refference");
+			txtReff.requestFocus();
+			return false;
+		}
+		return true;
+	}
 	@FXML
 	void txtAmountKeyRelease(KeyEvent event) {
-
+		if (!isNumber(txtAmount.getText())) {
+			txtAmount.setText("");
+		}
 	}
+	private boolean isNumber(String num) {
+		if (num == null) {
+			return false;
+		}
+		try {
+			Float.parseFloat(num);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	private void addInList(CustomerAdvancePayment payment) {
+		int flag=-1;
+		for(int i=0;i<list.size();i++)
+		{
+			if(list.get(i).getId()==payment.getId())
+			{
+				flag=i;
+				break;
+			}
+		}		
+		if(flag==-1)
+			list.add(payment);
+		else
+		{
+			list.remove(flag);
+			list.add(flag,payment);
+		}
+		table.refresh();
+	}
+	private void addPaymentInBank(CustomerAdvancePayment payment)
+	{
+		BankTransaction bankTr = new BankTransaction(
+				"Advance Payment from Customer "+payment.getId(), 
+				payment.getId(),
+				payment.getAmount(), 
+				payment.getBank().getId(),
+				0,
+				payment.getDate());
+		bankService.addBankBalance(payment.getBank().getId(),payment.getAmount());
+		bankTrService.saveBankTransaction(bankTr);
+	}
+	private void reducePaymentFromBank(CustomerAdvancePayment payment)
+	{
+		BankTransaction bankTr = new BankTransaction(
+				"Edit Advance Payment from Customer"+payment.getId(), 
+				payment.getId(),
+				0,
+				payment.getAmount(),
+				payment.getBank().getId(),
+				payment.getDate());
+		bankService.reduceBankBalance(payment.getBank().getId(),payment.getAmount());
+		bankTrService.saveBankTransaction(bankTr);
+	}
+
 
 }

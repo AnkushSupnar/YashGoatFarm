@@ -107,4 +107,16 @@ public class CustomerAdvancePaymentDaoImpl implements CustomerAdvancePaymentDao 
 		}
 	}
 
+	@Override
+	public double getCustomerTotalAdvance(int customerId) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			session.beginTransaction();
+			String hql="select sum(amount) from CustomerAdvancePayment where customerid=:cid";
+			return session.createQuery(hql,Double.class).setParameter("cid", customerId).uniqueResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
 }

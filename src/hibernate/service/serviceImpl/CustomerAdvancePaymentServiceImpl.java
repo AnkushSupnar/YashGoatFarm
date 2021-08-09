@@ -50,5 +50,9 @@ public class CustomerAdvancePaymentServiceImpl implements CustomerAdvancePayment
 	public int saveCustomerAdvance(CustomerAdvancePayment payment) {
 		return dao.saveCustomerAdvance(payment);
 	}
+	@Override
+	public double getCustomerTotalAdvance(int customerId) {
+		return dao.getCustomerTotalAdvance(customerId);
+	}
 
 }

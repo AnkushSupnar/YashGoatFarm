@@ -24,9 +24,11 @@
 
  /*Style of each column header's label  in the tableView*/
 .table-view .column-header-background .label{
-     -fx-background-color: transparent; 
-    -fx-font-weight:bold;
+    -fx-background-color: transparent;
+    -fx-font-family: "Georgia";
+    
     -fx-text-fill: white;
+    
 }
 
 /*Style of each column in the tableView*/

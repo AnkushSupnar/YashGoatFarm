@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPanel" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.BillControler">
+<BorderPane fx:id="mainPanel" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controler.transaction.BillControler">
    <center>
       <AnchorPane prefHeight="600.0" prefWidth="600.0">
          <children>
@@ -113,7 +113,7 @@
             </Label>
             <Button fx:id="btnAdd" layoutX="7.0" layoutY="248.0" mnemonicParsing="false" onAction="#btnAddAction" prefHeight="30.0" prefWidth="90.0" stylesheets="@button.css" text="ADD" textFill="WHITE">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
                <graphic>
                   <FontAwesomeIcon fill="WHITE" glyphName="PLUS" />

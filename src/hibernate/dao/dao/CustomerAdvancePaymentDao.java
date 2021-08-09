@@ -14,5 +14,5 @@ public interface CustomerAdvancePaymentDao {
 	List<CustomerAdvancePayment>getCustomerAdvanceByDatePeriod(LocalDate start,LocalDate end);
 	List<CustomerAdvancePayment>getCustomerAdvanceByDatePeriodAndCustomer(LocalDate start,LocalDate end,int customerid);
 	int saveCustomerAdvance(CustomerAdvancePayment payment);
-	
+	double getCustomerTotalAdvance(int customerId);
 }

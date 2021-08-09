@@ -25,4 +25,11 @@ public interface BillDao {
 	public List<Bill>getUnpaidBills(int customer);
 	public int updateReceivedAmount(Bill bill);
 	public List<Bill>getAllUnpaidBills();
+	double getCustomerTotalPaidBillAmount(int customerId);
+	double getCustomerTotalBillAmount(int customerId);
+	double getWholeSaleBillAmount(int customerid);
+	
+	List<Bill>getDateWiseSalesmanBills(int empid,LocalDate date);
+	List<Bill>getPeriodWiseSalesmanBills(int empid,LocalDate start,LocalDate end);
+	List<Bill>getSalesmanAllBills(int empid);
 }

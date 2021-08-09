@@ -72,6 +72,7 @@ public class HibernateUtil {
 				configuration.addAnnotatedClass(PaymentReciept.class);
 				configuration.addAnnotatedClass(AdvancePayment.class);
 				configuration.addAnnotatedClass(CustomerAdvancePayment.class);
+				configuration.addAnnotatedClass(BankTransfer.class);
 
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 						.applySettings(configuration.getProperties()).build();

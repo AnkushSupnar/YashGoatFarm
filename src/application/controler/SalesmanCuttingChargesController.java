@@ -157,6 +157,7 @@ public class SalesmanCuttingChargesController implements Initializable {
 			}
 		} catch (Exception e) {
 			notify.showErrorMessage("Error in loading data"+e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	  @FXML 

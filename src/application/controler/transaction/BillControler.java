@@ -1,4 +1,4 @@
-package application.controler;
+package application.controler.transaction;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -19,6 +19,7 @@ import hibernate.entities.BankTransaction;
 import hibernate.entities.Bill;
 import hibernate.entities.CounterStockData;
 import hibernate.entities.Customer;
+import hibernate.entities.CustomerAdvancePayment;
 import hibernate.entities.Item;
 import hibernate.entities.Login;
 import hibernate.entities.Transaction;
@@ -26,6 +27,7 @@ import hibernate.service.service.BankService;
 import hibernate.service.service.BankTransactionService;
 import hibernate.service.service.BillService;
 import hibernate.service.service.CounterStockDataService;
+import hibernate.service.service.CustomerAdvancePaymentService;
 import hibernate.service.service.CustomerService;
 import hibernate.service.service.EmployeeService;
 import hibernate.service.service.ItemService;
@@ -33,6 +35,7 @@ import hibernate.service.serviceImpl.BankServiceImpl;
 import hibernate.service.serviceImpl.BankTransactionServiceImpl;
 import hibernate.service.serviceImpl.BillServiceImpl;
 import hibernate.service.serviceImpl.CounterStockDataServiceImpl;
+import hibernate.service.serviceImpl.CustomerAdvancePaymentServiceImpl;
 import hibernate.service.serviceImpl.CustomerServiceImpl;
 import hibernate.service.serviceImpl.EmployeeServiceImpl;
 import hibernate.service.serviceImpl.ItemServiceImpl;
@@ -136,10 +139,11 @@ public class BillControler implements Initializable{
     private CounterStockDataService counterStockDataService;
     private AlertNotification notification;
 	private Login login;
+	private CustomerAdvancePaymentService advanceService;
 	// private long billNo;
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+ 	public void initialize(URL arg0, ResourceBundle arg1) {
 		billService = new BillServiceImpl();
 		customerService = new CustomerServiceImpl();
 		itemService = new ItemServiceImpl();
@@ -148,6 +152,7 @@ public class BillControler implements Initializable{
 		bankTrService = new BankTransactionServiceImpl();
 		//itemStockService = new ItemStockServiceImpl();
 		counterStockDataService = new CounterStockDataServiceImpl();
+		advanceService = new CustomerAdvancePaymentServiceImpl();
 		notification = new AlertNotification();
 		// billNo = 0;
 		date.setValue(LocalDate.now());
@@ -215,9 +220,16 @@ public class BillControler implements Initializable{
 			}
 			Customer customer = customerService.getCustomerByName(txtCustomerName.getText());
 			if (customer != null) {
+				double advance = advanceService.getCustomerTotalAdvance(customer.getId())-billService.getWholeSaleBillAmount(customer.getId());
 				txtCustomerInfo.setText(customer.getMobileno() + "\n" + customer.getAddress() + " City-"
 						+ customer.getCity() + "\nTaluka-" + customer.getTaluka() + " District-"
-						+ customer.getDistrict() + " Pin-" + customer.getPin());
+						+ customer.getDistrict() + " Pin-" + customer.getPin()+"\n"+
+						"Total Advance="+advance);
+				if(advanceService.getCustomerTotalAdvance(customer.getId())!=0)
+				{
+					cmbBankName.setValue(bankService.getBankById(2).getBankname());
+				}
+				
 				cmbSalesman.requestFocus();
 			}
 			else
