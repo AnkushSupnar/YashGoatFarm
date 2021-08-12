@@ -5,23 +5,30 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 @Entity
 @Table(name="banktransfer")
 public class BankTransfer {
 
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 	LocalDate date;
+	@ManyToOne
+	@JoinColumn(name="frombankid")
 	Bank fromBank;
+	@ManyToOne
+	@JoinColumn(name="tobankid")
 	Bank toBank;
 	float amount;
 	public BankTransfer() {
 		super();		
 	}
-	public BankTransfer(int id, LocalDate date, Bank fromBank, Bank toBank, float amount) {
-		super();
-		this.id = id;
+	public BankTransfer(LocalDate date, Bank fromBank, Bank toBank, float amount) {
+		super();		
 		this.date = date;
 		this.fromBank = fromBank;
 		this.toBank = toBank;

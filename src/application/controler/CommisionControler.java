@@ -302,7 +302,7 @@ public class CommisionControler implements Initializable {
 	    	if(id!=0) oldCommision = commisionService.getCommisionById(commision.getId());
 	    	System.out.println("got id=="+id);
 	    	
-	    	List<CommisionTransaction>trList = new ArrayList<>();
+	    	List<CommisionTransaction>trList = new ArrayList();
 	    	for(Bill b:billList)
 	    	{
 	    		trList.add(

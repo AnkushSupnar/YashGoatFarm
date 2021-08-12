@@ -1,4 +1,4 @@
-package application.controler;
+package application.controler.report;
 
 import static java.time.DayOfWeek.MONDAY;
 import static java.time.DayOfWeek.SUNDAY;
@@ -107,6 +107,7 @@ public class SalesmanCuttingChargesController implements Initializable {
 		cmbBankName.getItems().addAll(bankService.getAllBankNames());
 		salesmanCuttingService = new SalesmanCuttingChargesServiceImpl();
 		notify = new AlertNotification();
+		date.setValue(LocalDate.now());
 		  colId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		  colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 		  colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));

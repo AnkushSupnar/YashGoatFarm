@@ -1,4 +1,4 @@
-package application.controler;
+package application.controler.report;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -26,6 +27,7 @@ public class DailySalesReport implements Initializable {
 
 	  @FXML private AnchorPane mainFrame;
 	  @FXML private DatePicker date;
+	  @FXML private CheckBox checkCash;
 	  @FXML private TableView<Bill> table;
 	  @FXML private TableColumn<Bill,Double> colSrNo;//otherchargs
 	  @FXML private TableColumn<Bill,Long> colBillNo;

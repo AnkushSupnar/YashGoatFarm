@@ -131,17 +131,26 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Button layoutX="34.0" layoutY="103.0" mnemonicParsing="false" onAction="#btnPaymentReceiptAction" style="-fx-alignment: left;" stylesheets="@MenuCard.css" text="Payment Receipt" textFill="WHITE">
-               <graphic>
-                  <FontAwesomeIcon fill="WHITE" glyphName="PLUS" size="20" />
-               </graphic>
-            </Button>
+            <VBox layoutX="34.0" layoutY="103.0" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#btnPaymentReceiptAction" style="-fx-alignment: left;" stylesheets="@MenuCard.css" text="Payment Receipt" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" glyphName="PLUS" size="20" />
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#btnAdvancePayment" style="-fx-alignment: left;" stylesheets="@MenuCard.css" text="Advance Payment " textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" glyphName="PLUS" size="20" />
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#btnBankTransferAction" prefHeight="28.0" prefWidth="133.0" style="-fx-alignment: left;" stylesheets="@MenuCard.css" text="Bank Transfer" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" glyphName="PLUS" size="20" />
+                     </graphic>
+                  </Button>
+               </children>
+            </VBox>
             <FontAwesomeIcon fill="WHITE" glyphName="BANK" layoutX="75.0" layoutY="53.0" size="50" />
-            <Button layoutX="34.0" layoutY="133.0" mnemonicParsing="false" onAction="#btnAdvancePayment" style="-fx-alignment: left;" stylesheets="@MenuCard.css" text="Advance Payment " textFill="WHITE">
-               <graphic>
-                  <FontAwesomeIcon fill="WHITE" glyphName="PLUS" size="20" />
-               </graphic>
-            </Button>
          </children>
       </Pane>
    </children>

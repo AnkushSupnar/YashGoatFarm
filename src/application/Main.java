@@ -16,7 +16,7 @@ public class Main extends Application {
 	//String pagename="home/CompanyDetails";
 	//String pagename="transaction/TransactionMenu";
 	//String pagename="report/ReportMenu";
-	//String pagename="report/DailySaleReport";
+	String pagename="report/DailySaleReport";
 	//String pagename="report/WeeklySalesReport";
 	//String pagename="report/MonthlySalesReport";
 	//String pagename="report/PeriodSalesReport";
@@ -38,7 +38,8 @@ public class Main extends Application {
 	//String pagename="report/paymentrecieptreport";
 	//String pagename ="report/SalesmanLabourChargesReport";
 	//String pagename="transaction/customeradvancepayment";
-	String pagename ="report/salesmanitemsalesreport";
+	//String pagename ="report/salesmanitemsalesreport";
+	//String pagename="transaction/bankmoneytransfer";
 	@Override
 	public void start(Stage primaryStage) {
 		try {

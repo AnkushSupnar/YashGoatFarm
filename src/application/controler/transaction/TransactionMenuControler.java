@@ -186,5 +186,17 @@ public class TransactionMenuControler implements Initializable {
 		cuttingOrder.setVisible(true);
 
     }
+	   @FXML
+	    void btnBankTransferAction(ActionEvent event) {
+		   pane=null;
+			pane = (BorderPane) transactionMenuPanel.getParent();
+			if (billing != null)
+				billing.setVisible(false);
+
+			cuttingOrder = viewUtil.getPage("transaction/bankmoneytransfer");
+			pane.setCenter(cuttingOrder);
+			cuttingOrder.setVisible(true);
+
+	    }
 
 }

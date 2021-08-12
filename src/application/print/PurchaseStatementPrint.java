@@ -13,6 +13,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import hibernate.entities.PurchaseParty;
 import hibernate.reportEntity.PurchaseStatementPojo;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -24,14 +25,15 @@ public class PurchaseStatementPrint {
 	private static Font smallfont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
 	
 	private List<PurchaseStatementPojo> list;
-	private String partyName;
+	private String partyName,address;
 	private LocalDate fromDate,toDate;
-	public PurchaseStatementPrint(List<PurchaseStatementPojo> list,LocalDate fromDate,LocalDate toDate,String partyName) {
+	public PurchaseStatementPrint(List<PurchaseStatementPojo> list,LocalDate fromDate,LocalDate toDate,PurchaseParty party) {
 		try {
 			this.list=list;
 			this.toDate = toDate;
 			this.fromDate = fromDate;
-			this.partyName = partyName;
+			this.partyName = party.getName();
+			this.address = party.getAddress();
 			float left = 30;
 			float right = 0;
 			float top = 20;
@@ -73,6 +75,14 @@ public class PurchaseStatementPrint {
 			c1.setColspan(6);
 			c1.setBorder(PdfPCell.NO_BORDER);
 			data.addCell(c1);
+			
+			c1 = new PdfPCell(new Paragraph("Party Address : "+address, smallBold));
+			c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+			c1.setBorder(0);
+			c1.setColspan(6);
+			c1.setBorder(PdfPCell.NO_BORDER);
+			data.addCell(c1);
+			
 			String d="";
 			if(fromDate==null)
 				d="All Dates";
