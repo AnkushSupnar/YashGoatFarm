@@ -9,14 +9,14 @@ import javafx.stage.Stage;
 
 //For Yash
 public class Main extends Application {
-	//String pagename="LoginFrame";
+	String pagename="LoginFrame";
 	//String pagename="transaction/PurchaseInviceFrame";
 	//String pagename="transaction/BillingFrame";
 	//String pagename="home/Dashboard";
 	//String pagename="home/CompanyDetails";
 	//String pagename="transaction/TransactionMenu";
 	//String pagename="report/ReportMenu";
-	String pagename="report/DailySaleReport";
+	//String pagename="report/DailySaleReport";
 	//String pagename="report/WeeklySalesReport";
 	//String pagename="report/MonthlySalesReport";
 	//String pagename="report/PeriodSalesReport";

@@ -1,4 +1,4 @@
-package application.controler;
+package application.controler.report;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -14,13 +14,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 public class MonthlySalesReport implements Initializable {
@@ -41,7 +36,9 @@ public class MonthlySalesReport implements Initializable {
  @FXML private TextField txtBillAmount;
  @FXML private TextField txtTotalPaid;
  @FXML private TextField txtUnpaid;
- private ObservableList<Bill>billList =FXCollections.observableArrayList(); 
+ @FXML private CheckBox checkCash;
+
+	private ObservableList<Bill>billList =FXCollections.observableArrayList();
  private BillService billService;
  @Override
  public void initialize(URL location, ResourceBundle resources) {
@@ -69,10 +66,24 @@ void btnLoadAction(ActionEvent event) {
 		return;
 	}
 	billList.clear();
+	if(!checkCash.isSelected())
+	{
+		for(Bill bill:billService.getMonthWiseBill(date.getValue()))
+		{
+			if(bill.getBank().getId()!=1 && bill.getBank().getId()!=5)
+			{
+				billList.add(bill);
+			}
+		}
+	}
+	else
+	{
+		billList.addAll(billService.getMonthWiseBill(date.getValue()));
+	}
 	int sr=0;
 	double totalAmount=0,totalPaid=0,totalUnpaid=0;
 	//billList.addAll(billService.getPeriodWiseBills(date.getValue().with(DayOfWeek.MONDAY),date.getValue().with(DayOfWeek.SUNDAY)));
-	billList.addAll(billService.getMonthWiseBill(date.getValue()));
+
 	//billList.addAll(billService.getPeriodWiseBills(startD, null));
 	for(int i=0;i<billList.size();i++)
 	{

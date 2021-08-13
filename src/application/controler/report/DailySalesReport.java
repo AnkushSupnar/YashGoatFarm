@@ -45,6 +45,7 @@ public class DailySalesReport implements Initializable {
 	  
 	  private ObservableList<Bill>billList =FXCollections.observableArrayList(); 
 	  private BillService billService;
+	  boolean cash;
 	  @Override
 		public void initialize(URL location, ResourceBundle resources) {
 			date.setValue(LocalDate.now());
@@ -57,6 +58,16 @@ public class DailySalesReport implements Initializable {
 			colSalesmanName.setCellValueFactory(new PropertyValueFactory<Bill,String>("recievedreff"));
 			table.setItems(billList);
 			loadData();
+			checkCash.setOnAction(e->{
+				if(checkCash.isSelected())
+				{
+				cash=true;
+					}
+				else
+				{
+					cash=false;
+				}
+			});
 		}
 	  @FXML void btnExitAction(ActionEvent event) {
 
@@ -102,29 +113,45 @@ public class DailySalesReport implements Initializable {
 	    		date.requestFocus();
 	    		return;
 	    	}
-	    	billList.addAll(billService.getDateWiseBill(date.getValue()));
+	    	billList.clear();
+
+	    	//billList.addAll(billService.getDateWiseBill(date.getValue()));
+				if(!cash)
+				{
+					System.out.println("Without bCash Bills");
+					for(Bill bill:billService.getDateWiseBill(date.getValue()))
+					{
+						if(bill.getBank().getId()!=1 && bill.getBank().getId()!=5 )
+						{
+							billList.add(bill);
+						}
+					}
+				}
+				else
+					billList.addAll(billService.getDateWiseBill(date.getValue()));
 	    	int sr=0;
 	    	double totalBill=0,totalPaid=0,totalUnpaid=0;
 	    	for(int i=0;i<billList.size();i++)
 	    	{
-	    		billList.get(i).setNettotal(billList.get(i).getNettotal()+
-	    				billList.get(i).getTransportingchrges()+
-	    				billList.get(i).getOtherchargs());
-	    		totalBill = totalBill+billList.get(i).getNettotal();
-	    		totalPaid = totalPaid+billList.get(i).getRecivedamount();
-	    		totalUnpaid = totalUnpaid+(billList.get(i).getNettotal()-billList.get(i).getRecivedamount());
-	    		
-	    		billList.get(i).setOtherchargs(++sr);
-	    		billList.get(i).setRecievedby(billList.get(i).getBank().getBankname());
-	    		billList.get(i).setRecievedreff(billList.get(i).getEmployee().getFname()+" "+
-	    				billList.get(i).getEmployee().getMname()+" "+
-	    				billList.get(i).getEmployee().getLname());
-	    	}
-	    	txtBillAmount.setText(""+totalBill);
-	    	txtTotalPaid.setText(""+totalPaid);
-	    	txtUnpaid.setText(""+totalUnpaid);
-	    }
-		
+					billList.get(i).setNettotal(billList.get(i).getNettotal()+
+							billList.get(i).getTransportingchrges()+
+							billList.get(i).getOtherchargs());
+					totalBill = totalBill+billList.get(i).getNettotal();
+					totalPaid = totalPaid+billList.get(i).getRecivedamount();
+					totalUnpaid = totalUnpaid+(billList.get(i).getNettotal()-billList.get(i).getRecivedamount());
 
-	
-}
+					billList.get(i).setOtherchargs(++sr);
+					billList.get(i).setRecievedby(billList.get(i).getBank().getBankname());
+					billList.get(i).setRecievedreff(billList.get(i).getEmployee().getFname()+" "+
+							billList.get(i).getEmployee().getMname()+" "+
+							billList.get(i).getEmployee().getLname());
+
+				}
+
+			txtBillAmount.setText(""+totalBill);
+			txtTotalPaid.setText(""+totalPaid);
+			txtUnpaid.setText(""+totalUnpaid);
+	    	}
+
+	    }
+
